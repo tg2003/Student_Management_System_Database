@@ -1,0 +1,51 @@
+CREATE DATABASE fot_db;
+
+use fot_db;
+
+
+-- Create Admin and giving Privileges
+CREATE USER 'admin'@'localhost'
+IDENTIFIED BY 'adminpwd';
+GRANT ALL PRIVILEGES 
+ON fot_db.*
+TO 'admin'@'localhost'
+WITH GRANT OPTION;
+
+-- Create Dean and giving Privileges
+CREATE USER 'dean'@'localhost'
+IDENTIFIED BY 'deanpwd';
+GRANT ALL PRIVILEGES 
+ON fot_db.*
+TO 'dean'@'localhost';
+
+
+-- Create Lecturers(5) and giving Privileges
+CREATE USER 'lecturer01'@'localhost'
+IDENTIFIED BY 'lecturerpwd';
+GRANT ALL PRIVILEGES 
+On fot_db.*
+TO 'lecturer01'@'localhost';
+
+CREATE USER 'lecturer02'@'localhost'
+IDENTIFIED BY 'lecturerpwd';
+GRANT ALL PRIVILEGES 
+On fot_db.*
+TO 'lecturer02'@'localhost';
+
+CREATE USER 'lecturer03'@'localhost'
+IDENTIFIED BY 'lecturerpwd';
+GRANT ALL PRIVILEGES 
+On fot_db.*
+TO 'lecturer03'@'localhost';
+
+CREATE USER 'lecturer04'@'localhost'
+IDENTIFIED BY 'lecturerpwd';
+GRANT ALL PRIVILEGES 
+On fot_db.*
+TO 'lecturer04'@'localhost';
+
+CREATE USER 'lecturer05'@'localhost'
+IDENTIFIED BY 'lecturerpwd';
+GRANT ALL PRIVILEGES 
+On fot_db.*
+TO 'lecturer05'@'localhost';
