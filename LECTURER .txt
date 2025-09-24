@@ -1,0 +1,26 @@
+CREATE TABLE LECTURER (
+lec_id CHAR(3) PRIMARY KEY,
+lec_name VARCHAR (100),
+lec_nic VARCHAR(11) UNIQUE,
+lec_dob DATE,
+lec_edu_lvl VARCHAR(20) NOT NULL 
+	CHECK (lec_edu_lvl IN ('bachelor','master','phd')),
+lec_email VARCHAR(255)
+	CHECK (lec_email IS NULL OR lec_email LIKE '_%@_%._%'),
+lec_adrs_no VARCHAR(6),
+lec_adrs_street VARCHAR(100),
+lec_adrs_city VARCHAR(20),
+dpt_name CHAR(3)
+);
+
+INSERT INTO LECTURER 
+(lec_id, lec_name, lec_nic, lec_dob, lec_edu_lvl, lec_email, lec_adrs_no, lec_adrs_street, lec_adrs_city, dpt_name)
+VALUES
+('L01', 'Nirosha Perera', '901234567V', '1985-03-15', 'master', 'nirosha.perera@gmail.com', '12', 'Galle Rd', 'Colombo', 'ICT'),
+('L02', 'Shanika Fernando', '921234568V', '1987-07-22', 'phd', 'shanika.fernando@yahoo.com', '45', 'Temple St', 'Kandy', 'ICT'),
+('L03', 'Dilani Jayasinghe', '931234569V', '1986-11-30', 'bachelor', 'dilani.jayasinghe@gmail.com', '78', 'Main St', 'Galle', 'ICT'),
+('L04', 'Chamara Senanayake', '841234570V', '1984-05-10', 'master', 'chamara.senanayake@gmail.com', '56', 'Lake Rd', 'Colombo', 'ICT'),
+('L05', 'Kasun Wijesinghe', '851234571V', '1983-09-18', 'phd', 'kasun.wijesinghe@hotmail.com', '23', 'City Rd', 'Kandy', 'ICT'),
+('L06', 'Nimal Perera', '861234572V', '1985-12-05', 'bachelor', 'nimal.perera@gmail.com', '34', 'Hill St', 'Galle', 'ICT'),
+('L07', 'Saman Jayawardena', '871234573V', '1982-08-27', 'master', 'saman.jayawardena@gmail.com', '67', 'River Rd', 'Colombo', 'ICT'),
+('L08', 'Pradeep Silva', '881234574V', '1983-01-14', 'phd', 'pradeep.silva@yahoo.com', '89', 'Garden St', 'Kandy', 'ICT');
