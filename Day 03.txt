@@ -1,0 +1,15 @@
+CREATE TABLE student_phone(
+st_id CHAR(5) NOT NULL,
+phone INT(10),
+PRIMARY KEY(phone),
+FOREIGN KEY(st_id) REFERENCES student(st_id)
+);
+
+
+INSERT INTO student_phone(st_id,phone)
+VALUES
+('st001',0785735438),
+('st002',0771309120),
+('st003',0773893882),
+('st004',0716844005),
+('st005',0745004227);
