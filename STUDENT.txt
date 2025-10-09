@@ -1,0 +1,35 @@
+CREATE DATABASE Grp14;
+USE Grp14;
+
+CREATE TABLE student(
+St_id CHAR(6) NOT NULL,
+Name VARCHAR(30),
+Email VARCHAR(30),
+Nic VARCHAR(12) NOT NULL,
+Dpt_name VARCHAR(15),
+Civil_status VARCHAR(20),
+Address_no VARCHAR(10),
+Address_street VARCHAR(100),
+Address_city VARCHAR(40),
+PRIMARY KEY(st_id)
+);
+
+
+
+INSERT INTO student (st_id, Name, Email, Nic, Dpt_name, Civil_status, Address_no, Address_street, Address_city) 
+VALUES
+('TG1710', 'Kamal Perera', 'kamal.perera@email.com', '901234567V', 'ICT', 'Single', '123', 'Galle Road', 'Colombo'),
+('TG1711', 'Nimal Silva', 'nimal.silva@email.com', '902345678V', 'ICT', 'Married', '45', 'Kandy Street', 'Kandy'),
+('TG1712', 'Saman Fernando', 'saman.fernando@email.com', '903456789V', 'ICT', 'Single', '78', 'Negombo Road', 'Negombo'),
+('TG1713', 'Priya Rathnayake', 'priya.rathnayake@email.com', '904567890V', 'ICT', 'Single', '256', 'Peradeniya Road', 'Peradeniya'),
+('TG1714', 'Asiri Bandara', 'asiri.bandara@email.com', '905678901V', 'ICT', 'Single', '34', 'Matara Road', 'Matara'),
+('TG1715', 'Dilani Wickramasinghe', 'dilani.wick@email.com', '906789012V', 'ICT', 'Single', '89', 'Kurunegala Road', 'Kurunegala'),
+('TG1716', 'Rajitha Herath', 'rajitha.herath@email.com', '907890123V', 'ICT', 'Married', '67', 'Anuradhapura Road', 'Anuradhapura'),
+('TG1717', 'Chaminda Alwis', 'chaminda.alwis@email.com', '908901234V', 'ICT', 'Single', '112', 'Badulla Road', 'Badulla'),
+('TG1718', 'Kushani Jayawardena', 'kushani.jaya@email.com', '909012345V', 'ICT', 'Single', '23', 'Ratnapura Road', 'Ratnapura'),
+('TG1719', 'Sanjaya Kumara', 'sanjaya.kumara@email.com', '910123456V', 'ICT', 'Married', '156', 'Gampaha Road', 'Gampaha'),
+('TG1720', 'Tharindu Liyanage', 'tharindu.liyanage@email.com', '911234567V', 'ICT', 'Single', '78', 'Kegalle Road', 'Kegalle'),
+('TG1721', 'Madhavi Dissanayake', 'madhavi.dissa@email.com', '912345678V', 'ICT', 'Single', '45', 'Kalutara Road', 'Kalutara'),
+('TG1722', 'Lakmal Fonseka', 'lakmal.fonseka@email.com', '913456789V', 'ICT', 'Married', '189', 'Panadura Road', 'Panadura'),
+('TG1723', 'Nayomi Rajapakse', 'nayomi.raja@email.com', '914567890V', 'ICT', 'Single', '67', 'Ambalangoda Road', 'Ambalangoda'),
+('TG1724', 'Prasanna Zoysa', 'prasanna.zoysa@email.com', '915678901V', 'ICT', 'Married', '234', 'Hikkaduwa Road', 'Hikkaduwa');
