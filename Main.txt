@@ -1,0 +1,252 @@
+drop database Grp14;
+CREATE DATABASE Grp14;
+USE Grp14;
+
+-- Student
+CREATE TABLE student(
+St_id CHAR(6) NOT NULL,
+Name VARCHAR(30),
+Email VARCHAR(30),
+Nic VARCHAR(12) NOT NULL,
+Dpt_name VARCHAR(15),
+Dob DATE,
+Address_no VARCHAR(10),
+Address_street VARCHAR(100),
+Address_city VARCHAR(40),
+PRIMARY KEY(st_id)
+);
+
+INSERT INTO student (st_id, Name, Email, Nic, Dpt_name, DOB, Address_no, Address_street, Address_city) 
+VALUES
+('TG1701', 'Kamal Perera', 'kamal.perera@email.com', '901234567V', 'ICT', '2000-04-12', '123', 'Galle Road', 'Colombo'),
+('TG1702', 'Nimal Silva', 'nimal.silva@email.com', '902345678V', 'ICT', '1999-09-25', '45', 'Kandy Street', 'Kandy'),
+('TG1703', 'Saman Fernando', 'saman.fernando@email.com', '903456789V', 'ICT', '2001-02-10', '78', 'Negombo Road', 'Negombo'),
+('TG1704', 'Priya Rathnayake', 'priya.rathnayake@email.com', '904567890V', 'ICT', '2002-12-02', '256', 'Peradeniya Road', 'Peradeniya'),
+('TG1705', 'Asiri Bandara', 'asiri.bandara@email.com', '905678901V', 'ICT', '2000-06-18', '34', 'Matara Road', 'Matara'),
+('TG1706', 'Dilani Wickramasinghe', 'dilani.wick@email.com', '906789012V', 'ICT', '2001-08-21', '89', 'Kurunegala Road', 'Kurunegala'),
+('TG1707', 'Rajitha Herath', 'rajitha.herath@email.com', '907890123V', 'ICT', '1999-03-15', '67', 'Anuradhapura Road', 'Anuradhapura'),
+('TG1708', 'Chaminda Alwis', 'chaminda.alwis@email.com', '908901234V', 'ICT', '2003-05-09', '112', 'Badulla Road', 'Badulla'),
+('TG1709', 'Kushani Jayawardena', 'kushani.jaya@email.com', '909012345V', 'ICT', '2002-07-22', '23', 'Ratnapura Road', 'Ratnapura'),
+('TG1710', 'Sanjaya Kumara', 'sanjaya.kumara@email.com', '910123456V', 'ICT', '2000-01-27', '156', 'Gampaha Road', 'Gampaha'),
+('TG1711', 'Tharindu Liyanage', 'tharindu.liyanage@email.com', '911234567V', 'ICT', '2001-09-03', '78', 'Kegalle Road', 'Kegalle'),
+('TG1712', 'Madhavi Dissanayake', 'madhavi.dissa@email.com', '912345678V', 'ICT', '2003-11-17', '45', 'Kalutara Road', 'Kalutara'),
+('TG1713', 'Lakmal Fonseka', 'lakmal.fonseka@email.com', '913456789V', 'ICT', '1999-05-30', '189', 'Panadura Road', 'Panadura'),
+('TG1714', 'Nayomi Rajapakse', 'nayomi.raja@email.com', '914567890V', 'ICT', '2002-03-08', '67', 'Ambalangoda Road', 'Ambalangoda'),
+('TG1715', 'Prasanna Zoysa', 'prasanna.zoysa@email.com', '915678901V', 'ICT', '2001-10-12', '234', 'Hikkaduwa Road', 'Hikkaduwa');
+
+
+-- Lecturer
+CREATE TABLE LECTURER (
+Lec_id CHAR(3) PRIMARY KEY,
+Name VARCHAR (100),
+Nic VARCHAR(12) UNIQUE,
+Dob DATE,
+Education_lvl VARCHAR(10) NOT NULL 
+	CHECK (Education_lvl IN ('bachelor','master','phd')),
+Email VARCHAR(255)
+	CHECK (Email IS NULL OR Email LIKE '_%@_%._%'),
+Adress_no VARCHAR(6),
+Adress_street VARCHAR(100),
+Adress_city VARCHAR(20),
+Dpt_name CHAR(3)
+);
+
+INSERT INTO LECTURER VALUES
+('L01', 'Nirosha Perera', '901234567V', '1985-03-15', 'master', 'nirosha.perera@gmail.com', '12', 'Galle Rd', 'Colombo', 'ICT'),
+('L02', 'Shanika Fernando', '921234568V', '1987-07-22', 'phd', 'shanika.fernando@yahoo.com', '45', 'Temple St', 'Kandy', 'ICT'),
+('L03', 'Dilani Jayasinghe', '931234569V', '1986-11-30', 'bachelor', 'dilani.jayasinghe@gmail.com', '78', 'Main St', 'Galle', 'ICT'),
+('L04', 'Chamara Senanayake', '841234570V', '1984-05-10', 'master', 'chamara.senanayake@gmail.com', '56', 'Lake Rd', 'Colombo', 'ICT'),
+('L05', 'Kasun Wijesinghe', '851234571V', '1983-09-18', 'phd', 'kasun.wijesinghe@hotmail.com', '23', 'City Rd', 'Kandy', 'ICT'),
+('L06', 'Nimal Perera', '861234572V', '1985-12-05', 'bachelor', 'nimal.perera@gmail.com', '34', 'Hill St', 'Galle', 'ICT'),
+('L07', 'Saman Jayawardena', '871234573V', '1982-08-27', 'master', 'saman.jayawardena@gmail.com', '67', 'River Rd', 'Colombo', 'ICT'),
+('L08', 'Pradeep Silva', '881234574V', '1983-01-14', 'phd', 'pradeep.silva@yahoo.com', '89', 'Garden St', 'Kandy', 'ICT');
+
+-- Lecturer_Phone
+Lec_id CHAR(3),
+Lec_phone CHAR (10),
+FOREIGN KEY (Lec_id) REFERENCES LECTURER(Lec_id)
+);
+
+INSERT INTO LEC_PHONE (lec_id, lec_phone) VALUES
+('L01', '0771234567'),
+('L01', '0712345678'),
+('L02', '0758765432'),
+('L03', '0723456789'),
+('L04', '0769876543'),
+('L04', '0715554321'),
+('L04', '0701122334'),
+('L05', '0782345678'),
+('L06', '0743456789'),
+('L07', '0704567890'),
+('L08', '0719876543'),
+('L08', '0776543210');
+
+-- Course
+CREATE TABLE COURSE(
+C_code CHAR(6) NOT NULL,
+C_name VARCHAR(50),
+Credit INT,
+Lec_id CHAR(3),
+PRIMARY KEY(C_code),
+FOREIGN KEY(Lec_id) REFERENCES lecturer(Lec_id)
+);
+
+INSERT INTO COURSE (C_code, C_name, Credit, Lec_id) VALUES
+('ICT001', 'Management', 2, 'L01'),
+('ICT002', 'English', 2, 'L02'),
+('ICT003', 'Discrete Mathematics', 3, 'L03'),
+('ICT004', 'Database Theory', 2, 'L04'),
+('ICT005', 'Database Practicum', 2, 'L04'),
+('ICT006', 'Network', 3, 'L05'),
+('ICT007', 'Architecture', 2, 'L06'),
+('ICT008', 'Server side web development', 3, 'L07');
+
+
+-- Enrolls In
+CREATE TABLE ENROLLS_IN(
+St_id CHAR(6),
+C_code CHAR(6),
+Level INT,
+Sem INT,
+Academic_yr INT,
+Status VARCHAR(10) CHECK (Status IN ('proper','repeat')),
+PRIMARY KEY(St_id,C_code),
+FOREIGN KEY (St_id) REFERENCES student(St_id),
+FOREIGN KEY (C_code) REFERENCES course(C_code)
+);
+
+-- Proper students - All 8 courses
+INSERT INTO ENROLLS_IN (St_id, C_code, Level, Sem, Academic_yr, Status) VALUES
+('TG1701','ICT001',1,2,2023,'proper'),
+('TG1701','ICT002',1,2,2023,'proper'),
+('TG1701','ICT003',1,2,2023,'proper'),
+('TG1701','ICT004',1,2,2023,'proper'),
+('TG1701','ICT005',1,2,2023,'proper'),
+('TG1701','ICT006',1,2,2023,'proper'),
+('TG1701','ICT007',1,2,2023,'proper'),
+('TG1701','ICT008',1,2,2023,'proper'),
+
+('TG1702','ICT001',1,2,2023,'proper'),
+('TG1702','ICT002',1,2,2023,'proper'),
+('TG1702','ICT003',1,2,2023,'proper'),
+('TG1702','ICT004',1,2,2023,'proper'),
+('TG1702','ICT005',1,2,2023,'proper'),
+('TG1702','ICT006',1,2,2023,'proper'),
+('TG1702','ICT007',1,2,2023,'proper'),
+('TG1702','ICT008',1,2,2023,'proper'),
+
+('TG1703','ICT001',1,2,2023,'proper'),
+('TG1703','ICT002',1,2,2023,'proper'),
+('TG1703','ICT003',1,2,2023,'proper'),
+('TG1703','ICT004',1,2,2023,'proper'),
+('TG1703','ICT005',1,2,2023,'proper'),
+('TG1703','ICT006',1,2,2023,'proper'),
+('TG1703','ICT007',1,2,2023,'proper'),
+('TG1703','ICT008',1,2,2023,'proper'),
+
+('TG1704','ICT001',1,2,2023,'proper'),
+('TG1704','ICT002',1,2,2023,'proper'),
+('TG1704','ICT003',1,2,2023,'proper'),
+('TG1704','ICT004',1,2,2023,'proper'),
+('TG1704','ICT005',1,2,2023,'proper'),
+('TG1704','ICT006',1,2,2023,'proper'),
+('TG1704','ICT007',1,2,2023,'proper'),
+('TG1704','ICT008',1,2,2023,'proper'),
+
+('TG1705','ICT001',1,2,2023,'proper'),
+('TG1705','ICT002',1,2,2023,'proper'),
+('TG1705','ICT003',1,2,2023,'proper'),
+('TG1705','ICT004',1,2,2023,'proper'),
+('TG1705','ICT005',1,2,2023,'proper'),
+('TG1705','ICT006',1,2,2023,'proper'),
+('TG1705','ICT007',1,2,2023,'proper'),
+('TG1705','ICT008',1,2,2023,'proper'),
+
+('TG1706','ICT001',1,2,2023,'proper'),
+('TG1706','ICT002',1,2,2023,'proper'),
+('TG1706','ICT003',1,2,2023,'proper'),
+('TG1706','ICT004',1,2,2023,'proper'),
+('TG1706','ICT005',1,2,2023,'proper'),
+('TG1706','ICT006',1,2,2023,'proper'),
+('TG1706','ICT007',1,2,2023,'proper'),
+('TG1706','ICT008',1,2,2023,'proper'),
+
+('TG1707','ICT001',1,2,2023,'proper'),
+('TG1707','ICT002',1,2,2023,'proper'),
+('TG1707','ICT003',1,2,2023,'proper'),
+('TG1707','ICT004',1,2,2023,'proper'),
+('TG1707','ICT005',1,2,2023,'proper'),
+('TG1707','ICT006',1,2,2023,'proper'),
+('TG1707','ICT007',1,2,2023,'proper'),
+('TG1707','ICT008',1,2,2023,'proper'),
+
+('TG1708','ICT001',1,2,2023,'proper'),
+('TG1708','ICT002',1,2,2023,'proper'),
+('TG1708','ICT003',1,2,2023,'proper'),
+('TG1708','ICT004',1,2,2023,'proper'),
+('TG1708','ICT005',1,2,2023,'proper'),
+('TG1708','ICT006',1,2,2023,'proper'),
+('TG1708','ICT007',1,2,2023,'proper'),
+('TG1708','ICT008',1,2,2023,'proper'),
+
+('TG1709','ICT001',1,2,2023,'proper'),
+('TG1709','ICT002',1,2,2023,'proper'),
+('TG1709','ICT003',1,2,2023,'proper'),
+('TG1709','ICT004',1,2,2023,'proper'),
+('TG1709','ICT005',1,2,2023,'proper'),
+('TG1709','ICT006',1,2,2023,'proper'),
+('TG1709','ICT007',1,2,2023,'proper'),
+('TG1709','ICT008',1,2,2023,'proper'),
+
+('TG1710','ICT001',1,2,2023,'proper'),
+('TG1710','ICT002',1,2,2023,'proper'),
+('TG1710','ICT003',1,2,2023,'proper'),
+('TG1710','ICT004',1,2,2023,'proper'),
+('TG1710','ICT005',1,2,2023,'proper'),
+('TG1710','ICT006',1,2,2023,'proper'),
+('TG1710','ICT007',1,2,2023,'proper'),
+('TG1710','ICT008',1,2,2023,'proper'),
+
+-- Repeat students
+('TG1711','ICT004',2,2,2022,'repeat'),
+('TG1711','ICT006',2,2,2022,'repeat'),
+
+('TG1712','ICT003',2,2,2022,'repeat'),
+('TG1712','ICT005',2,2,2022,'repeat'),
+
+('TG1713','ICT007',2,2,2022,'repeat'),
+
+('TG1714','ICT002',2,2,2022,'repeat'),
+('TG1714','ICT004',2,2,2022,'repeat'),
+('TG1714','ICT008',2,2,2022,'repeat'),
+
+('TG1715','ICT006',3,2,2021,'repeat');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

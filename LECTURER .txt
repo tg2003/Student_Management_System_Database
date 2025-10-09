@@ -1,21 +1,20 @@
+-- Lecturer
 CREATE TABLE LECTURER (
-lec_id CHAR(3) PRIMARY KEY,
-lec_name VARCHAR (100),
-lec_nic VARCHAR(11) UNIQUE,
-lec_dob DATE,
-lec_edu_lvl VARCHAR(20) NOT NULL 
-	CHECK (lec_edu_lvl IN ('bachelor','master','phd')),
-lec_email VARCHAR(255)
-	CHECK (lec_email IS NULL OR lec_email LIKE '_%@_%._%'),
-lec_adrs_no VARCHAR(6),
-lec_adrs_street VARCHAR(100),
-lec_adrs_city VARCHAR(20),
-dpt_name CHAR(3)
+Lec_id CHAR(3) PRIMARY KEY,
+Name VARCHAR (100),
+Nic VARCHAR(12) UNIQUE,
+Dob DATE,
+Education_lvl VARCHAR(10) NOT NULL 
+	CHECK (Education_lvl IN ('bachelor','master','phd')),
+Email VARCHAR(255)
+	CHECK (Email IS NULL OR Email LIKE '_%@_%._%'),
+Adress_no VARCHAR(6),
+Adress_street VARCHAR(100),
+Adress_city VARCHAR(20),
+Dpt_name CHAR(3)
 );
 
-INSERT INTO LECTURER 
-(lec_id, lec_name, lec_nic, lec_dob, lec_edu_lvl, lec_email, lec_adrs_no, lec_adrs_street, lec_adrs_city, dpt_name)
-VALUES
+INSERT INTO LECTURER VALUES
 ('L01', 'Nirosha Perera', '901234567V', '1985-03-15', 'master', 'nirosha.perera@gmail.com', '12', 'Galle Rd', 'Colombo', 'ICT'),
 ('L02', 'Shanika Fernando', '921234568V', '1987-07-22', 'phd', 'shanika.fernando@yahoo.com', '45', 'Temple St', 'Kandy', 'ICT'),
 ('L03', 'Dilani Jayasinghe', '931234569V', '1986-11-30', 'bachelor', 'dilani.jayasinghe@gmail.com', '78', 'Main St', 'Galle', 'ICT'),
@@ -24,3 +23,25 @@ VALUES
 ('L06', 'Nimal Perera', '861234572V', '1985-12-05', 'bachelor', 'nimal.perera@gmail.com', '34', 'Hill St', 'Galle', 'ICT'),
 ('L07', 'Saman Jayawardena', '871234573V', '1982-08-27', 'master', 'saman.jayawardena@gmail.com', '67', 'River Rd', 'Colombo', 'ICT'),
 ('L08', 'Pradeep Silva', '881234574V', '1983-01-14', 'phd', 'pradeep.silva@yahoo.com', '89', 'Garden St', 'Kandy', 'ICT');
+
+
+CREATE TABLE LEC_PHONE(
+Lec_id CHAR(3),
+Lec_phone CHAR (10),
+FOREIGN KEY (Lec_id) REFERENCES LECTURER(Lec_id)
+);
+
+INSERT INTO LEC_PHONE (lec_id, lec_phone) VALUES
+('L01', '0771234567'),
+('L01', '0712345678'),
+('L02', '0758765432'),
+('L03', '0723456789'),
+('L04', '0769876543'),
+('L04', '0715554321'),
+('L04', '0701122334'),
+('L05', '0782345678'),
+('L06', '0743456789'),
+('L07', '0704567890'),
+('L08', '0719876543'),
+('L08', '0776543210');
+

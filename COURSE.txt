@@ -1,0 +1,19 @@
+-- Course
+CREATE TABLE COURSE(
+C_code CHAR(6) NOT NULL,
+C_name VARCHAR(50),
+Credit INT,
+Lec_id CHAR(3),
+PRIMARY KEY(C_code),
+FOREIGN KEY(Lec_id) REFERENCES lecturer(Lec_id)
+);
+
+INSERT INTO COURSE (C_code, C_name, Credit, Lec_id) VALUES
+('ICT001', 'Management', 2, 'L01'),
+('ICT002', 'English', 2, 'L02'),
+('ICT003', 'Discrete Mathematics', 3, 'L03'),
+('ICT004', 'Database Theory', 2, 'L04'),
+('ICT005', 'Database Practicum', 2, 'L04'),
+('ICT006', 'Network', 3, 'L05'),
+('ICT007', 'Architecture', 2, 'L06'),
+('ICT008', 'Server side web development', 3, 'L07');
