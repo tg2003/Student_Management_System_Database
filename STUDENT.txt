@@ -11,12 +11,12 @@ Civil_status VARCHAR(20),
 Address_no VARCHAR(10),
 Address_street VARCHAR(100),
 Address_city VARCHAR(40),
-PRIMARY KEY(st_id)
+PRIMARY KEY(St_id)
 );
 
 
 
-INSERT INTO student (st_id, Name, Email, Nic, Dpt_name, Civil_status, Address_no, Address_street, Address_city) 
+INSERT INTO student (St_id, Name, Email, Nic, Dpt_name, Civil_status, Address_no, Address_street, Address_city) 
 VALUES
 ('TG1710', 'Kamal Perera', 'kamal.perera@email.com', '901234567V', 'ICT', 'Single', '123', 'Galle Road', 'Colombo'),
 ('TG1711', 'Nimal Silva', 'nimal.silva@email.com', '902345678V', 'ICT', 'Married', '45', 'Kandy Street', 'Kandy'),
