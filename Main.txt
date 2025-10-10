@@ -13,10 +13,10 @@ Dob DATE,
 Address_no VARCHAR(10),
 Address_street VARCHAR(100),
 Address_city VARCHAR(40),
-PRIMARY KEY(st_id)
+PRIMARY KEY(St_id)
 );
 
-INSERT INTO student (st_id, Name, Email, Nic, Dpt_name, DOB, Address_no, Address_street, Address_city) 
+INSERT INTO student (St_id, Name, Email, Nic, Dpt_name, DOB, Address_no, Address_street, Address_city) 
 VALUES
 ('TG1701', 'Kamal Perera', 'kamal.perera@email.com', '901234567V', 'ICT', '2000-04-12', '123', 'Galle Road', 'Colombo'),
 ('TG1702', 'Nimal Silva', 'nimal.silva@email.com', '902345678V', 'ICT', '1999-09-25', '45', 'Kandy Street', 'Kandy'),
