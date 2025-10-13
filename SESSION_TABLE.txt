@@ -1,0 +1,25 @@
+CREATE TABLE SESSION(
+Session_id CHAR(6) NOT NULL,
+Type CHAR(1),
+C_code CHAR(6),
+PRIMARY KEY(Session_id),
+FOREIGN KEY(C_code) REFERENCES course(C_code)
+);
+
+INSERT INTO SESSION (Session_id,Type,C_code) VALUES
+('SES001', 'T','ICT008'),
+('SES002', 'P','ICT008'),
+('SES003', 'P','ICT008'),
+('SES004', 'T','ICT006'),
+('SES005', 'P','ICT006'),
+('SES006', 'T','ICT007'),
+('SES007', 'T','ICT003'),
+('SES008', 'T','ICT003'),
+('SES009', 'T','ICT004'),
+('SES010', 'P','ICT005'),
+('SES011', 'P','ICT005'),
+('SES012', 'T','ICT001'),
+('SES013', 'T','ICT001'),
+('SES014', 'T','ICT002'),
+('SES015', 'T','ICT002');   
+
