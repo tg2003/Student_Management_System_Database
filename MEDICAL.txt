@@ -1,0 +1,24 @@
+-- MEDICAL 
+
+CREATE TABLE medical(
+Medical_id CHAR(6),
+St_id CHAR(6),
+Date_submitted DATE,
+Status VARCHAR(20),
+CHECK (Status = 'Approved' OR Status = 'Rejected'),
+PRIMARY KEY(Medical_id),
+FOREIGN KEY(St_id) REFERENCES student(St_id)
+);
+
+INSERT INTO medical (Medical_id, St_id, Date_submitted, Status)
+VALUES
+('MED001', 'TG1701', '2025-08-05', 'Approved'),
+('MED002', 'TG1703', '2025-08-12', 'Approved'),
+('MED003', 'TG1705', '2025-08-20', 'Approved'),
+('MED004', 'TG1707', '2025-08-26', 'Rejected'),
+('MED005', 'TG1701', '2025-09-02', 'Approved'),
+('MED006', 'TG1705', '2025-09-10', 'Approved'),
+('MED007', 'TG1709', '2025-09-18', 'Approved'),
+('MED008', 'TG1703', '2025-10-08', 'Approved'),
+('MED009', 'TG1709', '2025-10-01', 'Rejected'),
+('MED010', 'TG1707', '2025-10-15', 'Approved');
