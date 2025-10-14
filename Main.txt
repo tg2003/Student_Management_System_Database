@@ -246,7 +246,3 @@ INSERT INTO ENROLLS_IN (St_id, C_code, Level, Sem, Academic_yr, Status) VALUES
 
 
 
-
-
-
-
