@@ -1,16 +1,17 @@
-CREATE TABLE admin(
-Admin_id CHAR(3),
-Adm_name VARCHAR(100),
-Adm_nic VARCHAR(11) UNIQUE,
-Adm_adrs_no VARCHAR(6),
-Adm_adrs_street VARCHAR(100),
-Adm_adrs_city VARCHAR(20),
-Adm_email VARCHAR(100) CHECK (Adm_email LIKE '%@%' AND Adm_email LIKE '%.%'),
-Adm_dob DATE,
-Adm_phone INT(10),
-Dpt_name CHAR(3),
-PRIMARY KEY(Admin_id)
+-- ADMIN
+CREATE TABLE ADMIN (
+    Admin_id CHAR(6) PRIMARY KEY,
+    Name VARCHAR(50) NOT NULL,
+    Email VARCHAR(50),
+    Dob DATE,
+    Nic CHAR(12),
+    Phone VARCHAR(15),
+    Dpt_name VARCHAR(50),
+    -- Address fields
+    No VARCHAR(10),
+    Street VARCHAR(50),
+    City VARCHAR(50)
 );
 
-INSERT INTO admin VALUES 
-('A01', 'Lakshan Perera', '991234567V', '45B', 'Temple Road', 'Colombo', 'lakshanperera@gmail.com', '1996-04-12', 771234567, 'ICT');
+INSERT INTO ADMIN (Admin_id, Name, Email, Dob, Nic, Phone, Dpt_name, No, Street, City)
+VALUES ('A001', 'Tharinda Silva', 'tharinda.silva@example.com', '1985-07-15', '850715123V', '+94712345678', 'Computer Science', '12', 'Galle Rd', 'Colombo');
