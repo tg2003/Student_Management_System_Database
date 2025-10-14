@@ -1342,3 +1342,75 @@ INSERT INTO ATTENDANCE (Week_no, St_id, Session_id, Status, Date) VALUES
 (15, 'TG1708', 'SES013', 'Present', '2025-11-14'),(15, 'TG1708', 'SES014', 'Present', '2025-11-14'),(15, 'TG1708', 'SES015', 'Present', '2025-11-14'),
 (15, 'TG1709', 'SES013', 'Present', '2025-11-14'),(15, 'TG1709', 'SES014', 'Present', '2025-11-14'),(15, 'TG1709', 'SES015', 'Present', '2025-11-14'),
 (15, 'TG1710', 'SES013', 'Present', '2025-11-14'),(15, 'TG1710', 'SES014', 'Present', '2025-11-14'),(15, 'TG1710', 'SES015', 'Present', '2025-11-14');
+
+
+-- STUDENT_PHONE
+CREATE TABLE STUDENT_PHONE(
+St_id CHAR(6),
+St_phone CHAR(10),
+FOREIGN KEY(St_id) REFERENCES STUDENT(St_id)
+);
+
+
+INSERT INTO student_phone (St_id, St_phone) VALUES
+('TG1701', '0771234567'), 
+('TG1702', '0712345678'), 
+('TG1703', '0789876543'), 
+('TG1703', '0712223344'), 
+('TG1704', '0701122334'), 
+('TG1705', '0765566778'), 
+('TG1705', '0776655443'),
+('TG1706', '0782233445'), 
+('TG1707', '0716677889'), 
+('TG1708', '0773344556'), 
+('TG1709', '0789988776'), 
+('TG1710', '0704455667'), 
+('TG1710', '0704455668'), 
+('TG1711', '0767788990'), 
+('TG1712', '0715566778'), 
+('TG1713', '0781122334'), 
+('TG1714', '0779988776'), 
+('TG1715', '0703344556'),
+('TG1715', '0709998888'); 
+
+-- TECH_OFFICER 
+CREATE TABLE TECH_OFFICER (
+    Techoff_id CHAR(06) PRIMARY KEY,
+    Name VARCHAR(50) NOT NULL,
+    Email VARCHAR(50),
+    Nic VARCHAR(15),
+    dob DATE,
+    no VARCHAR(10),
+    city VARCHAR(50),
+    street VARCHAR(50)
+);
+
+
+
+-- Insert data into TECH_OFFICER table
+INSERT INTO TECH_OFFICER (Techoff_id, Name, Email, Nic, dob, no, city, street)
+VALUES
+('TO001', 'Ravindu Perera', 'ravindu.perera@example.com', '982345678V', '1998-03-14', '12A', 'Colombo', 'Temple Road'),
+('TO002', 'Sajani Silva', 'sajani.silva@example.com', '992456789V', '1999-05-23', '45B', 'Kandy', 'Lake View Street'),
+('TO003', 'Isuru Jayasena', 'isuru.jayasena@example.com', '972567890V', '1997-11-10', '88C', 'Galle', 'Beach Road'),
+('TO004', 'Tharushi Fernando', 'tharushi.fernando@example.com', '002345678V', '2000-08-02', '22D', 'Kurunegala', 'Main Street'),
+('TO005', 'Nimesh de Silva', 'nimesh.desilva@example.com', '012456789V', '2001-01-30', '9E', 'Negombo', 'Park Lane');
+
+
+-- Create the TECH_OFFICER_PHONE table
+CREATE TABLE TECH_OFFICER_PHONE (
+    Tech_id CHAR(06),
+    Phone VARCHAR(15),
+    FOREIGN KEY (Tech_id) REFERENCES TECH_OFFICER(Techoff_id)
+);
+
+INSERT INTO TECH_OFFICER_PHONE (Tech_id, Phone)
+VALUES
+('TO001', '0771234567'),
+('TO001', '0712345678'),
+('TO002', '0759876543'),
+('TO003', '0761122334'),
+('TO004', '0723344556'),
+('TO004', '0745566778'),
+('TO005', '0709988776');
+
