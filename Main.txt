@@ -35,6 +35,35 @@ VALUES
 ('TG1715', 'Prasanna Zoysa', 'prasanna.zoysa@email.com', '915678901V', 'ICT', '2001-10-12', '234', 'Hikkaduwa Road', 'Hikkaduwa');
 
 
+-- STUDENT_PHONE
+CREATE TABLE STUDENT_PHONE(
+St_id CHAR(6),
+St_phone CHAR(10),
+FOREIGN KEY(St_id) REFERENCES STUDENT(St_id)
+);
+
+
+INSERT INTO STUDENT_PHONE(St_id, St_phone) VALUES
+('TG1701', '0771234567'), 
+('TG1702', '0712345678'), 
+('TG1703', '0789876543'), 
+('TG1703', '0712223344'), 
+('TG1704', '0701122334'), 
+('TG1705', '0765566778'), 
+('TG1705', '0776655443'),
+('TG1706', '0782233445'), 
+('TG1707', '0716677889'), 
+('TG1708', '0773344556'), 
+('TG1709', '0789988776'), 
+('TG1710', '0704455667'), 
+('TG1710', '0704455668'), 
+('TG1711', '0767788990'), 
+('TG1712', '0715566778'), 
+('TG1713', '0781122334'), 
+('TG1714', '0779988776'), 
+('TG1715', '0703344556'),
+('TG1715', '0709998888'); 
+
 -- Lecturer
 CREATE TABLE LECTURER (
 Lec_id CHAR(3) PRIMARY KEY,
@@ -81,6 +110,61 @@ INSERT INTO LEC_PHONE (lec_id, lec_phone) VALUES
 ('L07', '0704567890'),
 ('L08', '0719876543'),
 ('L08', '0776543210');
+
+
+-- TECH_OFFICER_PHONE table
+CREATE TABLE TECH_OFFICER_PHONE (
+    Tech_id CHAR(06),
+    Phone VARCHAR(15),
+    FOREIGN KEY (Tech_id) REFERENCES TECH_OFFICER(Techoff_id)
+);
+
+INSERT INTO TECH_OFFICER_PHONE (Tech_id, Phone)
+VALUES
+('TO001', '0771234567'),
+('TO001', '0712345678'),
+('TO002', '0759876543'),
+('TO003', '0761122334'),
+('TO004', '0723344556'),
+('TO004', '0745566778'),
+('TO005', '0709988776');
+
+
+-- DEAN
+CREATE TABLE DEAN (
+    Dean_id CHAR(6) PRIMARY KEY,
+    Name VARCHAR(50) NOT NULL,
+    Email VARCHAR(50),
+    Dob DATE,
+    Nic CHAR(12),
+    Phone VARCHAR(15),
+    No VARCHAR(10),
+    Street VARCHAR(50),
+    City VARCHAR(50)
+);
+
+INSERT INTO DEAN (Dean_id, Name, Email, Dob, Nic, Phone, No, Street, City)
+VALUES ('D001', 'Nimal Perera', 'nimal.perera@example.com', '1978-03-22', '780322456V', '+94798765432', '45', 'Kandy Rd', 'Kandy');
+
+
+-- ADMIN
+CREATE TABLE ADMIN (
+    Admin_id CHAR(6) PRIMARY KEY,
+    Name VARCHAR(50) NOT NULL,
+    Email VARCHAR(50),
+    Dob DATE,
+    Nic CHAR(12),
+    Phone VARCHAR(15),
+    Dpt_name VARCHAR(50),
+    -- Address fields
+    No VARCHAR(10),
+    Street VARCHAR(50),
+    City VARCHAR(50)
+);
+
+INSERT INTO ADMIN (Admin_id, Name, Email, Dob, Nic, Phone, Dpt_name, No, Street, City)
+VALUES ('A001', 'Tharinda Silva', 'tharinda.silva@example.com', '1985-07-15', '850715123V', '+94712345678', 'Computer Science', '12', 'Galle Rd', 'Colombo');
+
 
 -- Course
 CREATE TABLE COURSE(
@@ -394,7 +478,7 @@ INSERT INTO MARK (St_id, C_code, Quiz_01, Quiz_02, Quiz_03, Assignment, Mid, Fin
 
 
 -- MEDICAL 
-CREATE TABLE medical(
+CREATE TABLE MEDICAL(
 Medical_id CHAR(6),
 St_id CHAR(6),
 Date_submitted DATE,
@@ -404,7 +488,7 @@ PRIMARY KEY(Medical_id),
 FOREIGN KEY(St_id) REFERENCES student(St_id)
 );
 
-INSERT INTO medical (Medical_id, St_id, Date_submitted, Status)
+INSERT INTO MEDICAL(Medical_id, St_id, Date_submitted, Status)
 VALUES
 ('MED001', 'TG1701', '2025-08-05', 'Approved'),
 ('MED002', 'TG1703', '2025-08-12', 'Approved'),
@@ -1343,35 +1427,6 @@ INSERT INTO ATTENDANCE (Week_no, St_id, Session_id, Status, Date) VALUES
 (15, 'TG1709', 'SES013', 'Present', '2025-11-14'),(15, 'TG1709', 'SES014', 'Present', '2025-11-14'),(15, 'TG1709', 'SES015', 'Present', '2025-11-14'),
 (15, 'TG1710', 'SES013', 'Present', '2025-11-14'),(15, 'TG1710', 'SES014', 'Present', '2025-11-14'),(15, 'TG1710', 'SES015', 'Present', '2025-11-14');
 
-
--- STUDENT_PHONE
-CREATE TABLE STUDENT_PHONE(
-St_id CHAR(6),
-St_phone CHAR(10),
-FOREIGN KEY(St_id) REFERENCES STUDENT(St_id)
-);
-
-
-INSERT INTO student_phone (St_id, St_phone) VALUES
-('TG1701', '0771234567'), 
-('TG1702', '0712345678'), 
-('TG1703', '0789876543'), 
-('TG1703', '0712223344'), 
-('TG1704', '0701122334'), 
-('TG1705', '0765566778'), 
-('TG1705', '0776655443'),
-('TG1706', '0782233445'), 
-('TG1707', '0716677889'), 
-('TG1708', '0773344556'), 
-('TG1709', '0789988776'), 
-('TG1710', '0704455667'), 
-('TG1710', '0704455668'), 
-('TG1711', '0767788990'), 
-('TG1712', '0715566778'), 
-('TG1713', '0781122334'), 
-('TG1714', '0779988776'), 
-('TG1715', '0703344556'),
-('TG1715', '0709998888'); 
 
 -- TECH_OFFICER 
 CREATE TABLE TECH_OFFICER (
