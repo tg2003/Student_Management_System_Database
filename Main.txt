@@ -367,8 +367,8 @@ Quiz_03 DECIMAL(5,2),
 Assignment DECIMAL(5,2),
 Mid DECIMAL(5,2),
 Final DECIMAL(5,2),
-FOREIGN KEY(St_id) REFERENCES student(St_id),
-FOREIGN KEY(C_code) REFERENCES course(C_code)
+FOREIGN KEY(St_id) REFERENCES STUDENT(St_id),
+FOREIGN KEY(C_code) REFERENCES COURSE(C_code)
 );
 
 
@@ -1445,80 +1445,3 @@ INSERT INTO ATTENDANCE (Week_no, St_id, Session_id, Status, Date) VALUES
 (15, 'TG1708', 'SES013', 'Present', '2025-11-14'),(15, 'TG1708', 'SES014', 'Present', '2025-11-14'),(15, 'TG1708', 'SES015', 'Present', '2025-11-14'),
 (15, 'TG1709', 'SES013', 'Present', '2025-11-14'),(15, 'TG1709', 'SES014', 'Present', '2025-11-14'),(15, 'TG1709', 'SES015', 'Present', '2025-11-14'),
 (15, 'TG1710', 'SES013', 'Present', '2025-11-14'),(15, 'TG1710', 'SES014', 'Present', '2025-11-14'),(15, 'TG1710', 'SES015', 'Present', '2025-11-14');
-
-
--- TECH_OFFICER 
-CREATE TABLE TECH_OFFICER (
-    Techoff_id CHAR(06) PRIMARY KEY,
-    Name VARCHAR(50) NOT NULL,
-    Email VARCHAR(50),
-    Nic VARCHAR(15),
-    dob DATE,
-    no VARCHAR(10),
-    city VARCHAR(50),
-    street VARCHAR(50)
-);
-
-
-
--- Insert data into TECH_OFFICER table
-INSERT INTO TECH_OFFICER (Techoff_id, Name, Email, Nic, dob, no, city, street)
-VALUES
-('TO001', 'Ravindu Perera', 'ravindu.perera@example.com', '982345678V', '1998-03-14', '12A', 'Colombo', 'Temple Road'),
-('TO002', 'Sajani Silva', 'sajani.silva@example.com', '992456789V', '1999-05-23', '45B', 'Kandy', 'Lake View Street'),
-('TO003', 'Isuru Jayasena', 'isuru.jayasena@example.com', '972567890V', '1997-11-10', '88C', 'Galle', 'Beach Road'),
-('TO004', 'Tharushi Fernando', 'tharushi.fernando@example.com', '002345678V', '2000-08-02', '22D', 'Kurunegala', 'Main Street'),
-('TO005', 'Nimesh de Silva', 'nimesh.desilva@example.com', '012456789V', '2001-01-30', '9E', 'Negombo', 'Park Lane');
-
-
--- Create the TECH_OFFICER_PHONE table
-CREATE TABLE TECH_OFFICER_PHONE (
-    Tech_id CHAR(06),
-    Phone VARCHAR(15),
-    FOREIGN KEY (Tech_id) REFERENCES TECH_OFFICER(Techoff_id)
-);
-
-INSERT INTO TECH_OFFICER_PHONE (Tech_id, Phone)
-VALUES
-('TO001', '0771234567'),
-('TO001', '0712345678'),
-('TO002', '0759876543'),
-('TO003', '0761122334'),
-('TO004', '0723344556'),
-('TO004', '0745566778'),
-('TO005', '0709988776');
-
-
--- DEAN
-CREATE TABLE DEAN (
-    Dean_id CHAR(6) PRIMARY KEY,
-    Name VARCHAR(50) NOT NULL,
-    Email VARCHAR(50),
-    Dob DATE,
-    Nic CHAR(12),
-    Phone VARCHAR(15),
-    No VARCHAR(10),
-    Street VARCHAR(50),
-    City VARCHAR(50)
-);
-
-INSERT INTO DEAN (Dean_id, Name, Email, Dob, Nic, Phone, No, Street, City)
-VALUES ('D001', 'Nimal Perera', 'nimal.perera@example.com', '1978-03-22', '780322456V', '+94798765432', '45', 'Kandy Rd', 'Kandy');
-
--- ADMIN
-CREATE TABLE ADMIN (
-    Admin_id CHAR(6) PRIMARY KEY,
-    Name VARCHAR(50) NOT NULL,
-    Email VARCHAR(50),
-    Dob DATE,
-    Nic CHAR(12),
-    Phone VARCHAR(15),
-    Dpt_name VARCHAR(50),
-    -- Address fields
-    No VARCHAR(10),
-    Street VARCHAR(50),
-    City VARCHAR(50)
-);
-
-INSERT INTO ADMIN (Admin_id, Name, Email, Dob, Nic, Phone, Dpt_name, No, Street, City)
-VALUES ('A001', 'Tharinda Silva', 'tharinda.silva@example.com', '1985-07-15', '850715123V', '+94712345678', 'Computer Science', '12', 'Galle Rd', 'Colombo');

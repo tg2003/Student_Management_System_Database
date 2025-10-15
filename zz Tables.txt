@@ -1,0 +1,172 @@
+-- Student
+CREATE TABLE STUDENT(
+St_id CHAR(6) NOT NULL,
+Name VARCHAR(30),
+Email VARCHAR(30),
+Nic VARCHAR(12) NOT NULL,
+Dpt_name VARCHAR(15),
+Dob DATE,
+Address_no VARCHAR(10),
+Address_street VARCHAR(100),
+Address_city VARCHAR(40),
+PRIMARY KEY(St_id)
+);
+
+-- STUDENT_PHONE
+CREATE TABLE STUDENT_PHONE(
+St_id CHAR(6),
+St_phone CHAR(10),
+FOREIGN KEY(St_id) REFERENCES STUDENT(St_id)
+);
+
+-- Lecturer
+CREATE TABLE LECTURER (
+Lec_id CHAR(3) PRIMARY KEY,
+Name VARCHAR (100),
+Nic VARCHAR(12) UNIQUE,
+Dob DATE,
+Education_lvl VARCHAR(10) NOT NULL 
+	CHECK (Education_lvl IN ('bachelor','master','phd')),
+Email VARCHAR(255)
+	CHECK (Email IS NULL OR Email LIKE '_%@_%._%'),
+Adress_no VARCHAR(6),
+Adress_street VARCHAR(100),
+Adress_city VARCHAR(20),
+Dpt_name CHAR(3)
+);
+
+-- Lecturer_Phone
+CREATE TABLE LEC_PHONE(
+Lec_id CHAR(3),
+Lec_phone CHAR (10),
+FOREIGN KEY (Lec_id) REFERENCES LECTURER(Lec_id)
+);
+
+-- TECH_OFFICER 
+CREATE TABLE TECH_OFFICER (
+    Techoff_id CHAR(06) PRIMARY KEY,
+    Name VARCHAR(50) NOT NULL,
+    Email VARCHAR(50),
+    Nic VARCHAR(15),
+    dob DATE,
+    no VARCHAR(10),
+    city VARCHAR(50),
+    street VARCHAR(50)
+);
+
+-- TECH_OFFICER_PHONE table
+CREATE TABLE TECH_OFFICER_PHONE (
+    Tech_id CHAR(06),
+    Phone VARCHAR(15),
+    FOREIGN KEY (Tech_id) REFERENCES TECH_OFFICER(Techoff_id)
+);
+
+
+-- DEAN
+CREATE TABLE DEAN (
+    Dean_id CHAR(6) PRIMARY KEY,
+    Name VARCHAR(50) NOT NULL,
+    Email VARCHAR(50),
+    Dob DATE,
+    Nic CHAR(12),
+    Phone VARCHAR(15),
+    No VARCHAR(10),
+    Street VARCHAR(50),
+    City VARCHAR(50)
+);
+
+-- ADMIN
+CREATE TABLE ADMIN (
+    Admin_id CHAR(6) PRIMARY KEY,
+    Name VARCHAR(50) NOT NULL,
+    Email VARCHAR(50),
+    Dob DATE,
+    Nic CHAR(12),
+    Phone VARCHAR(15),
+    Dpt_name VARCHAR(50),
+    No VARCHAR(10),
+    Street VARCHAR(50),
+    City VARCHAR(50)
+);
+
+-- Course
+CREATE TABLE COURSE(
+C_code CHAR(6) NOT NULL,
+C_name VARCHAR(50),
+Credit INT,
+Lec_id CHAR(3),
+PRIMARY KEY(C_code),
+FOREIGN KEY(Lec_id) REFERENCES lecturer(Lec_id)
+);
+
+-- Enrolls In
+CREATE TABLE ENROLLS_IN(
+St_id CHAR(6),
+C_code CHAR(6),
+Level INT,
+Sem INT,
+Academic_yr INT,
+Status VARCHAR(10) CHECK (Status IN ('proper','repeat')),
+PRIMARY KEY(St_id,C_code),
+FOREIGN KEY (St_id) REFERENCES student(St_id),
+FOREIGN KEY (C_code) REFERENCES course(C_code)
+);
+
+
+CREATE TABLE SESSION(
+    Session_id CHAR(6),
+    Type CHAR(1),
+    C_code CHAR(6),
+    Day CHAR(3),
+    PRIMARY KEY(Session_id),
+    FOREIGN KEY(C_code) REFERENCES COURSE(C_code)
+);
+
+CREATE TABLE MARK(
+St_id CHAR(6),
+C_code CHAR(6),
+Quiz_01 DECIMAL(5,2),
+Quiz_02 DECIMAL(5,2),
+Quiz_03 DECIMAL(5,2),
+Assignment DECIMAL(5,2),
+Mid DECIMAL(5,2),
+Final DECIMAL(5,2),
+FOREIGN KEY(St_id) REFERENCES STUDENT(St_id),
+FOREIGN KEY(C_code) REFERENCES COURSE(C_code)
+);
+
+-- MEDICAL 
+CREATE TABLE MEDICAL(
+Medical_id CHAR(6),
+St_id CHAR(6),
+Date_submitted DATE,
+Status VARCHAR(20),
+CHECK (Status = 'Approved' OR Status = 'Rejected'),
+PRIMARY KEY(Medical_id),
+FOREIGN KEY(St_id) REFERENCES student(St_id)
+);
+
+CREATE TABLE ATTENDANCE(
+Week_no INT,
+St_id CHAR(6) NOT NULL,
+Session_id CHAR(6),
+Status VARCHAR(50),
+Date DATE, 
+FOREIGN KEY(St_id) REFERENCES STUDENT(St_id),
+FOREIGN KEY(Session_id) REFERENCES SESSION(Session_id)
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
