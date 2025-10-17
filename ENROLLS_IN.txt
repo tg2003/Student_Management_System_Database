@@ -1,0 +1,119 @@
+-- Enrolls In
+CREATE TABLE ENROLLS_IN(
+St_id CHAR(6),
+C_code CHAR(6),
+Level INT,
+Sem INT,
+Academic_yr INT,
+Status VARCHAR(10) CHECK (Status IN ('proper','repeat')),
+PRIMARY KEY(St_id,C_code),
+FOREIGN KEY (St_id) REFERENCES student(St_id),
+FOREIGN KEY (C_code) REFERENCES course(C_code)
+);
+
+-- Proper students - All 8 courses
+INSERT INTO ENROLLS_IN (St_id, C_code, Level, Sem, Academic_yr, Status) VALUES
+('TG1701','ICT001',1,2,2023,'proper'),
+('TG1701','ICT002',1,2,2023,'proper'),
+('TG1701','ICT003',1,2,2023,'proper'),
+('TG1701','ICT004',1,2,2023,'proper'),
+('TG1701','ICT005',1,2,2023,'proper'),
+('TG1701','ICT006',1,2,2023,'proper'),
+('TG1701','ICT007',1,2,2023,'proper'),
+('TG1701','ICT008',1,2,2023,'proper'),
+
+('TG1702','ICT001',1,2,2023,'proper'),
+('TG1702','ICT002',1,2,2023,'proper'),
+('TG1702','ICT003',1,2,2023,'proper'),
+('TG1702','ICT004',1,2,2023,'proper'),
+('TG1702','ICT005',1,2,2023,'proper'),
+('TG1702','ICT006',1,2,2023,'proper'),
+('TG1702','ICT007',1,2,2023,'proper'),
+('TG1702','ICT008',1,2,2023,'proper'),
+
+('TG1703','ICT001',1,2,2023,'proper'),
+('TG1703','ICT002',1,2,2023,'proper'),
+('TG1703','ICT003',1,2,2023,'proper'),
+('TG1703','ICT004',1,2,2023,'proper'),
+('TG1703','ICT005',1,2,2023,'proper'),
+('TG1703','ICT006',1,2,2023,'proper'),
+('TG1703','ICT007',1,2,2023,'proper'),
+('TG1703','ICT008',1,2,2023,'proper'),
+
+('TG1704','ICT001',1,2,2023,'proper'),
+('TG1704','ICT002',1,2,2023,'proper'),
+('TG1704','ICT003',1,2,2023,'proper'),
+('TG1704','ICT004',1,2,2023,'proper'),
+('TG1704','ICT005',1,2,2023,'proper'),
+('TG1704','ICT006',1,2,2023,'proper'),
+('TG1704','ICT007',1,2,2023,'proper'),
+('TG1704','ICT008',1,2,2023,'proper'),
+
+('TG1705','ICT001',1,2,2023,'proper'),
+('TG1705','ICT002',1,2,2023,'proper'),
+('TG1705','ICT003',1,2,2023,'proper'),
+('TG1705','ICT004',1,2,2023,'proper'),
+('TG1705','ICT005',1,2,2023,'proper'),
+('TG1705','ICT006',1,2,2023,'proper'),
+('TG1705','ICT007',1,2,2023,'proper'),
+('TG1705','ICT008',1,2,2023,'proper'),
+
+('TG1706','ICT001',1,2,2023,'proper'),
+('TG1706','ICT002',1,2,2023,'proper'),
+('TG1706','ICT003',1,2,2023,'proper'),
+('TG1706','ICT004',1,2,2023,'proper'),
+('TG1706','ICT005',1,2,2023,'proper'),
+('TG1706','ICT006',1,2,2023,'proper'),
+('TG1706','ICT007',1,2,2023,'proper'),
+('TG1706','ICT008',1,2,2023,'proper'),
+
+('TG1707','ICT001',1,2,2023,'proper'),
+('TG1707','ICT002',1,2,2023,'proper'),
+('TG1707','ICT003',1,2,2023,'proper'),
+('TG1707','ICT004',1,2,2023,'proper'),
+('TG1707','ICT005',1,2,2023,'proper'),
+('TG1707','ICT006',1,2,2023,'proper'),
+('TG1707','ICT007',1,2,2023,'proper'),
+('TG1707','ICT008',1,2,2023,'proper'),
+
+('TG1708','ICT001',1,2,2023,'proper'),
+('TG1708','ICT002',1,2,2023,'proper'),
+('TG1708','ICT003',1,2,2023,'proper'),
+('TG1708','ICT004',1,2,2023,'proper'),
+('TG1708','ICT005',1,2,2023,'proper'),
+('TG1708','ICT006',1,2,2023,'proper'),
+('TG1708','ICT007',1,2,2023,'proper'),
+('TG1708','ICT008',1,2,2023,'proper'),
+
+('TG1709','ICT001',1,2,2023,'proper'),
+('TG1709','ICT002',1,2,2023,'proper'),
+('TG1709','ICT003',1,2,2023,'proper'),
+('TG1709','ICT004',1,2,2023,'proper'),
+('TG1709','ICT005',1,2,2023,'proper'),
+('TG1709','ICT006',1,2,2023,'proper'),
+('TG1709','ICT007',1,2,2023,'proper'),
+('TG1709','ICT008',1,2,2023,'proper'),
+
+('TG1710','ICT001',1,2,2023,'proper'),
+('TG1710','ICT002',1,2,2023,'proper'),
+('TG1710','ICT003',1,2,2023,'proper'),
+('TG1710','ICT004',1,2,2023,'proper'),
+('TG1710','ICT005',1,2,2023,'proper'),
+('TG1710','ICT006',1,2,2023,'proper'),
+('TG1710','ICT007',1,2,2023,'proper'),
+('TG1710','ICT008',1,2,2023,'proper'),
+
+-- Repeat students
+('TG1711','ICT004',2,2,2022,'repeat'),
+('TG1711','ICT006',2,2,2022,'repeat'),
+
+('TG1712','ICT003',2,2,2022,'repeat'),
+('TG1712','ICT005',2,2,2022,'repeat'),
+
+('TG1713','ICT007',2,2,2022,'repeat'),
+
+('TG1714','ICT002',2,2,2022,'repeat'),
+('TG1714','ICT004',2,2,2022,'repeat'),
+('TG1714','ICT008',2,2,2022,'repeat'),
+
+('TG1715','ICT006',3,2,2021,'repeat');
