@@ -1,0 +1,266 @@
+--  INPUT = C_code  |  OUTPUT =  All Student marks for a specific stubject (Q1,Q2,Q3,Assignment,Mid,ESA  marks and CA_Marks_weighted, ESA_marks_weighted, Total_Marks)
+DELIMITER //
+CREATE PROCEDURE Mark_by_Ccode(IN courseCode CHAR(6))
+BEGIN
+    SELECT
+        t.St_id,
+        t.C_code,
+        t.C_name,
+
+        -- Individual Raw Marks
+        t.Quiz_01,
+        t.Quiz_02,
+        t.Quiz_03,
+        t.Assignment,
+        t.Mid,
+        t.Final AS ESA,
+
+        -- Weighted Marks
+        ROUND(t.CA_Marks_w, 2) AS CA_Marks_w,
+        ROUND(t.ESA_marks_w, 2) AS ESA_marks_w,
+
+        -- Total Marks = CA + ESA (Weighted)
+        CASE
+            WHEN t.CA_Marks_w < 20 AND t.ESA_marks_w < 21 THEN 'CA & ESA Failed'
+            WHEN t.CA_Marks_w < 20 THEN 'CA Failed'
+            WHEN t.ESA_marks_w < 21 THEN 'ESA Failed'
+            ELSE CAST(ROUND(t.CA_Marks_w + t.ESA_marks_w, 2) AS CHAR)
+        END AS Total_Marks
+
+    FROM (
+        SELECT
+            m.St_id,
+            m.C_code,
+            c.C_name,
+
+            -- Individual Raw Marks
+            m.Quiz_01,
+            m.Quiz_02,
+            m.Quiz_03,
+            m.Assignment,
+            m.Mid,
+            m.Final,
+
+            -- CA Marks Weighted (out of 40)
+            (
+                ((m.Quiz_01 + m.Quiz_02 + m.Quiz_03 - LEAST(m.Quiz_01, m.Quiz_02, m.Quiz_03)) / 200.0) * 10
+                + (m.Assignment / 100.0) * 10
+                + (m.Mid / 100.0) * 20
+            ) AS CA_Marks_w,
+
+            -- ESA Marks Weighted (out of 60)
+            (m.Final / 100.0) * 60 AS ESA_marks_w
+
+        FROM MARK m
+        JOIN COURSE c ON c.C_code = m.C_code
+        WHERE m.C_code = courseCode
+    ) AS t
+
+    ORDER BY t.St_id, t.C_code;
+END //
+DELIMITER ;
+
+CALL Mark_by_Ccode("ICT001");
+
+
+
+
+
+
+
+
+
+
+
+
+
+--  INPUT = St_id, C_code  |  OUTPUT = Studentwise full or Subject Result sheet  (CA_Marks_weighted, ESA_marks_weighted, Total_Marks, Grade) 
+DELIMITER //
+CREATE PROCEDURE Student_result_sheet(
+    IN studentID CHAR(6),
+    IN courseCode CHAR(6)
+)
+BEGIN
+    SELECT
+        t.St_id,
+        t.C_code,
+        t.C_name,
+
+        -- Individual Raw Marks
+        t.Quiz_01,
+        t.Quiz_02,
+        t.Quiz_03,
+        t.Assignment,
+        t.Mid,
+        t.Final AS ESA,
+
+        -- Weighted Marks
+        ROUND(t.CA_Marks_w, 2) AS CA_Marks_w,
+        ROUND(t.ESA_marks_w, 2) AS ESA_marks_w,
+
+        -- Total Marks = CA + ESA (Weighted)
+        CASE
+            WHEN t.CA_Marks_w < 20 AND t.ESA_marks_w < 21 THEN 'CA & ESA Failed'
+            WHEN t.CA_Marks_w < 20 THEN 'CA Failed'
+            WHEN t.ESA_marks_w < 21 THEN 'ESA Failed'
+            ELSE CAST(ROUND(t.CA_Marks_w + t.ESA_marks_w, 2) AS CHAR)
+        END AS Total_marks,
+
+        -- Grade
+        CASE
+            WHEN t.CA_Marks_w < 20 AND t.ESA_marks_w < 21 THEN 'E (CA & ESA)'
+            WHEN t.CA_Marks_w < 20 THEN 'E (CA)'
+            WHEN t.ESA_marks_w < 21 THEN 'E (ESA)'
+            WHEN (t.CA_Marks_w + t.ESA_marks_w) >= 85 THEN 'A+'
+            WHEN (t.CA_Marks_w + t.ESA_marks_w) >= 75 THEN 'A'
+            WHEN (t.CA_Marks_w + t.ESA_marks_w) >= 70 THEN 'A-'
+            WHEN (t.CA_Marks_w + t.ESA_marks_w) >= 65 THEN 'B+'
+            WHEN (t.CA_Marks_w + t.ESA_marks_w) >= 60 THEN 'B'
+            WHEN (t.CA_Marks_w + t.ESA_marks_w) >= 55 THEN 'B-'
+            WHEN (t.CA_Marks_w + t.ESA_marks_w) >= 50 THEN 'C+'
+            WHEN (t.CA_Marks_w + t.ESA_marks_w) >= 45 THEN 'C'
+            WHEN (t.CA_Marks_w + t.ESA_marks_w) >= 40 THEN 'C-'
+            WHEN (t.CA_Marks_w + t.ESA_marks_w) >= 35 THEN 'D'
+            ELSE 'E'
+        END AS grade
+
+    FROM (
+        SELECT
+            m.St_id,
+            m.C_code,
+            c.C_name,
+            m.Quiz_01,
+            m.Quiz_02,
+            m.Quiz_03,
+            m.Assignment,
+            m.Mid,
+            m.Final,
+
+            -- CA Marks Weighted (out of 40)
+            (
+                ((m.Quiz_01 + m.Quiz_02 + m.Quiz_03 - LEAST(m.Quiz_01, m.Quiz_02, m.Quiz_03)) / 200.0) * 10
+                + (m.Assignment / 100.0) * 10
+                + (m.Mid / 100.0) * 20
+            ) AS CA_Marks_w,
+
+            -- ESA Marks Weighted (out of 60)
+            (m.Final / 100.0) * 60 AS ESA_marks_w
+
+        FROM MARK m
+        JOIN COURSE c ON c.C_code = m.C_code
+        WHERE m.St_id = studentID
+          AND (courseCode IS NULL OR m.C_code = courseCode)
+    ) AS t
+    ORDER BY t.C_code;
+END //
+DELIMITER ;
+
+CALL Student_result_sheet('TG1701', NULL);
+CALL Student_result_sheet('TG1701', 'ICT008');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- There should be a way to see the final marks only for individuals and whole batch 
+-- CALL Final_Marks_Only ("TG1704",NULL) will outputs Final marks for a specific student + all subjects
+-- CALL Final_Marks_Only (NULL,"ICT004") will outputs Final marks for a specific Subject + all students
+
+DELIMITER //
+
+CREATE PROCEDURE Final_Marks_Only(
+    IN studentID CHAR(6),
+    IN courseCode CHAR(6)
+)
+BEGIN
+    SELECT
+        m.St_id,
+        m.C_code,
+        c.C_name,
+        ROUND(
+            (
+                ((m.Quiz_01 + m.Quiz_02 + m.Quiz_03 - LEAST(m.Quiz_01, m.Quiz_02, m.Quiz_03)) / 200.0) * 10
+                + (m.Assignment / 100.0) * 10
+                + (m.Mid / 100.0) * 20
+                + (m.Final / 100.0) * 60
+            ), 2
+        ) AS Final_Marks
+    FROM MARK m
+    JOIN COURSE c ON c.C_code = m.C_code
+    WHERE (studentID IS NULL OR m.St_id = studentID)
+      AND (courseCode IS NULL OR m.C_code = courseCode)
+    ORDER BY m.C_code;
+END //
+
+DELIMITER ;
+CALL Final_Marks_Only('TG1701', NULL);
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- There should be a way to see if student/s are eligible according to the criteria of CA 
+DELIMITER //
+
+CREATE PROCEDURE CA_Eligibility_Report(
+    IN studentID CHAR(6),
+    IN courseCode CHAR(6)
+)
+BEGIN
+    SELECT
+        m.St_id,
+        s.Name AS Student_Name,
+        m.C_code,
+        c.C_name,
+
+        -- Calculate CA Marks (out of 40)
+        ROUND(
+            (
+                ((m.Quiz_01 + m.Quiz_02 + m.Quiz_03 - LEAST(m.Quiz_01, m.Quiz_02, m.Quiz_03)) / 200.0) * 10
+                + (m.Assignment / 100.0) * 10
+                + (m.Mid / 100.0) * 20
+            ), 2
+        ) AS CA_Marks,
+
+        -- Eligibility (CA Marks >= 20)
+        CASE 
+            WHEN (
+                ((m.Quiz_01 + m.Quiz_02 + m.Quiz_03 - LEAST(m.Quiz_01, m.Quiz_02, m.Quiz_03)) / 200.0) * 10
+                + (m.Assignment / 100.0) * 10
+                + (m.Mid / 100.0) * 20
+            ) >= 20 THEN 'ELIGIBLE'
+            ELSE 'NOT ELIGIBLE'
+        END AS CA_Eligibility
+
+    FROM MARK m
+    JOIN COURSE c ON c.C_code = m.C_code
+    JOIN STUDENT s ON s.St_id = m.St_id
+    WHERE (studentID IS NULL OR m.St_id = studentID)
+      AND (courseCode IS NULL OR m.C_code = courseCode)
+    ORDER BY m.St_id, m.C_code;
+END //
+
+DELIMITER ;
