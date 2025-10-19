@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 -- ADMIN
 CREATE TABLE ADMIN (
     Admin_id CHAR(6) PRIMARY KEY,
@@ -14,4 +15,22 @@ CREATE TABLE ADMIN (
 );
 
 INSERT INTO ADMIN (Admin_id, Name, Email, Dob, Nic, Phone, Dpt_name, No, Street, City)
+=======
+-- ADMIN
+CREATE TABLE ADMIN (
+    Admin_id CHAR(6) PRIMARY KEY,
+    Name VARCHAR(50) NOT NULL,
+    Email VARCHAR(50),
+    Dob DATE,
+    Nic CHAR(12),
+    Phone VARCHAR(15),
+    Dpt_name VARCHAR(50),
+    -- Address fields
+    No VARCHAR(10),
+    Street VARCHAR(50),
+    City VARCHAR(50)
+);
+
+INSERT INTO ADMIN (Admin_id, Name, Email, Dob, Nic, Phone, Dpt_name, No, Street, City)
+>>>>>>> e6d452de12a27cf7065e18124f743954ccaf3843
 VALUES ('A001', 'Tharinda Silva', 'tharinda.silva@example.com', '1985-07-15', '850715123V', '+94712345678', 'Computer Science', '12', 'Galle Rd', 'Colombo');
