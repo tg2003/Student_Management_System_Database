@@ -1,0 +1,25 @@
+CREATE VIEW CourseAttendanceSummary AS
+SELECT 
+    a.St_id AS Reg_No,
+    s.Name AS Student_Name,
+    c.C_code,
+    COUNT(CASE WHEN a.Status='Present' THEN 1 END) AS Present_Count,
+    COUNT(CASE WHEN a.Status='Approved Medical' THEN 1 END) AS Medical_Count,
+    COUNT(a.Session_id) AS Total_Sessions,
+    ROUND(
+      (COUNT(CASE WHEN a.Status IN ('Present','Approved Medical') THEN 1 END) / COUNT(a.Session_id)) * 100, 2
+    ) AS Attendance_Percentage,
+    CASE 
+      WHEN (COUNT(CASE WHEN a.Status IN ('Present','Approved Medical') THEN 1 END) / COUNT(a.Session_id)) * 100 >= 80
+      THEN 'Eligible'
+      ELSE 'Not Eligible'
+    END AS Eligibility
+FROM ATTENDANCE a
+JOIN SESSION se ON a.Session_id = se.Session_id
+JOIN COURSE c ON se.C_code = c.C_code
+JOIN STUDENT s ON a.St_id = s.St_id
+GROUP BY a.St_id, s.Name, c.C_code;
+
+
+select * from CourseAttendanceSummary where Reg_No='TG1707';
+
