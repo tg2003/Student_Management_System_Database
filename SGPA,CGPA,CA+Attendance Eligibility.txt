@@ -1,0 +1,210 @@
+CREATE VIEW CourseAttendanceSummary AS
+SELECT 
+    a.St_id AS Reg_No,
+    s.Name AS Student_Name,
+    c.C_code,
+    COUNT(CASE WHEN a.Status='Present' THEN 1 END) AS Present_Count,
+    COUNT(CASE WHEN a.Status='Approved Medical' THEN 1 END) AS Medical_Count,
+    COUNT(a.Session_id) AS Total_Sessions,
+    ROUND(
+      (COUNT(CASE WHEN a.Status IN ('Present','Approved Medical') THEN 1 END) / COUNT(a.Session_id)) * 100, 2
+    ) AS Attendance_Percentage,
+    CASE 
+      WHEN (COUNT(CASE WHEN a.Status IN ('Present','Approved Medical') THEN 1 END) / COUNT(a.Session_id)) * 100 >= 80
+      THEN 'Eligible'
+      ELSE 'Not Eligible'
+    END AS Eligibility
+FROM ATTENDANCE a
+JOIN SESSION se ON a.Session_id = se.Session_id
+JOIN COURSE c ON se.C_code = c.C_code
+JOIN STUDENT s ON a.St_id = s.St_id
+GROUP BY a.St_id, s.Name, c.C_code;
+
+
+select * from CourseAttendanceSummary where Reg_No='TG1707';
+
+
+
+
+
+
+
+
+
+DELIMITER //
+
+CREATE PROCEDURE final_student_eligibility(
+    IN studentID CHAR(6),
+    IN courseCode CHAR(6)
+)
+BEGIN
+    SELECT
+        m.St_id,
+        m.C_code,
+        c.C_name AS Course_Name,
+        g.w_CA_marks,
+        a.Attendance_Percentage,
+        CASE
+            WHEN g.w_CA_marks >= 20 AND a.Attendance_Percentage >= 80 THEN 'Eligible'
+            ELSE 'Not Eligible'
+        END AS Final_Eligibility
+    FROM grade g
+    JOIN mark m ON g.C_code = m.C_code AND g.St_id = m.St_id
+    JOIN course c ON m.C_code = c.C_code
+    JOIN CourseAttendanceSummary a ON m.St_id = a.Reg_No AND m.C_code = a.C_code
+    WHERE 
+        (studentID IS NULL OR m.St_id = studentID)
+        AND (courseCode IS NULL OR m.C_code = courseCode);
+END //
+
+DELIMITER ;
+
+CALL final_student_eligibility('TG1706','ICT004');
+CALL final_student_eligibility('TG1706',NULL);
+CALL final_student_eligibility(NULL,'ICT004');
+CALL final_student_eligibility(NULL,NULL);
+
+
+
+
+
+
+
+
+CREATE VIEW Student_Grade_Point_View AS
+SELECT
+    g.St_id,
+    g.C_code,
+    e.Status,
+    c.Credit,
+    g.Grade,
+    
+    -- Grade Point Calculation
+    CASE
+	WHEN g.Grade = 'WH' THEN 0.00
+        WHEN e.Status = 'repeat' THEN
+            CASE
+                WHEN g.Grade = 'C-' THEN 1.70
+                WHEN g.Grade = 'D' THEN 1.30
+                WHEN g.Grade LIKE 'E%' THEN 0.00
+                ELSE 2.00
+            END
+        ELSE
+            CASE
+                WHEN g.Grade = 'A+' THEN 4.00
+                WHEN g.Grade = 'A' THEN 4.00
+                WHEN g.Grade = 'A-' THEN 3.70
+                WHEN g.Grade = 'B+' THEN 3.30
+                WHEN g.Grade = 'B' THEN 3.00
+                WHEN g.Grade = 'B-' THEN 2.70
+                WHEN g.Grade = 'C+' THEN 2.30
+                WHEN g.Grade = 'C' THEN 2.00
+                WHEN g.Grade = 'C-' THEN 1.70
+                WHEN g.Grade = 'D' THEN 1.30
+                WHEN g.Grade LIKE 'E%' THEN 0.00
+                ELSE 0.00
+            END
+    END AS Grade_point,
+    
+    -- Individual course calculation
+    (c.Credit * 
+        CASE
+            WHEN e.Status = 'repeat' THEN
+                CASE
+                    WHEN g.Grade = 'C-' THEN 1.70
+                    WHEN g.Grade = 'D' THEN 1.30
+                    WHEN g.Grade LIKE 'E%' THEN 0.00
+                    ELSE 2.00
+                END
+            ELSE
+                CASE
+                    WHEN g.Grade = 'A+' THEN 4.00
+                    WHEN g.Grade = 'A' THEN 4.00
+                    WHEN g.Grade = 'A-' THEN 3.70
+                    WHEN g.Grade = 'B+' THEN 3.30
+                    WHEN g.Grade = 'B' THEN 3.00
+                    WHEN g.Grade = 'B-' THEN 2.70
+                    WHEN g.Grade = 'C+' THEN 2.30
+                    WHEN g.Grade = 'C' THEN 2.00
+                    WHEN g.Grade = 'C-' THEN 1.70
+                    WHEN g.Grade = 'D' THEN 1.30
+                    WHEN g.Grade LIKE 'E%' THEN 0.00
+                    ELSE 0.00
+                END
+        END
+    ) AS Credit_X_GradePoint
+    
+FROM Grade g
+JOIN COURSE c ON c.C_code = g.C_code
+JOIN ENROLLS_IN e ON e.St_id = g.St_id AND e.C_code = g.C_code;
+
+select * from Student_Grade_Point_View;
+
+
+
+
+
+
+
+
+
+DELIMITER //
+
+CREATE PROCEDURE Calculate_SGPA(
+    IN studentID CHAR(6)
+)
+BEGIN
+    SELECT
+        p.St_id,
+        SUM(p.Credit_x_GradePoint) AS Total_Grade_Points,
+        SUM(p.Credit) AS Total_Credits,
+        ROUND(SUM(p.Credit_x_GradePoint) / SUM(p.Credit), 2) AS SGPA
+    FROM Student_Grade_Point_View p
+    WHERE p.St_id = studentID OR studentID IS NULL
+    GROUP BY p.St_id;
+END //
+
+DELIMITER ;
+
+
+CALL Calculate_SGPA('TG1701');
+CALL Calculate_SGPA(NULL);
+
+
+
+
+
+
+
+DELIMITER //
+
+CREATE PROCEDURE Calculate_CGPA(
+    IN studentID CHAR(6)
+)
+BEGIN
+    SELECT
+        p.St_id,
+        SUM(p.Credit_X_GradePoint) AS Total_Grade_Points,
+        SUM(p.Credit) AS Total_Credits,
+        ROUND(SUM(p.Credit_X_GradePoint) / SUM(p.Credit), 2) AS CGPA,
+        
+        -- Class Determination based on CGPA
+        CASE
+            WHEN ROUND(SUM(p.Credit_X_GradePoint) / SUM(p.Credit), 2) >= 3.70 THEN 'First Class'
+            WHEN ROUND(SUM(p.Credit_X_GradePoint) / SUM(p.Credit), 2) >= 3.30 THEN 'Second Class (Upper)'
+            WHEN ROUND(SUM(p.Credit_X_GradePoint) / SUM(p.Credit), 2) >= 3.00 THEN 'Second Class (Lower)'
+            WHEN ROUND(SUM(p.Credit_X_GradePoint) / SUM(p.Credit), 2) >= 2.00 THEN 'Pass'
+            ELSE 'Fail'
+        END AS Class
+        
+    FROM Student_Grade_Point_View p
+    WHERE (p.St_id = studentID OR studentID IS NULL)
+      AND p.C_code != 'ICT002'  -- Non-GPA course remove 
+    GROUP BY p.St_id;
+END //
+
+DELIMITER ;
+
+
+CALL Calculate_CGPA('TG1701');
+CALL Calculate_CGPA(NULL);
