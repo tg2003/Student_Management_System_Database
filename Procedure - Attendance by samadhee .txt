@@ -1,0 +1,112 @@
+-- Calculate Attendance Summary by Course
+
+DELIMITER //
+CREATE PROCEDURE AttendanceByCourseSummary(IN course CHAR(6))
+BEGIN
+  SELECT 
+    a.St_id AS Reg_No,
+    s.Name AS Student_Name,
+    c.C_code,
+    COUNT(CASE WHEN a.Status='Present' THEN 1 END) AS Present_Count,
+    COUNT(CASE WHEN a.Status='Approved Medical' THEN 1 END) AS Medical_Count,
+    COUNT(a.Session_id) AS Total_Sessions,
+    ROUND(
+      (COUNT(CASE WHEN a.Status IN ('Present','Approved Medical') THEN 1 END) / COUNT(a.Session_id)) * 100, 2
+    ) AS Attendance_Percentage,
+    CASE 
+      WHEN (COUNT(CASE WHEN a.Status IN ('Present','Approved Medical') THEN 1 END) / COUNT(a.Session_id)) * 100 >= 80
+      THEN 'Eligible'
+      ELSE 'Not Eligible'
+    END AS Eligibility
+  FROM ATTENDANCE a
+  JOIN SESSION se ON a.Session_id = se.Session_id
+  JOIN COURSE c ON se.C_code = c.C_code
+  JOIN STUDENT s ON a.St_id = s.St_id
+  WHERE c.C_code = course
+  GROUP BY a.St_id, s.Name, c.C_code;
+END //
+DELIMITER ;
+
+
+-- Procedure to view summary for a single student (all subjects)
+
+DELIMITER //
+CREATE DEFINER='root'@'localhost' PROCEDURE SingleStudentSummary(IN regno CHAR(6))
+BEGIN
+  SELECT 
+    c.C_code,
+    c.C_name,
+    ROUND(
+      (COUNT(CASE WHEN a.Status IN ('Present','Approved Medical') THEN 1 END) / COUNT(a.Session_id)) * 100, 2
+    ) AS Attendance_Percentage,
+    CASE 
+      WHEN (COUNT(CASE WHEN a.Status IN ('Present','Approved Medical') THEN 1 END) / COUNT(a.Session_id)) * 100 >= 80
+      THEN 'Eligible'
+      ELSE 'Not Eligible'
+    END AS Eligibility
+  FROM ATTENDANCE a
+  JOIN SESSION se ON a.Session_id = se.Session_id
+  JOIN COURSE c ON se.C_code = c.C_code
+  WHERE a.St_id = regno
+  GROUP BY c.C_code, c.C_name;
+END //
+DELIMITER ;
+
+-- Procedure to view attendance for one student and one subject
+DELIMITER //
+
+CREATE PROCEDURE AttendanceByStudentCourse(
+    IN regno CHAR(6),
+    IN course CHAR(6),
+    IN type CHAR(1)  -- 'T' for theory, 'P' for practical, 'A' for all
+)
+BEGIN
+  SELECT 
+    s.St_id,
+    s.Name,
+    c.C_code,
+    c.C_name,
+    ROUND(
+      (COUNT(CASE WHEN a.Status IN ('Present','Approved Medical') THEN 1 END) / COUNT(a.Session_id)) * 100, 2
+    ) AS Attendance_Percentage,
+    CASE 
+      WHEN (COUNT(CASE WHEN a.Status IN ('Present','Approved Medical') THEN 1 END) / COUNT(a.Session_id)) * 100 >= 80
+      THEN 'Eligible'
+      ELSE 'Not Eligible'
+    END AS Eligibility
+  FROM ATTENDANCE a
+  JOIN SESSION se ON a.Session_id = se.Session_id
+  JOIN COURSE c ON se.C_code = c.C_code
+  JOIN STUDENT s ON a.St_id = s.St_id
+  WHERE a.St_id = regno
+    AND c.C_code = course
+    AND (type = 'A' OR se.Type = type)
+  GROUP BY s.St_id, c.C_code;
+END //
+DELIMITER ;
+
+
+-- Procedure for batch attendance category summary
+DELIMITER //
+
+CREATE PROCEDURE BatchAttendanceCategory()
+BEGIN
+  SELECT
+    CASE
+      WHEN percent >= 80 AND medicals = 0 THEN '>= 80% Students'
+      WHEN percent < 80 AND medicals = 0 THEN '< 80% Students'
+      WHEN percent >= 80 AND medicals > 0 THEN 'With Medical >= 80%'
+      ELSE 'With Medical < 80%'
+    END AS Category,
+    COUNT(*) AS Student_Count
+  FROM (
+    SELECT 
+      a.St_id,
+      ROUND((COUNT(CASE WHEN a.Status IN ('Present','Approved Medical') THEN 1 END) / COUNT(a.Session_id)) * 100, 2) AS percent,
+      COUNT(CASE WHEN a.Status='Approved Medical' THEN 1 END) AS medicals
+    FROM ATTENDANCE a
+    GROUP BY a.St_id
+  ) t
+  GROUP BY Category;
+END //
+DELIMITER ;

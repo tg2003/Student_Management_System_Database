@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 -- TECH_OFFICER 
+=======
+-- Create the TECH_OFFICER table
+>>>>>>> c4338203951982f393982ed96cd3c158c98f006e
 CREATE TABLE TECH_OFFICER (
     Techoff_id CHAR(06) PRIMARY KEY,
     Name VARCHAR(50) NOT NULL,
