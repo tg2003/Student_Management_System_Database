@@ -435,4 +435,32 @@ BEGIN
 END //
 
 DELIMITER ;
+-- Calculate CA + Attendance eligibility
+DELIMITER //
+
+CREATE PROCEDURE final_student_eligibility(
+    IN studentID CHAR(6),
+    IN courseCode CHAR(6)
+)
+BEGIN
+    SELECT
+        m.St_id,
+        m.C_code,
+        c.C_name AS Course_Name,
+        g.w_CA_marks,
+        a.Attendance_Percentage,
+        CASE
+            WHEN g.w_CA_marks >= 20 AND a.Attendance_Percentage >= 80 THEN 'Eligible'
+            ELSE 'Not Eligible'
+        END AS Final_Eligibility
+    FROM grade g
+    JOIN mark m ON g.C_code = m.C_code AND g.St_id = m.St_id
+    JOIN course c ON m.C_code = c.C_code
+    JOIN CourseAttendanceSummary a ON m.St_id = a.Reg_No AND m.C_code = a.C_code
+    WHERE 
+        (studentID IS NULL OR m.St_id = studentID)
+        AND (courseCode IS NULL OR m.C_code = courseCode);
+END //
+
+DELIMITER ;
 
