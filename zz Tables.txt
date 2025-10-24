@@ -61,7 +61,6 @@ CREATE TABLE TECH_OFFICER_PHONE (
     FOREIGN KEY (Tech_id) REFERENCES TECH_OFFICER(Techoff_id)
 );
 
-
 -- DEAN
 CREATE TABLE DEAN (
     Dean_id CHAR(6) PRIMARY KEY,
@@ -74,6 +73,7 @@ CREATE TABLE DEAN (
     Street VARCHAR(50),
     City VARCHAR(50)
 );
+
 
 -- ADMIN
 CREATE TABLE ADMIN (
@@ -106,12 +106,11 @@ C_code CHAR(6),
 Level INT,
 Sem INT,
 Academic_yr INT,
-Status VARCHAR(10) CHECK (Status IN ('proper','repeat')),
+Status VARCHAR(10) CHECK (Status IN ('proper','repeat','suspended')),
 PRIMARY KEY(St_id,C_code),
 FOREIGN KEY (St_id) REFERENCES student(St_id),
 FOREIGN KEY (C_code) REFERENCES course(C_code)
 );
-
 
 CREATE TABLE SESSION(
     Session_id CHAR(6),
@@ -119,20 +118,24 @@ CREATE TABLE SESSION(
     C_code CHAR(6),
     Day CHAR(3),
     PRIMARY KEY(Session_id),
-    FOREIGN KEY(C_code) REFERENCES COURSE(C_code)
+    FOREIGN KEY(C_code) REFERENCES COURSE(C_code) ON DELETE CASCADE
 );
 
-CREATE TABLE MARK(
-St_id CHAR(6),
-C_code CHAR(6),
-Quiz_01 DECIMAL(5,2),
-Quiz_02 DECIMAL(5,2),
-Quiz_03 DECIMAL(5,2),
-Assignment DECIMAL(5,2),
-Mid DECIMAL(5,2),
-Final DECIMAL(5,2),
-FOREIGN KEY(St_id) REFERENCES STUDENT(St_id),
-FOREIGN KEY(C_code) REFERENCES COURSE(C_code)
+
+-- MARK table
+CREATE TABLE MARK (
+    St_id CHAR(6),
+    C_code CHAR(6),
+    Quiz_01 DECIMAL(5,2),
+    Quiz_02 DECIMAL(5,2),
+    Quiz_03 DECIMAL(5,2),
+    Assignment DECIMAL(5,2),
+    Mid_T DECIMAL(5,2),
+    Mid_P DECIMAL(5,2),
+    Final_T DECIMAL(5,2),
+    Final_P DECIMAL(5,2),
+    FOREIGN KEY (St_id) REFERENCES student(St_id) ON DELETE CASCADE,
+    FOREIGN KEY (C_code) REFERENCES course(C_code) ON DELETE CASCADE
 );
 
 -- MEDICAL 
@@ -146,27 +149,13 @@ PRIMARY KEY(Medical_id),
 FOREIGN KEY(St_id) REFERENCES student(St_id)
 );
 
+-- Attendance
 CREATE TABLE ATTENDANCE(
 Week_no INT,
 St_id CHAR(6) NOT NULL,
 Session_id CHAR(6),
 Status VARCHAR(50),
 Date DATE, 
-FOREIGN KEY(St_id) REFERENCES STUDENT(St_id),
-FOREIGN KEY(Session_id) REFERENCES SESSION(Session_id)
+FOREIGN KEY(St_id) REFERENCES STUDENT(St_id) ON DELETE CASCADE,
+FOREIGN KEY(Session_id) REFERENCES SESSION(Session_id) ON DELETE CASCADE
 );
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

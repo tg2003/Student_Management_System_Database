@@ -30,9 +30,8 @@ DELIMITER ;
 
 
 -- Procedure to view summary for a single student (all subjects)
-
 DELIMITER //
-CREATE PROCEDURE SingleStudentSummary(IN regno CHAR(6))
+CREATE DEFINER='root'@'localhost' PROCEDURE SingleStudentSummary(IN regno CHAR(6))
 BEGIN
   SELECT 
     c.C_code,
@@ -124,115 +123,316 @@ DELIMITER ;
 
 
 -- MARK PROCEDURES
--- Calculate Attendance Summary by Course
-
-DELIMITER //
-CREATE PROCEDURE AttendanceByCourseSummary(IN course CHAR(6))
-BEGIN
-  SELECT 
-    a.St_id AS Reg_No,
-    s.Name AS Student_Name,
-    c.C_code,
-    COUNT(CASE WHEN a.Status='Present' THEN 1 END) AS Present_Count,
-    COUNT(CASE WHEN a.Status='Approved Medical' THEN 1 END) AS Medical_Count,
-    COUNT(a.Session_id) AS Total_Sessions,
-    ROUND(
-      (COUNT(CASE WHEN a.Status IN ('Present','Approved Medical') THEN 1 END) / COUNT(a.Session_id)) * 100, 2
-    ) AS Attendance_Percentage,
-    CASE 
-      WHEN (COUNT(CASE WHEN a.Status IN ('Present','Approved Medical') THEN 1 END) / COUNT(a.Session_id)) * 100 >= 80
-      THEN 'Eligible'
-      ELSE 'Not Eligible'
-    END AS Eligibility
-  FROM ATTENDANCE a
-  JOIN SESSION se ON a.Session_id = se.Session_id
-  JOIN COURSE c ON se.C_code = c.C_code
-  JOIN STUDENT s ON a.St_id = s.St_id
-  WHERE c.C_code = course
-  GROUP BY a.St_id, s.Name, c.C_code;
-END //
-DELIMITER ;
-
-
--- Procedure to view summary for a single student (all subjects)
-
-DELIMITER //
-CREATE PROCEDURE SingleStudentSummary(IN regno CHAR(6))
-BEGIN
-  SELECT 
-    c.C_code,
+-- Create v_mark_weight_temp view
+CREATE VIEW v_mark_weight_temp AS
+SELECT 
+    m.St_id,
+    m.C_code,
     c.C_name,
-    ROUND(
-      (COUNT(CASE WHEN a.Status IN ('Present','Approved Medical') THEN 1 END) / COUNT(a.Session_id)) * 100, 2
-    ) AS Attendance_Percentage,
+    
+    -- w_best2quizes (10% of Final_Marks)
+    ((m.Quiz_01 + m.Quiz_02 + m.Quiz_03 - LEAST(m.Quiz_01, m.Quiz_02, m.Quiz_03)) / 2) * 0.1 AS w_best2quizes,
+    
+    -- Calculate w_Assignment (10% of Final_Marks)
+    m.Assignment * 0.1 AS w_Assignment,
+    
+    -- Calculate w_mid (20% of Final_Marks)
     CASE 
-      WHEN (COUNT(CASE WHEN a.Status IN ('Present','Approved Medical') THEN 1 END) / COUNT(a.Session_id)) * 100 >= 80
-      THEN 'Eligible'
-      ELSE 'Not Eligible'
-    END AS Eligibility
-  FROM ATTENDANCE a
-  JOIN SESSION se ON a.Session_id = se.Session_id
-  JOIN COURSE c ON se.C_code = c.C_code
-  WHERE a.St_id = regno
-  GROUP BY c.C_code, c.C_name;
-END //
-DELIMITER ;
+        WHEN m.Mid_T IS NOT NULL AND m.Mid_P IS NOT NULL THEN (m.Mid_T * 0.1 + m.Mid_P * 0.1)  
+        WHEN m.Mid_T IS NOT NULL AND m.Mid_P IS NULL THEN m.Mid_T * 0.2                        
+        WHEN m.Mid_T IS NULL AND m.Mid_P IS NOT NULL THEN m.Mid_P * 0.2                        
+        ELSE 0
+    END AS w_mid,
+    
+    -- Calculate w_final (60% of Final_Marks)
+    CASE 
+        WHEN m.Final_T IS NOT NULL AND m.Final_P IS NOT NULL THEN (m.Final_T * 0.3 + m.Final_P * 0.3)  
+        WHEN m.Final_T IS NOT NULL AND m.Final_P IS NULL THEN m.Final_T * 0.6                          
+        WHEN m.Final_T IS NULL AND m.Final_P IS NOT NULL THEN m.Final_P * 0.6                          
+        ELSE 0
+    END AS w_final,
+    
+    -- Calculate w_CA_marks (40% of Final_Marks: quizzes + assignment + mid)
+    (((m.Quiz_01 + m.Quiz_02 + m.Quiz_03 - LEAST(m.Quiz_01, m.Quiz_02, m.Quiz_03)) / 2) * 0.1) + 
+    (m.Assignment * 0.1) +
+    (CASE 
+        WHEN m.Mid_T IS NOT NULL AND m.Mid_P IS NOT NULL THEN (m.Mid_T * 0.1 + m.Mid_P * 0.1)
+        WHEN m.Mid_T IS NOT NULL AND m.Mid_P IS NULL THEN m.Mid_T * 0.2
+        WHEN m.Mid_T IS NULL AND m.Mid_P IS NOT NULL THEN m.Mid_P * 0.2
+        ELSE 0
+    END) AS w_CA_marks,
+    
+    -- Calculate Final_Marks (w_CA_marks + w_final)
+    (((m.Quiz_01 + m.Quiz_02 + m.Quiz_03 - LEAST(m.Quiz_01, m.Quiz_02, m.Quiz_03)) / 2) * 0.1) + 
+    (m.Assignment * 0.1) +
+    (CASE 
+        WHEN m.Mid_T IS NOT NULL AND m.Mid_P IS NOT NULL THEN (m.Mid_T * 0.1 + m.Mid_P * 0.1)
+        WHEN m.Mid_T IS NOT NULL AND m.Mid_P IS NULL THEN m.Mid_T * 0.2
+        WHEN m.Mid_T IS NULL AND m.Mid_P IS NOT NULL THEN m.Mid_P * 0.2
+        ELSE 0
+    END) +
+    (CASE 
+        WHEN m.Final_T IS NOT NULL AND m.Final_P IS NOT NULL THEN (m.Final_T * 0.3 + m.Final_P * 0.3)
+        WHEN m.Final_T IS NOT NULL AND m.Final_P IS NULL THEN m.Final_T * 0.6
+        WHEN m.Final_T IS NULL AND m.Final_P IS NOT NULL THEN m.Final_P * 0.6
+        ELSE 0
+    END) AS Final_Marks
+    
+FROM MARK m
+JOIN COURSE c ON m.C_code = c.C_code;
 
--- Procedure to view attendance for one student and one subject
+
+
+
+
+-- Create grade view
+CREATE VIEW grade AS
+SELECT 
+    St_id,
+    c_code,
+    c_name AS Course_name,
+    ROUND(w_best2quizes, 2) AS w_best2quizes,
+    ROUND(w_Assignment, 2) AS w_Assignment,
+    ROUND(w_mid, 2) AS w_mid,
+    ROUND(w_final, 2) AS w_final,
+    ROUND(w_CA_marks, 2) AS w_CA_marks,
+    ROUND(Final_Marks, 2) AS Final_Marks,
+    
+    -- Calculate Grade    
+	CASE 
+        WHEN w_CA_marks < 20 AND w_final < 21 THEN 'E (CA & ESA)'
+	WHEN Final_Marks IS NULL THEN 'WH'
+	WHEN w_final <= 0 THEN 'WH'   
+        WHEN w_CA_marks < 20 THEN 'E (CA)'
+        WHEN w_final < 21 THEN 'E (ESA)'
+        WHEN Final_Marks >= 85 THEN 'A+'
+        WHEN Final_Marks >= 75 THEN 'A'
+        WHEN Final_Marks >= 70 THEN 'A-'
+        WHEN Final_Marks >= 65 THEN 'B+'
+        WHEN Final_Marks >= 60 THEN 'B'
+        WHEN Final_Marks >= 55 THEN 'B-'
+        WHEN Final_Marks >= 50 THEN 'C+'
+        WHEN Final_Marks >= 45 THEN 'C'
+        WHEN Final_Marks >= 40 THEN 'C-'
+        WHEN Final_Marks >= 35 THEN 'D'
+        ELSE 'E'
+    END AS Grade
+    
+FROM v_mark_weight_temp;
+
+select * from grade;
+
+
+
+
+-- final marks & grade
 DELIMITER //
-
-CREATE PROCEDURE AttendanceByStudentCourse(
-    IN regno CHAR(6),
-    IN course CHAR(6),
-    IN type CHAR(1)  -- 'T' for theory, 'P' for practical, 'A' for all
+CREATE DEFINER='root'@'localhost' PROCEDURE Final_Marks_Only(
+    IN studentID CHAR(6),
+    IN courseCode CHAR(6)
 )
 BEGIN
-  SELECT 
-    s.St_id,
-    s.Name,
-    c.C_code,
-    c.C_name,
-    ROUND(
-      (COUNT(CASE WHEN a.Status IN ('Present','Approved Medical') THEN 1 END) / COUNT(a.Session_id)) * 100, 2
-    ) AS Attendance_Percentage,
-    CASE 
-      WHEN (COUNT(CASE WHEN a.Status IN ('Present','Approved Medical') THEN 1 END) / COUNT(a.Session_id)) * 100 >= 80
-      THEN 'Eligible'
-      ELSE 'Not Eligible'
-    END AS Eligibility
-  FROM ATTENDANCE a
-  JOIN SESSION se ON a.Session_id = se.Session_id
-  JOIN COURSE c ON se.C_code = c.C_code
-  JOIN STUDENT s ON a.St_id = s.St_id
-  WHERE a.St_id = regno
-    AND c.C_code = course
-    AND (type = 'A' OR se.Type = type)
-  GROUP BY s.St_id, c.C_code;
+    SELECT
+        g.St_id,
+        g.c_code AS C_code,
+        g.Course_name AS C_name,
+        g.Final_Marks,
+        g.Grade
+    FROM grade g
+    WHERE (studentID IS NULL OR g.St_id = studentID)
+      AND (courseCode IS NULL OR g.c_code = courseCode)
+    ORDER BY g.St_id, g.c_code;
 END //
 DELIMITER ;
 
 
--- Procedure for batch attendance category summary
+-- admin perspective view
 DELIMITER //
 
-CREATE PROCEDURE BatchAttendanceCategory()
+CREATE PROCEDURE Student_Course_Details(
+    IN studentID CHAR(6),
+    IN courseCode CHAR(6)
+)
 BEGIN
-  SELECT
-    CASE
-      WHEN percent >= 80 AND medicals = 0 THEN '>= 80% Students'
-      WHEN percent < 80 AND medicals = 0 THEN '< 80% Students'
-      WHEN percent >= 80 AND medicals > 0 THEN 'With Medical >= 80%'
-      ELSE 'With Medical < 80%'
-    END AS Category,
-    COUNT(*) AS Student_Count
-  FROM (
     SELECT 
-      a.St_id,
-      ROUND((COUNT(CASE WHEN a.Status IN ('Present','Approved Medical') THEN 1 END) / COUNT(a.Session_id)) * 100, 2) AS percent,
-      COUNT(CASE WHEN a.Status='Approved Medical' THEN 1 END) AS medicals
-    FROM ATTENDANCE a
-    GROUP BY a.St_id
-  ) t
-  GROUP BY Category;
+        m.St_id,
+        m.C_code,
+        c.C_name AS Course_Name,
+        
+        ROUND(m.Quiz_01, 2) AS Quiz_01,
+        ROUND(m.Quiz_02, 2) AS Quiz_02,
+        ROUND(m.Quiz_03, 2) AS Quiz_03,
+        ROUND(m.Assignment, 2) AS Assignment,
+        ROUND(
+            CASE 
+                WHEN m.Mid_T IS NOT NULL AND m.Mid_P IS NOT NULL THEN (m.Mid_T + m.Mid_P) / 2
+                WHEN m.Mid_T IS NOT NULL THEN m.Mid_T
+                WHEN m.Mid_P IS NOT NULL THEN m.Mid_P
+                ELSE NULL
+            END, 2
+        ) AS Mid_Marks,
+        ROUND(
+            CASE 
+                WHEN m.Final_T IS NOT NULL AND m.Final_P IS NOT NULL THEN (m.Final_T + m.Final_P) / 2
+                WHEN m.Final_T IS NOT NULL THEN m.Final_T
+                WHEN m.Final_P IS NOT NULL THEN m.Final_P
+                ELSE NULL
+            END, 2
+        ) AS ESA_Raw,  -- Raw ESA marks out of 100
+        
+        -- Weighted CA Marks (40%) and ESA Marks (60%)
+        g.w_CA_marks AS CA_Marks_Weighted,
+        g.w_final AS ESA_Marks_Weighted,
+        
+        -- Final Results
+        g.Final_Marks AS Total_Final_Marks,
+        g.Grade
+        
+    FROM MARK m
+    JOIN COURSE c ON m.C_code = c.C_code
+    JOIN grade g ON m.St_id = g.St_id AND m.C_code = g.c_code
+    WHERE (studentID IS NULL OR m.St_id = studentID)
+      AND (courseCode IS NULL OR m.C_code = courseCode)
+    ORDER BY m.St_id, m.C_code;
 END //
+
 DELIMITER ;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--  GPA Calculation PROCEDURES
+CREATE VIEW Student_Grade_Point_View AS
+SELECT
+    g.St_id,
+    g.C_code,
+    e.Status,
+    c.Credit,
+    g.Grade,
+    
+    -- Grade Point Calculation
+    CASE
+	WHEN g.Grade = 'WH' THEN 0.00
+        WHEN e.Status = 'repeat' THEN
+            CASE
+                WHEN g.Grade = 'C-' THEN 1.70
+                WHEN g.Grade = 'D' THEN 1.30
+                WHEN g.Grade LIKE 'E%' THEN 0.00
+                ELSE 2.00
+            END
+        ELSE
+            CASE
+                WHEN g.Grade = 'A+' THEN 4.00
+                WHEN g.Grade = 'A' THEN 4.00
+                WHEN g.Grade = 'A-' THEN 3.70
+                WHEN g.Grade = 'B+' THEN 3.30
+                WHEN g.Grade = 'B' THEN 3.00
+                WHEN g.Grade = 'B-' THEN 2.70
+                WHEN g.Grade = 'C+' THEN 2.30
+                WHEN g.Grade = 'C' THEN 2.00
+                WHEN g.Grade = 'C-' THEN 1.70
+                WHEN g.Grade = 'D' THEN 1.30
+                WHEN g.Grade LIKE 'E%' THEN 0.00
+                ELSE 0.00
+            END
+    END AS Grade_point,
+    
+    -- Individual course calculation
+    (c.Credit * 
+        CASE
+            WHEN e.Status = 'repeat' THEN
+                CASE
+                    WHEN g.Grade = 'C-' THEN 1.70
+                    WHEN g.Grade = 'D' THEN 1.30
+                    WHEN g.Grade LIKE 'E%' THEN 0.00
+                    ELSE 2.00
+                END
+            ELSE
+                CASE
+                    WHEN g.Grade = 'A+' THEN 4.00
+                    WHEN g.Grade = 'A' THEN 4.00
+                    WHEN g.Grade = 'A-' THEN 3.70
+                    WHEN g.Grade = 'B+' THEN 3.30
+                    WHEN g.Grade = 'B' THEN 3.00
+                    WHEN g.Grade = 'B-' THEN 2.70
+                    WHEN g.Grade = 'C+' THEN 2.30
+                    WHEN g.Grade = 'C' THEN 2.00
+                    WHEN g.Grade = 'C-' THEN 1.70
+                    WHEN g.Grade = 'D' THEN 1.30
+                    WHEN g.Grade LIKE 'E%' THEN 0.00
+                    ELSE 0.00
+                END
+        END
+    ) AS Credit_X_GradePoint
+    
+FROM Grade g
+JOIN COURSE c ON c.C_code = g.C_code
+JOIN ENROLLS_IN e ON e.St_id = g.St_id AND e.C_code = g.C_code;
+
+
+
+
+DELIMITER //
+
+CREATE DEFINER='root'@'localhost' PROCEDURE Calculate_SGPA(
+    IN studentID CHAR(6)
+)
+BEGIN
+    SELECT
+        p.St_id,
+        SUM(p.Credit_x_GradePoint) AS Total_Grade_Points,
+        SUM(p.Credit) AS Total_Credits,
+        ROUND(SUM(p.Credit_x_GradePoint) / SUM(p.Credit), 2) AS SGPA
+    FROM Student_Grade_Point_View p
+    WHERE p.St_id = studentID OR studentID IS NULL
+    GROUP BY p.St_id;
+END //
+
+DELIMITER ;
+
+
+
+
+
+DELIMITER //
+
+CREATE DEFINER='root'@'localhost' PROCEDURE Calculate_CGPA(
+    IN studentID CHAR(6)
+)
+BEGIN
+    SELECT
+        p.St_id,
+        SUM(p.Credit_X_GradePoint) AS Total_Grade_Points,
+        SUM(p.Credit) AS Total_Credits,
+        ROUND(SUM(p.Credit_X_GradePoint) / SUM(p.Credit), 2) AS CGPA,
+        
+        -- Class Determination based on CGPA
+        CASE
+            WHEN ROUND(SUM(p.Credit_X_GradePoint) / SUM(p.Credit), 2) >= 3.70 THEN 'First Class'
+            WHEN ROUND(SUM(p.Credit_X_GradePoint) / SUM(p.Credit), 2) >= 3.30 THEN 'Second Class (Upper)'
+            WHEN ROUND(SUM(p.Credit_X_GradePoint) / SUM(p.Credit), 2) >= 3.00 THEN 'Second Class (Lower)'
+            WHEN ROUND(SUM(p.Credit_X_GradePoint) / SUM(p.Credit), 2) >= 2.00 THEN 'Pass'
+            ELSE 'Fail'
+        END AS Class
+        
+    FROM Student_Grade_Point_View p
+    WHERE (p.St_id = studentID OR studentID IS NULL)
+      AND p.C_code != 'ICT002'  -- Non-GPA course remove 
+    GROUP BY p.St_id;
+END //
+
+DELIMITER ;
+

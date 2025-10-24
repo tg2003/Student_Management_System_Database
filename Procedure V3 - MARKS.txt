@@ -76,6 +76,7 @@ SELECT
     -- Calculate Grade with failure reasons
     CASE 
         WHEN w_CA_marks < 20 AND w_final < 21 THEN 'E (CA & ESA)'
+	WHEN Final_Marks IS NULL THEN 'WH'
         WHEN w_CA_marks < 20 THEN 'E (CA)'
         WHEN w_final < 21 THEN 'E (ESA)'
         WHEN Final_Marks >= 85 THEN 'A+'
