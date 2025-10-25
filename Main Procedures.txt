@@ -86,31 +86,26 @@ END //
 DELIMITER ;
 
 
--- Procedure for batch attendance category summary
-DELIMITER //
+-- View for batch attendance category summary
 
-CREATE PROCEDURE BatchAttendanceCategory()
-BEGIN
-  SELECT
-    CASE
-      WHEN percent >= 80 AND medicals = 0 THEN '>= 80% Students'
-      WHEN percent < 80 AND medicals = 0 THEN '< 80% Students'
-      WHEN percent >= 80 AND medicals > 0 THEN 'With Medical >= 80%'
-      ELSE 'With Medical < 80%'
-    END AS Category,
-    COUNT(*) AS Student_Count
-  FROM (
-    SELECT 
-      a.St_id,
-      ROUND((COUNT(CASE WHEN a.Status IN ('Present','Approved Medical') THEN 1 END) / COUNT(a.Session_id)) * 100, 2) AS percent,
-      COUNT(CASE WHEN a.Status='Approved Medical' THEN 1 END) AS medicals
-    FROM ATTENDANCE a
-    GROUP BY a.St_id
-  ) t
-  GROUP BY Category;
-END //
-DELIMITER ;
-
+CREATE VIEW BatchAttendanceCategory AS
+SELECT
+  CASE
+    WHEN percent >= 80 AND medicals = 0 THEN '>= 80% Students'
+    WHEN percent < 80 AND medicals = 0 THEN '< 80% Students'
+    WHEN percent >= 80 AND medicals > 0 THEN 'With Medical >= 80%'
+    ELSE 'With Medical < 80%'
+  END AS Category,
+  COUNT(*) AS Student_Count
+FROM (
+  SELECT 
+    a.St_id,
+    ROUND((COUNT(CASE WHEN a.Status IN ('Present','Approved Medical') THEN 1 END) / COUNT(a.Session_id)) * 100, 2) AS percent,
+    COUNT(CASE WHEN a.Status='Approved Medical' THEN 1 END) AS medicals
+  FROM ATTENDANCE a
+  GROUP BY a.St_id
+) AS summary
+GROUP BY Category;
 
 
 
