@@ -1912,7 +1912,7 @@ DELIMITER ;
 
 
 -- CourseAttendanceSummaryView
-CREATE VIEW CourseAttendanceSummary AS
+CREATE DEFINER='root'@'localhost' SQL SECURITY DEFINER VIEW CourseAttendanceSummary AS
 SELECT 
     a.St_id AS Reg_No,
     s.Name AS Student_Name,
@@ -1938,7 +1938,7 @@ GROUP BY a.St_id, s.Name, c.C_code;
 -- Calculate CA + Attendance eligibility
 DELIMITER //
 
-CREATE PROCEDURE final_student_eligibility(
+CREATE DEFINER='root'@'localhost' PROCEDURE final_student_eligibility(
     IN studentID CHAR(6),
     IN courseCode CHAR(6)
 )
@@ -1963,6 +1963,7 @@ BEGIN
 END //
 DELIMITER ;
 
+
 DROP USER IF EXISTS 'STUDENT'@'localhost';
 DROP USER IF EXISTS 'LECTURER'@'localhost';
 DROP USER IF EXISTS 'TECH_OFFICER'@'localhost';
@@ -1975,8 +1976,9 @@ GRANT EXECUTE ON PROCEDURE grp14.Final_Marks_Only TO 'STUDENT'@'localhost';
 GRANT EXECUTE ON PROCEDURE grp14.SingleStudentSummary TO 'STUDENT'@'localhost';
 GRANT EXECUTE ON PROCEDURE grp14.Calculate_SGPA TO 'STUDENT'@'localhost';
 GRANT EXECUTE ON PROCEDURE grp14.Calculate_CGPA TO 'STUDENT'@'localhost';
+GRANT EXECUTE ON PROCEDURE grp14.final_student_eligibility TO 'STUDENT'@'localhost';
+GRANT SELECT ON grp14.CourseAttendanceSummary TO 'STUDENT'@'localhost';
 FLUSH PRIVILEGES;
-
 
 
 -- Imashi
@@ -2007,5 +2009,6 @@ GRANT ALL PRIVILEGES ON Grp14.*
 TO 'DEAN'@'localhost';
 GRANT EXECUTE ON grp14.* TO 'DEAN'@'localhost';
 FLUSH PRIVILEGES;
+
 
 
