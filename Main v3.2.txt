@@ -338,7 +338,7 @@ INSERT INTO ENROLLS_IN (St_id, C_code, Level, Sem, Academic_yr, Status) VALUES
 
 
 
-
+-- Session
 CREATE TABLE SESSION(
     Session_id CHAR(6),
     Type CHAR(1),
