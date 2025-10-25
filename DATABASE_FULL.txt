@@ -1,0 +1,1955 @@
+CREATE DATABASE Grp14;
+USE Grp14;
+
+-- Student
+CREATE TABLE STUDENT(
+St_id CHAR(6) NOT NULL,
+Name VARCHAR(30),
+Email VARCHAR(30),
+Nic VARCHAR(12) NOT NULL,
+Dpt_name VARCHAR(15),
+Dob DATE,
+Address_no VARCHAR(10),
+Address_street VARCHAR(100),
+Address_city VARCHAR(40),
+PRIMARY KEY(St_id)
+);
+
+INSERT INTO student (St_id, Name, Email, Nic, Dpt_name, DOB, Address_no, Address_street, Address_city) 
+VALUES
+('TG1701', 'Kamal Perera', 'kamal.perera@email.com', '200312345678', 'ICT', '2003-04-12', '123', 'Galle Road', 'Colombo'),
+('TG1702', 'Nimal Silva', 'nimal.silva@email.com', '200387654321', 'ICT', '2003-09-25', '45', 'Kandy Street', 'Kandy'),
+('TG1703', 'Saman Fernando', 'saman.fernando@email.com', '200212345678', 'ICT', '2002-02-10', '78', 'Negombo Road', 'Negombo'),
+('TG1704', 'Priya Rathnayake', 'priya.rathnayake@email.com', '200344556677', 'ICT', '2003-12-02', '256', 'Peradeniya Road', 'Peradeniya'),
+('TG1705', 'Asiri Bandara', 'asiri.bandara@email.com', '200311223344', 'ICT', '2003-06-18', '34', 'Matara Road', 'Matara'),
+('TG1706', 'Dilani Wickramasinghe', 'dilani.wick@email.com', '200112345678', 'ICT', '2001-08-21', '89', 'Kurunegala Road', 'Kurunegala'),
+('TG1707', 'Rajitha Herath', 'rajitha.herath@email.com', '200245678912', 'ICT', '2002-03-15', '67', 'Anuradhapura Road', 'Anuradhapura'),
+('TG1708', 'Chaminda Alwis', 'chaminda.alwis@email.com', '200378945612', 'ICT', '2003-05-09', '112', 'Badulla Road', 'Badulla'),
+('TG1709', 'Kushani Jayawardena', 'kushani.jaya@email.com', '200212345678', 'ICT', '2002-07-22', '23', 'Ratnapura Road', 'Ratnapura'),
+('TG1710', 'Sanjaya Kumara', 'sanjaya.kumara@email.com', '200112345655', 'ICT', '2001-01-27', '156', 'Gampaha Road', 'Gampaha'),
+('TG1711', 'Tharindu Liyanage', 'tharindu.liyanage@email.com', '200112345644', 'ICT', '2001-09-03', '78', 'Kegalle Road', 'Kegalle'),
+('TG1712', 'Madhavi Dissanayake', 'madhavi.dissa@email.com', '200112348867', 'ICT', '2001-11-17', '45', 'Kalutara Road', 'Kalutara'),
+('TG1713', 'Lakmal Fonseka', 'lakmal.fonseka@email.com', '200012345678', 'ICT', '2000-05-30', '189', 'Panadura Road', 'Panadura'),
+('TG1714', 'Nayomi Rajapakse', 'nayomi.raja@email.com', '200212245678', 'ICT', '2002-03-08', '67', 'Ambalangoda Road', 'Ambalangoda'),
+('TG1715', 'Prasanna Zoysa', 'prasanna.zoysa@email.com', '200112845678', 'ICT', '2001-10-12', '234', 'Hikkaduwa Road', 'Hikkaduwa'),
+('TG1716','Gihan Sandeepa','gihansandeepa@gmail.com','200275000957','ICT','2002-11-15','56','Udugama Road','Galle');
+
+
+-- STUDENT_PHONE
+CREATE TABLE STUDENT_PHONE(
+St_id CHAR(6),
+St_phone CHAR(10),
+FOREIGN KEY(St_id) REFERENCES STUDENT(St_id) ON DELETE CASCADE
+);
+
+
+INSERT INTO STUDENT_PHONE(St_id, St_phone) VALUES
+('TG1701', '0771234567'), 
+('TG1702', '0712345678'), 
+('TG1703', '0789876543'), 
+('TG1703', '0712223344'), 
+('TG1704', '0701122334'), 
+('TG1705', '0765566778'), 
+('TG1705', '0776655443'),
+('TG1706', '0782233445'), 
+('TG1707', '0716677889'), 
+('TG1708', '0773344556'), 
+('TG1709', '0789988776'), 
+('TG1710', '0704455667'), 
+('TG1710', '0704455668'), 
+('TG1711', '0767788990'), 
+('TG1712', '0715566778'), 
+('TG1713', '0781122334'), 
+('TG1714', '0779988776'), 
+('TG1715', '0703344556'),
+('TG1715', '0709998888'); 
+
+-- Lecturer
+CREATE TABLE LECTURER (
+Lec_id CHAR(3) PRIMARY KEY,
+Name VARCHAR (100),
+Nic VARCHAR(12) UNIQUE,
+Dob DATE,
+Education_lvl VARCHAR(10) NOT NULL 
+	CHECK (Education_lvl IN ('bachelor','master','phd')),
+Email VARCHAR(255)
+	CHECK (Email IS NULL OR Email LIKE '_%@_%._%'),
+Adress_no VARCHAR(6),
+Adress_street VARCHAR(100),
+Adress_city VARCHAR(20),
+Dpt_name CHAR(3)
+);
+
+INSERT INTO LECTURER VALUES
+('L01', 'Nirosha Perera', '901234567V', '1985-03-15', 'master', 'nirosha.perera@gmail.com', '12', 'Galle Rd', 'Colombo', 'ICT'),
+('L02', 'Shanika Fernando', '921234568V', '1987-07-22', 'phd', 'shanika.fernando@yahoo.com', '45', 'Temple St', 'Kandy', 'ICT'),
+('L03', 'Dilani Jayasinghe', '931234569V', '1986-11-30', 'bachelor', 'dilani.jayasinghe@gmail.com', '78', 'Main St', 'Galle', 'ICT'),
+('L04', 'Chamara Senanayake', '841234570V', '1984-05-10', 'master', 'chamara.senanayake@gmail.com', '56', 'Lake Rd', 'Colombo', 'ICT'),
+('L05', 'Kasun Wijesinghe', '851234571V', '1983-09-18', 'phd', 'kasun.wijesinghe@hotmail.com', '23', 'City Rd', 'Kandy', 'ICT'),
+('L06', 'Nimal Perera', '861234572V', '1985-12-05', 'bachelor', 'nimal.perera@gmail.com', '34', 'Hill St', 'Galle', 'ICT'),
+('L07', 'Saman Jayawardena', '871234573V', '1982-08-27', 'master', 'saman.jayawardena@gmail.com', '67', 'River Rd', 'Colombo', 'ICT'),
+('L08', 'Pradeep Silva', '881234574V', '1983-01-14', 'phd', 'pradeep.silva@yahoo.com', '89', 'Garden St', 'Kandy', 'ICT');
+
+-- Lecturer_Phone
+CREATE TABLE LEC_PHONE(
+Lec_id CHAR(3),
+Lec_phone CHAR (10),
+FOREIGN KEY (Lec_id) REFERENCES LECTURER(Lec_id) ON DELETE CASCADE
+);
+
+INSERT INTO LEC_PHONE (lec_id, lec_phone) VALUES
+('L01', '0771234567'),
+('L01', '0712345678'),
+('L02', '0758765432'),
+('L03', '0723456789'),
+('L04', '0769876543'),
+('L04', '0715554321'),
+('L04', '0701122334'),
+('L05', '0782345678'),
+('L06', '0743456789'),
+('L07', '0704567890'),
+('L08', '0719876543'),
+('L08', '0776543210');
+
+-- TECH_OFFICER 
+CREATE TABLE TECH_OFFICER (
+    Techoff_id CHAR(06) PRIMARY KEY,
+    Name VARCHAR(50) NOT NULL,
+    Email VARCHAR(50),
+    Nic VARCHAR(15),
+    dob DATE,
+    no VARCHAR(10),
+    city VARCHAR(50),
+    street VARCHAR(50)
+);
+
+-- Insert data into TECH_OFFICER table
+INSERT INTO TECH_OFFICER (Techoff_id, Name, Email, Nic, dob, no, city, street)
+VALUES
+('TO001', 'Ravindu Perera', 'ravindu.perera@example.com', '982345678V', '1998-03-14', '12A', 'Colombo', 'Temple Road'),
+('TO002', 'Sajani Silva', 'sajani.silva@example.com', '992456789V', '1999-05-23', '45B', 'Kandy', 'Lake View Street'),
+('TO003', 'Isuru Jayasena', 'isuru.jayasena@example.com', '972567890V', '1997-11-10', '88C', 'Galle', 'Beach Road'),
+('TO004', 'Tharushi Fernando', 'tharushi.fernando@example.com', '002345678V', '2000-08-02', '22D', 'Kurunegala', 'Main Street'),
+('TO005', 'Nimesh de Silva', 'nimesh.desilva@example.com', '012456789V', '2001-01-30', '9E', 'Negombo', 'Park Lane');
+
+-- TECH_OFFICER_PHONE table
+CREATE TABLE TECH_OFFICER_PHONE (
+    Tech_id CHAR(6),
+    Phone VARCHAR(15),
+    FOREIGN KEY (Tech_id) REFERENCES TECH_OFFICER(Techoff_id) ON DELETE CASCADE
+);
+
+INSERT INTO TECH_OFFICER_PHONE (Tech_id, Phone)
+VALUES
+('TO001', '0771234567'),
+('TO001', '0712345678'),
+('TO002', '0759876543'),
+('TO003', '0761122334'),
+('TO004', '0723344556'),
+('TO004', '0745566778'),
+('TO005', '0709988776');
+
+
+-- DEAN
+CREATE TABLE DEAN (
+    Dean_id CHAR(6) PRIMARY KEY,
+    Name VARCHAR(50) NOT NULL,
+    Email VARCHAR(50),
+    Dob DATE,
+    Nic CHAR(12),
+    Phone VARCHAR(15),
+    No VARCHAR(10),
+    Street VARCHAR(50),
+    City VARCHAR(50)
+);
+
+INSERT INTO DEAN (Dean_id, Name, Email, Dob, Nic, Phone, No, Street, City)
+VALUES ('D001', 'Nimal Perera', 'nimal.perera@example.com', '1978-03-22', '780322456V', '+94798765432', '45', 'Kandy Rd', 'Kandy');
+
+
+-- ADMIN
+CREATE TABLE ADMIN (
+    Admin_id CHAR(6) PRIMARY KEY,
+    Name VARCHAR(50) NOT NULL,
+    Email VARCHAR(50),
+    Dob DATE,
+    Nic CHAR(12),
+    Phone VARCHAR(15),
+    Dpt_name VARCHAR(50),
+    No VARCHAR(10),
+    Street VARCHAR(50),
+    City VARCHAR(50)
+);
+
+INSERT INTO ADMIN (Admin_id, Name, Email, Dob, Nic, Phone, Dpt_name, No, Street, City)
+VALUES ('A001', 'Tharinda Silva', 'tharinda.silva@example.com', '1985-07-15', '850715123V', '+94712345678', 'Computer Science', '12', 'Galle Rd', 'Colombo');
+
+
+-- Course
+CREATE TABLE COURSE(
+C_code CHAR(6) NOT NULL,
+C_name VARCHAR(50),
+Credit INT,
+Lec_id CHAR(3),
+PRIMARY KEY(C_code),
+FOREIGN KEY(Lec_id) REFERENCES lecturer(Lec_id) ON DELETE SET NULL
+);
+
+INSERT INTO COURSE (C_code, C_name, Credit, Lec_id) VALUES
+('ICT001', 'Management', 2, 'L01'),
+('ICT002', 'English', 2, 'L02'),
+('ICT003', 'Discrete Mathematics', 3, 'L03'),
+('ICT004', 'Database Theory', 2, 'L04'),
+('ICT005', 'Database Practicum', 2, 'L04'),
+('ICT006', 'Network', 3, 'L05'),
+('ICT007', 'Architecture', 2, 'L06'),
+('ICT008', 'Server side web development', 3, 'L07');
+
+
+-- Enrolls In
+CREATE TABLE ENROLLS_IN(
+St_id CHAR(6),
+C_code CHAR(6),
+Level INT,
+Sem INT,
+Academic_yr INT,
+Status VARCHAR(10) CHECK (Status IN ('proper','repeat','suspended')),
+PRIMARY KEY(St_id,C_code),
+FOREIGN KEY (St_id) REFERENCES student(St_id) ON DELETE CASCADE,
+FOREIGN KEY (C_code) REFERENCES course(C_code) ON DELETE CASCADE
+);
+
+-- Proper students - All 8 courses
+INSERT INTO ENROLLS_IN (St_id, C_code, Level, Sem, Academic_yr, Status) VALUES
+('TG1701','ICT001',1,2,2023,'proper'),
+('TG1701','ICT002',1,2,2023,'proper'),
+('TG1701','ICT003',1,2,2023,'proper'),
+('TG1701','ICT004',1,2,2023,'proper'),
+('TG1701','ICT005',1,2,2023,'proper'),
+('TG1701','ICT006',1,2,2023,'proper'),
+('TG1701','ICT007',1,2,2023,'proper'),
+('TG1701','ICT008',1,2,2023,'proper'),
+
+('TG1702','ICT001',1,2,2023,'proper'),
+('TG1702','ICT002',1,2,2023,'proper'),
+('TG1702','ICT003',1,2,2023,'proper'),
+('TG1702','ICT004',1,2,2023,'proper'),
+('TG1702','ICT005',1,2,2023,'proper'),
+('TG1702','ICT006',1,2,2023,'proper'),
+('TG1702','ICT007',1,2,2023,'proper'),
+('TG1702','ICT008',1,2,2023,'proper'),
+
+('TG1703','ICT001',1,2,2023,'proper'),
+('TG1703','ICT002',1,2,2023,'proper'),
+('TG1703','ICT003',1,2,2023,'proper'),
+('TG1703','ICT004',1,2,2023,'proper'),
+('TG1703','ICT005',1,2,2023,'proper'),
+('TG1703','ICT006',1,2,2023,'proper'),
+('TG1703','ICT007',1,2,2023,'proper'),
+('TG1703','ICT008',1,2,2023,'proper'),
+
+('TG1704','ICT001',1,2,2023,'proper'),
+('TG1704','ICT002',1,2,2023,'proper'),
+('TG1704','ICT003',1,2,2023,'proper'),
+('TG1704','ICT004',1,2,2023,'proper'),
+('TG1704','ICT005',1,2,2023,'proper'),
+('TG1704','ICT006',1,2,2023,'proper'),
+('TG1704','ICT007',1,2,2023,'proper'),
+('TG1704','ICT008',1,2,2023,'proper'),
+
+('TG1705','ICT001',1,2,2023,'proper'),
+('TG1705','ICT002',1,2,2023,'proper'),
+('TG1705','ICT003',1,2,2023,'proper'),
+('TG1705','ICT004',1,2,2023,'proper'),
+('TG1705','ICT005',1,2,2023,'proper'),
+('TG1705','ICT006',1,2,2023,'proper'),
+('TG1705','ICT007',1,2,2023,'proper'),
+('TG1705','ICT008',1,2,2023,'proper'),
+
+('TG1706','ICT001',1,2,2023,'proper'),
+('TG1706','ICT002',1,2,2023,'proper'),
+('TG1706','ICT003',1,2,2023,'proper'),
+('TG1706','ICT004',1,2,2023,'proper'),
+('TG1706','ICT005',1,2,2023,'proper'),
+('TG1706','ICT006',1,2,2023,'proper'),
+('TG1706','ICT007',1,2,2023,'proper'),
+('TG1706','ICT008',1,2,2023,'proper'),
+
+('TG1707','ICT001',1,2,2023,'proper'),
+('TG1707','ICT002',1,2,2023,'proper'),
+('TG1707','ICT003',1,2,2023,'proper'),
+('TG1707','ICT004',1,2,2023,'proper'),
+('TG1707','ICT005',1,2,2023,'proper'),
+('TG1707','ICT006',1,2,2023,'proper'),
+('TG1707','ICT007',1,2,2023,'proper'),
+('TG1707','ICT008',1,2,2023,'proper'),
+
+('TG1708','ICT001',1,2,2023,'proper'),
+('TG1708','ICT002',1,2,2023,'proper'),
+('TG1708','ICT003',1,2,2023,'proper'),
+('TG1708','ICT004',1,2,2023,'proper'),
+('TG1708','ICT005',1,2,2023,'proper'),
+('TG1708','ICT006',1,2,2023,'proper'),
+('TG1708','ICT007',1,2,2023,'proper'),
+('TG1708','ICT008',1,2,2023,'proper'),
+
+('TG1709','ICT001',1,2,2023,'proper'),
+('TG1709','ICT002',1,2,2023,'proper'),
+('TG1709','ICT003',1,2,2023,'proper'),
+('TG1709','ICT004',1,2,2023,'proper'),
+('TG1709','ICT005',1,2,2023,'proper'),
+('TG1709','ICT006',1,2,2023,'proper'),
+('TG1709','ICT007',1,2,2023,'proper'),
+('TG1709','ICT008',1,2,2023,'proper'),
+
+('TG1710','ICT001',1,2,2023,'proper'),
+('TG1710','ICT002',1,2,2023,'proper'),
+('TG1710','ICT003',1,2,2023,'proper'),
+('TG1710','ICT004',1,2,2023,'proper'),
+('TG1710','ICT005',1,2,2023,'proper'),
+('TG1710','ICT006',1,2,2023,'proper'),
+('TG1710','ICT007',1,2,2023,'proper'),
+('TG1710','ICT008',1,2,2023,'proper'),
+
+-- Repeat students
+('TG1711','ICT004',2,2,2022,'repeat'),
+('TG1711','ICT006',2,2,2022,'repeat'),
+
+('TG1712','ICT003',2,2,2022,'repeat'),
+('TG1712','ICT005',2,2,2022,'repeat'),
+
+('TG1713','ICT007',2,2,2022,'repeat'),
+
+('TG1714','ICT002',2,2,2022,'repeat'),
+('TG1714','ICT004',2,2,2022,'repeat'),
+('TG1714','ICT008',2,2,2022,'repeat'),
+
+('TG1715','ICT006',3,2,2021,'repeat'),
+
+('TG1716','ICT001',1,2,2023,'suspended'),
+('TG1716','ICT002',1,2,2023,'suspended'),
+('TG1716','ICT003',1,2,2023,'suspended'),
+('TG1716','ICT004',1,2,2023,'suspended'),
+('TG1716','ICT005',1,2,2023,'suspended'),
+('TG1716','ICT006',1,2,2023,'suspended'),
+('TG1716','ICT007',1,2,2023,'suspended'),
+('TG1716','ICT008',1,2,2023,'suspended');
+
+
+
+
+CREATE TABLE SESSION(
+    Session_id CHAR(6),
+    Type CHAR(1),
+    C_code CHAR(6),
+    Day CHAR(3),
+    PRIMARY KEY(Session_id),
+    FOREIGN KEY(C_code) REFERENCES COURSE(C_code) ON DELETE CASCADE
+);
+
+INSERT INTO SESSION (Session_id, Type, C_code, Day) VALUES
+('SES001', 'T', 'ICT008', 'Mon'),
+('SES002', 'P', 'ICT008', 'Mon'),
+('SES003', 'P', 'ICT008', 'Mon'),
+
+('SES004', 'T', 'ICT006', 'Tue'),
+('SES005', 'P', 'ICT006', 'Tue'),
+('SES006', 'T', 'ICT007', 'Tue'),
+
+('SES007', 'T', 'ICT003', 'Wed'),
+('SES008', 'T', 'ICT003', 'Wed'),
+('SES009', 'T', 'ICT004', 'Wed'),
+
+('SES010', 'P', 'ICT005', 'Thu'),
+('SES011', 'P', 'ICT005', 'Thu'),
+('SES012', 'T', 'ICT001', 'Thu'),
+
+('SES013', 'T', 'ICT001', 'Fri'),
+('SES014', 'T', 'ICT002', 'Fri'),
+('SES015', 'T', 'ICT002', 'Fri');
+
+
+
+-- MARK table
+CREATE TABLE MARK (
+    St_id CHAR(6),
+    C_code CHAR(6),
+    Quiz_01 DECIMAL(5,2),
+    Quiz_02 DECIMAL(5,2),
+    Quiz_03 DECIMAL(5,2),
+    Assignment DECIMAL(5,2),
+    Mid_T DECIMAL(5,2),
+    Mid_P DECIMAL(5,2),
+    Final_T DECIMAL(5,2),
+    Final_P DECIMAL(5,2),
+    FOREIGN KEY (St_id) REFERENCES student(St_id) ON DELETE CASCADE,
+    FOREIGN KEY (C_code) REFERENCES course(C_code) ON DELETE CASCADE
+);
+
+INSERT INTO MARK (St_id, C_code, Quiz_01, Quiz_02, Quiz_03, Assignment, Mid_T, Mid_P, Final_T, Final_P) VALUES
+('TG1701', 'ICT001', 37.67, 98.67, 45.98, 41.41, 49.7, NULL, 54.36, NULL),
+('TG1701', 'ICT002', 83.16, 61.68, 94.98, 75.36, 52.18, NULL, 81.94, NULL),
+('TG1701', 'ICT003', 76.59, 77.53, 89.63, 72.62, 56.42, NULL, 78.67, NULL),
+('TG1701', 'ICT004', 93.19, 62.27, 93.67, 78.66, 63.89, NULL, NULL, NULL),
+('TG1701', 'ICT005', 85.94, 61.59, 71.2, 55.06, NULL, 40.28, NULL, 88.65),
+('TG1701', 'ICT006', 42.81, 97.21, 59.66, 46.91, 28.26, 27.58, 22.89, 41.93),
+('TG1701', 'ICT007', 62.04, 44.34, 69.49, 57.64, 75.76, NULL, 45.33, NULL),
+('TG1701', 'ICT008', 38.15, 56.02, 49.24, 74.44, 44.19, 55.52, 21.07, 36.54),
+
+('TG1702', 'ICT001', 98.39, 97.63, 91.77, 93.4, 90.06, NULL, 90.25, NULL),
+('TG1702', 'ICT002', 94.65, 62.2, 89.06, 95.91, 98.6, NULL, 88.57, NULL),
+('TG1702', 'ICT003', 40.06, 92.84, 89.31, 95.26, 77.41, NULL, 75.64, NULL),
+('TG1702', 'ICT004', 68.38, 62.46, 38.53, 96.27, 91.89, NULL, 99.59, NULL),
+('TG1702', 'ICT005', 65.88, 88.77, 96.81, 45.62, NULL, 98.41, NULL, 75.1),
+('TG1702', 'ICT006', 62.04, 69.98, 97.91, 48.99, 49.5, 96.02, 35.05, 89.33),
+('TG1702', 'ICT007', 68.45, 95.84, 87.88, 79.88, 45.09, NULL, 59.91, NULL),
+('TG1702', 'ICT008', 68.88, 47.3, 84.63, 47.06, 31.98, 45.31, 88.42, 92.96),
+
+('TG1703', 'ICT001', 79.74, 86.66, 71.78, 41.73, 44.98, NULL, 51.99, NULL),
+('TG1703', 'ICT002', 58.03, 78.47, 57.45, 55.34, 80.43, NULL, 92.98, NULL),
+('TG1703', 'ICT003', 87.81, 98.15, 59.29, 98.85, 74.86, NULL, 63.81, NULL),
+('TG1703', 'ICT004', 68.31, 96.34, 81.27, 43.44, 89.74, NULL, 53.74, NULL),
+('TG1703', 'ICT005', 70.6, 78.51, 35.53, 81.75, NULL, 78.59, NULL, 72.84),
+('TG1703', 'ICT006', 81.63, 73.8, 64.25, 55.94, 31.79, 16.55, 33.65, 66.14),
+('TG1703', 'ICT007', 35.24, 80.76, 88.62, 47.54, 96.36, NULL, 78.95, NULL),
+('TG1703', 'ICT008', 73.34, 76.15, 97.17, 37.88, 40.97, 40.05, 33.07, 29.46),
+
+('TG1704', 'ICT001', 81.32, 75.74, 96.59, 59.97, 81.4, NULL, 84.04, NULL),
+('TG1704', 'ICT002', 68.44, 95.42, 91.7, 94.71, 55.67, NULL, 40.6, NULL),
+('TG1704', 'ICT003', 99.92, 42.11, 62.4, 37.76, 72.88, NULL, 50.95, NULL),
+('TG1704', 'ICT004', 72.72, 71.57, 75.36, 75.87, 55.67, NULL, 37.33, NULL),
+('TG1704', 'ICT005', 63.07, 67.0, 54.34, 61.05, NULL, 77.13, NULL, 82.32),
+('TG1704', 'ICT006', 93.06, 50.58, 59.84, 51.19, 37.52, 56.98, 26.57, 44.5),
+('TG1704', 'ICT007', 39.77, 92.27, 82.4, 68.09, 62.96, NULL, 89.66, NULL),
+('TG1704', 'ICT008', 45.25, 51.28, 41.51, 73.32, 14.55, 91.7, 81.07, 77.97),
+
+('TG1705', 'ICT001', 98.06, 37.66, 88.43, 82.31, 40.64, NULL, 81.87, NULL),
+('TG1705', 'ICT002', 42.33, 79.61, 53.85, 83.07, 84.73, NULL, 60.23, NULL),
+('TG1705', 'ICT003', 77.21, 37.37, 60.72, 77.12, 50.66, NULL, 51.31, NULL),
+('TG1705', 'ICT004', 86.78, 58.26, 92.15, 81.0, 71.46, NULL, 94.14, NULL),
+('TG1705', 'ICT005', 36.79, 63.1, 88.44, 90.47, NULL, 99.59, NULL, 98.75),
+('TG1705', 'ICT006', 79.29, 95.81, 84.1, 77.99, 98.89, 37.12, 61.96, 67.21),
+('TG1705', 'ICT007', 86.46, 38.62, 99.79, 87.26, 77.86, NULL, 94.05, NULL),
+('TG1705', 'ICT008', 46.84, 90.73, 85.66, 38.01, 46.41, 88.32, 57.22, 54.16),
+
+('TG1706', 'ICT001', 83.87, 85.29, 69.27, 85.41, 84.34, NULL, 52.93, NULL),
+('TG1706', 'ICT002', 95.21, 89.44, 18.07, 43.86, 60.28, NULL, 88.74, NULL),
+('TG1706', 'ICT003', 95.3, 71.29, 79.58, 73.95, 76.05, NULL, 48.88, NULL),
+('TG1706', 'ICT004', 98.51, 66.63, 77.79, 45.4, 59.4, NULL, 71.75, NULL),
+('TG1706', 'ICT005', 77.03, 64.38, 41.54, 75.0, NULL, 78.06, NULL, 93.88),
+('TG1706', 'ICT006', 65.0, 47.29, 56.47, 99.48, 40.88, 34.86, 18.75, 20.49),
+('TG1706', 'ICT007', 54.73, 85.3, 72.43, 56.58, 94.71, NULL, 39.43, NULL),
+('TG1706', 'ICT008', 55.51, 93.64, 79.95, 80.15, 31.28, 42.12, 50.49, 45.36),
+
+('TG1707', 'ICT001', 86.6, 54.89, 78.78, 85.56, 47.48, NULL, 62.89, NULL),
+('TG1707', 'ICT002', 89.56, 39.15, 86.68, 77.25, 73.91, NULL, 39.55, NULL),
+('TG1707', 'ICT003', 90.21, 87.82, 96.13, 88.0, 70.82, NULL, 88.41, NULL),
+('TG1707', 'ICT004', 73.64, 67.2, 82.22, 85.93, 89.98, NULL, 83.91, NULL),
+('TG1707', 'ICT005', 72.0, 46.37, 95.13, 72.02, NULL, 98.2, NULL, 66.08),
+('TG1707', 'ICT006', 66.41, 78.35, 45.97, 73.04, 33.8, 87.86, 37.43, 34.04),
+('TG1707', 'ICT007', 69.42, 96.2, 70.87, 77.27, 43.67, NULL, 69.49, NULL),
+('TG1707', 'ICT008', 93.76, 92.69, 45.15, 89.15, 75.02, 92.19, 98.16, 50.6),
+
+('TG1708', 'ICT001', 86.0, 48.68, 78.92, 72.28, 72.75, NULL, 44.18, NULL),
+('TG1708', 'ICT002', 55.48, 37.66, 88.67, 91.81, 67.92, NULL, 63.9, NULL),
+('TG1708', 'ICT003', 57.79, 87.04, 41.56, 42.78, 88.78, NULL, 47.01, NULL),
+('TG1708', 'ICT004', 86.15, 87.37, 87.81, 97.42, 79.12, NULL, 46.47, NULL),
+('TG1708', 'ICT005', 68.31, 97.71, 80.08, 65.94, NULL, 53.21, NULL, 82.73),
+('TG1708', 'ICT006', 88.61, 49.74, 81.45, 76.19, 79.34, 85.16, 61.69, 55.16),
+('TG1708', 'ICT007', 84.24, 99.54, 78.53, 84.11, 71.9, NULL, 77.16, NULL),
+('TG1708', 'ICT008', 61.57, 74.61, 79.58, 95.09, 38.17, 89.83, 50.34, 46.75),
+
+('TG1709', 'ICT001', 78.57, 73.0, 97.31, 47.53, 53.75, NULL, 60.25, NULL),
+('TG1709', 'ICT002', 41.91, 40.68, 63.51, 95.23, 70.14, NULL, 56.9, NULL),
+('TG1709', 'ICT003', 90.77, 41.84, 92.9, 93.54, 80.96, NULL, 69.19, NULL),
+('TG1709', 'ICT004', 63.7, 55.33, 69.13, 98.02, 69.83, NULL, 80.32, NULL),
+('TG1709', 'ICT005', 79.27, 95.42, 81.46, 44.85, NULL, 44.19, NULL, 62.47),
+('TG1709', 'ICT006', 37.66, 98.38, 48.56, 46.43, 33.29, 43.88, 26.33, 15.7),
+('TG1709', 'ICT007', 56.96, 41.07, 100.0, 90.15, 86.82, NULL, 63.7, NULL),
+('TG1709', 'ICT008', 76.93, 37.98, 73.27, 45.13, 72.15, 76.42, 51.38, 67.72),
+
+('TG1710', 'ICT001', 38.6, 79.11, 85.43, 58.36, 93.54, NULL, 74.26, NULL),
+('TG1710', 'ICT002', 97.31, 52.54, 88.87, 91.91, 80.09, NULL, 76.47, NULL),
+('TG1710', 'ICT003', 99.01, 99.25, 40.55, 67.3, 84.81, NULL, 95.64, NULL),
+('TG1710', 'ICT004', 42.7, 38.48, 54.25, 98.29, 37.79, NULL, 35.41, NULL),
+('TG1710', 'ICT005', 97.21, 93.6, 81.25, 61.76, NULL, 95.09, NULL, 79.04),
+('TG1710', 'ICT006', 64.24, 61.81, 90.15, 87.84, 60.72, 35.32, 17.22, 17.98),
+('TG1710', 'ICT007', 67.06, 49.24, 63.28, 46.79, 82.14, NULL, 88.38, NULL),
+('TG1710', 'ICT008', 67.11, 45.06, 79.08, 44.66, 34.77, 61.63, 20.11, 20.86),
+
+
+
+('TG1711', 'ICT004', 62.16, 62.11, 47.13, 92.9, 38.17, NULL, 66.84, NULL),
+('TG1711', 'ICT006', 70.04, 45.49, 92.99, 67.94, 43.1, 32.38, 40.31, 41.61),
+
+('TG1712', 'ICT003', 35.29, 56.92, 79.41, 38.28, 54.52, NULL, 73.27, NULL),
+('TG1712', 'ICT005', 43.94, 76.16, 69.55, 63.66, NULL, 73.75, NULL, 79.82),
+
+('TG1713', 'ICT007', 36.97, 74.03, 73.57, 39.99, 80.74, NULL, 87.74, NULL),
+
+('TG1714', 'ICT002', 68.92, 58.09, 56.52, 45.58, 55.74, NULL, 61.0, NULL),
+('TG1714', 'ICT004', 43.32, 37.58, 94.67, 80.56, 54.37, NULL, 65.03, NULL),
+('TG1714', 'ICT008', 88.69, 98.23, 68.05, 67.63, 52.15, 54.02, 81.46, 36.65),
+
+('TG1715', 'ICT006', 70.46, 99.55, 93.19, 38.99, 52.44, 29.47, 33.07, 16.65),
+
+('TG1716', 'ICT001', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+('TG1716', 'ICT002', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+('TG1716', 'ICT003', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+('TG1716', 'ICT004', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+('TG1716', 'ICT005', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+('TG1716', 'ICT006', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+('TG1716', 'ICT007', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+('TG1716', 'ICT008', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+
+
+
+-- MEDICAL 
+CREATE TABLE MEDICAL(
+Medical_id CHAR(6),
+St_id CHAR(6),
+Date_submitted DATE,
+Status VARCHAR(20),
+CHECK (Status = 'Approved' OR Status = 'Rejected'),
+PRIMARY KEY(Medical_id),
+FOREIGN KEY(St_id) REFERENCES student(St_id) ON DELETE CASCADE
+);
+
+INSERT INTO MEDICAL(Medical_id, St_id, Date_submitted, Status)
+VALUES
+('MED001', 'TG1701', '2025-08-05', 'Approved'),
+('MED002', 'TG1703', '2025-08-12', 'Approved'),
+('MED003', 'TG1705', '2025-08-20', 'Approved'),
+('MED004', 'TG1707', '2025-08-26', 'Rejected'),
+('MED005', 'TG1701', '2025-09-02', 'Approved'),
+('MED006', 'TG1705', '2025-09-10', 'Approved'),
+('MED007', 'TG1709', '2025-09-18', 'Approved'),
+('MED008', 'TG1703', '2025-10-08', 'Approved'),
+('MED009', 'TG1709', '2025-10-01', 'Rejected'),
+('MED010', 'TG1707', '2025-10-15', 'Approved');
+
+
+-- Attendance
+CREATE TABLE ATTENDANCE(
+Week_no INT,
+St_id CHAR(6) NOT NULL,
+Session_id CHAR(6),
+Status VARCHAR(50),
+Date DATE, 
+FOREIGN KEY(St_id) REFERENCES STUDENT(St_id) ON DELETE CASCADE,
+FOREIGN KEY(Session_id) REFERENCES SESSION(Session_id) ON DELETE CASCADE
+);
+
+INSERT INTO ATTENDANCE (Week_no, St_id, Session_id, Status, Date) VALUES
+-- WEEK 1: 2025-08-04 to 2025-08-08
+-- Monday 2025-08-04 (All Present)
+(1, 'TG1701', 'SES001', 'Present', '2025-08-04'),(1, 'TG1701', 'SES002', 'Present', '2025-08-04'),(1, 'TG1701', 'SES003', 'Present', '2025-08-04'),
+(1, 'TG1702', 'SES001', 'Present', '2025-08-04'),(1, 'TG1702', 'SES002', 'Present', '2025-08-04'),(1, 'TG1702', 'SES003', 'Present', '2025-08-04'),
+(1, 'TG1703', 'SES001', 'Present', '2025-08-04'),(1, 'TG1703', 'SES002', 'Present', '2025-08-04'),(1, 'TG1703', 'SES003', 'Present', '2025-08-04'),
+(1, 'TG1704', 'SES001', 'Present', '2025-08-04'),(1, 'TG1704', 'SES002', 'Present', '2025-08-04'),(1, 'TG1704', 'SES003', 'Present', '2025-08-04'),
+(1, 'TG1705', 'SES001', 'Present', '2025-08-04'),(1, 'TG1705', 'SES002', 'Present', '2025-08-04'),(1, 'TG1705', 'SES003', 'Present', '2025-08-04'),
+(1, 'TG1706', 'SES001', 'Present', '2025-08-04'),(1, 'TG1706', 'SES002', 'Present', '2025-08-04'),(1, 'TG1706', 'SES003', 'Present', '2025-08-04'),
+(1, 'TG1707', 'SES001', 'Present', '2025-08-04'),(1, 'TG1707', 'SES002', 'Present', '2025-08-04'),(1, 'TG1707', 'SES003', 'Present', '2025-08-04'),
+(1, 'TG1708', 'SES001', 'Present', '2025-08-04'),(1, 'TG1708', 'SES002', 'Present', '2025-08-04'),(1, 'TG1708', 'SES003', 'Present', '2025-08-04'),
+(1, 'TG1709', 'SES001', 'Present', '2025-08-04'),(1, 'TG1709', 'SES002', 'Present', '2025-08-04'),(1, 'TG1709', 'SES003', 'Present', '2025-08-04'),
+(1, 'TG1710', 'SES001', 'Present', '2025-08-04'),(1, 'TG1710', 'SES002', 'Absent', '2025-08-04'),(1, 'TG1710', 'SES003', 'Absent', '2025-08-04'),
+
+-- Tuesday 2025-08-05 (TG1701 - Approved Medical)
+(1, 'TG1701', 'SES004', 'Approved Medical', '2025-08-05'),(1, 'TG1701', 'SES005', 'Approved Medical', '2025-08-05'),(1, 'TG1701', 'SES006', 'Approved Medical', '2025-08-05'),
+(1, 'TG1702', 'SES004', 'Present', '2025-08-05'),(1, 'TG1702', 'SES005', 'Present', '2025-08-05'),(1, 'TG1702', 'SES006', 'Present', '2025-08-05'),
+(1, 'TG1703', 'SES004', 'Present', '2025-08-05'),(1, 'TG1703', 'SES005', 'Present', '2025-08-05'),(1, 'TG1703', 'SES006', 'Present', '2025-08-05'),
+(1, 'TG1704', 'SES004', 'Present', '2025-08-05'),(1, 'TG1704', 'SES005', 'Present', '2025-08-05'),(1, 'TG1704', 'SES006', 'Present', '2025-08-05'),
+(1, 'TG1705', 'SES004', 'Present', '2025-08-05'),(1, 'TG1705', 'SES005', 'Present', '2025-08-05'),(1, 'TG1705', 'SES006', 'Absent', '2025-08-05'),
+(1, 'TG1706', 'SES004', 'Present', '2025-08-05'),(1, 'TG1706', 'SES005', 'Absent', '2025-08-05'),(1, 'TG1706', 'SES006', 'Present', '2025-08-05'),
+(1, 'TG1707', 'SES004', 'Present', '2025-08-05'),(1, 'TG1707', 'SES005', 'Present', '2025-08-05'),(1, 'TG1707', 'SES006', 'Present', '2025-08-05'),
+(1, 'TG1708', 'SES004', 'Present', '2025-08-05'),(1, 'TG1708', 'SES005', 'Present', '2025-08-05'),(1, 'TG1708', 'SES006', 'Present', '2025-08-05'),
+(1, 'TG1709', 'SES004', 'Present', '2025-08-05'),(1, 'TG1709', 'SES005', 'Present', '2025-08-05'),(1, 'TG1709', 'SES006', 'Present', '2025-08-05'),
+(1, 'TG1710', 'SES004', 'Present', '2025-08-05'),(1, 'TG1710', 'SES005', 'Present', '2025-08-05'),(1, 'TG1710', 'SES006', 'Present', '2025-08-05'),
+
+-- Wednesday 2025-08-06 (All Present)
+(1, 'TG1701', 'SES007', 'Present', '2025-08-06'),(1, 'TG1701', 'SES008', 'Present', '2025-08-06'),(1, 'TG1701', 'SES009', 'Absent', '2025-08-06'),
+(1, 'TG1702', 'SES007', 'Present', '2025-08-06'),(1, 'TG1702', 'SES008', 'Present', '2025-08-06'),(1, 'TG1702', 'SES009', 'Present', '2025-08-06'),
+(1, 'TG1703', 'SES007', 'Present', '2025-08-06'),(1, 'TG1703', 'SES008', 'Present', '2025-08-06'),(1, 'TG1703', 'SES009', 'Present', '2025-08-06'),
+(1, 'TG1704', 'SES007', 'Present', '2025-08-06'),(1, 'TG1704', 'SES008', 'Present', '2025-08-06'),(1, 'TG1704', 'SES009', 'Present', '2025-08-06'),
+(1, 'TG1705', 'SES007', 'Present', '2025-08-06'),(1, 'TG1705', 'SES008', 'Present', '2025-08-06'),(1, 'TG1705', 'SES009', 'Present', '2025-08-06'),
+(1, 'TG1706', 'SES007', 'Present', '2025-08-06'),(1, 'TG1706', 'SES008', 'Present', '2025-08-06'),(1, 'TG1706', 'SES009', 'Present', '2025-08-06'),
+(1, 'TG1707', 'SES007', 'Present', '2025-08-06'),(1, 'TG1707', 'SES008', 'Present', '2025-08-06'),(1, 'TG1707', 'SES009', 'Present', '2025-08-06'),
+(1, 'TG1708', 'SES007', 'Present', '2025-08-06'),(1, 'TG1708', 'SES008', 'Present', '2025-08-06'),(1, 'TG1708', 'SES009', 'Present', '2025-08-06'),
+(1, 'TG1709', 'SES007', 'Present', '2025-08-06'),(1, 'TG1709', 'SES008', 'Present', '2025-08-06'),(1, 'TG1709', 'SES009', 'Present', '2025-08-06'),
+(1, 'TG1710', 'SES007', 'Present', '2025-08-06'),(1, 'TG1710', 'SES008', 'Present', '2025-08-06'),(1, 'TG1710', 'SES009', 'Present', '2025-08-06'),
+
+-- Thursday 2025-08-07 (All Present)
+(1, 'TG1701', 'SES010', 'Present', '2025-08-07'),(1, 'TG1701', 'SES011', 'Present', '2025-08-07'),(1, 'TG1701', 'SES012', 'Absent', '2025-08-07'),
+(1, 'TG1702', 'SES010', 'Present', '2025-08-07'),(1, 'TG1702', 'SES011', 'Present', '2025-08-07'),(1, 'TG1702', 'SES012', 'Present', '2025-08-07'),
+(1, 'TG1703', 'SES010', 'Present', '2025-08-07'),(1, 'TG1703', 'SES011', 'Present', '2025-08-07'),(1, 'TG1703', 'SES012', 'Present', '2025-08-07'),
+(1, 'TG1704', 'SES010', 'Present', '2025-08-07'),(1, 'TG1704', 'SES011', 'Present', '2025-08-07'),(1, 'TG1704', 'SES012', 'Present', '2025-08-07'),
+(1, 'TG1705', 'SES010', 'Present', '2025-08-07'),(1, 'TG1705', 'SES011', 'Present', '2025-08-07'),(1, 'TG1705', 'SES012', 'Absent', '2025-08-07'),
+(1, 'TG1706', 'SES010', 'Present', '2025-08-07'),(1, 'TG1706', 'SES011', 'Present', '2025-08-07'),(1, 'TG1706', 'SES012', 'Present', '2025-08-07'),
+(1, 'TG1707', 'SES010', 'Present', '2025-08-07'),(1, 'TG1707', 'SES011', 'Present', '2025-08-07'),(1, 'TG1707', 'SES012', 'Present', '2025-08-07'),
+(1, 'TG1708', 'SES010', 'Present', '2025-08-07'),(1, 'TG1708', 'SES011', 'Present', '2025-08-07'),(1, 'TG1708', 'SES012', 'Present', '2025-08-07'),
+(1, 'TG1709', 'SES010', 'Present', '2025-08-07'),(1, 'TG1709', 'SES011', 'Present', '2025-08-07'),(1, 'TG1709', 'SES012', 'Present', '2025-08-07'),
+(1, 'TG1710', 'SES010', 'Present', '2025-08-07'),(1, 'TG1710', 'SES011', 'Present', '2025-08-07'),(1, 'TG1710', 'SES012', 'Present', '2025-08-07'),
+
+-- Friday 2025-08-08 (All Present)
+(1, 'TG1701', 'SES013', 'Present', '2025-08-08'),(1, 'TG1701', 'SES014', 'Present', '2025-08-08'),(1, 'TG1701', 'SES015', 'Absent', '2025-08-08'),
+(1, 'TG1702', 'SES013', 'Present', '2025-08-08'),(1, 'TG1702', 'SES014', 'Present', '2025-08-08'),(1, 'TG1702', 'SES015', 'Present', '2025-08-08'),
+(1, 'TG1703', 'SES013', 'Present', '2025-08-08'),(1, 'TG1703', 'SES014', 'Present', '2025-08-08'),(1, 'TG1703', 'SES015', 'Present', '2025-08-08'),
+(1, 'TG1704', 'SES013', 'Present', '2025-08-08'),(1, 'TG1704', 'SES014', 'Present', '2025-08-08'),(1, 'TG1704', 'SES015', 'Present', '2025-08-08'),
+(1, 'TG1705', 'SES013', 'Present', '2025-08-08'),(1, 'TG1705', 'SES014', 'Present', '2025-08-08'),(1, 'TG1705', 'SES015', 'Present', '2025-08-08'),
+(1, 'TG1706', 'SES013', 'Present', '2025-08-08'),(1, 'TG1706', 'SES014', 'Present', '2025-08-08'),(1, 'TG1706', 'SES015', 'Present', '2025-08-08'),
+(1, 'TG1707', 'SES013', 'Present', '2025-08-08'),(1, 'TG1707', 'SES014', 'Present', '2025-08-08'),(1, 'TG1707', 'SES015', 'Present', '2025-08-08'),
+(1, 'TG1708', 'SES013', 'Present', '2025-08-08'),(1, 'TG1708', 'SES014', 'Present', '2025-08-08'),(1, 'TG1708', 'SES015', 'Present', '2025-08-08'),
+(1, 'TG1709', 'SES013', 'Present', '2025-08-08'),(1, 'TG1709', 'SES014', 'Present', '2025-08-08'),(1, 'TG1709', 'SES015', 'Present', '2025-08-08'),
+(1, 'TG1710', 'SES013', 'Present', '2025-08-08'),(1, 'TG1710', 'SES014', 'Present', '2025-08-08'),(1, 'TG1710', 'SES015', 'Present', '2025-08-08'),
+
+-- WEEK 2: 2025-08-11 to 2025-08-15
+-- Monday 2025-08-11 (All Present)
+(2, 'TG1701', 'SES001', 'Present', '2025-08-11'),(2, 'TG1701', 'SES002', 'Present', '2025-08-11'),(2, 'TG1701', 'SES003', 'Present', '2025-08-11'),
+(2, 'TG1702', 'SES001', 'Present', '2025-08-11'),(2, 'TG1702', 'SES002', 'Present', '2025-08-11'),(2, 'TG1702', 'SES003', 'Present', '2025-08-11'),
+(2, 'TG1703', 'SES001', 'Present', '2025-08-11'),(2, 'TG1703', 'SES002', 'Present', '2025-08-11'),(2, 'TG1703', 'SES003', 'Present', '2025-08-11'),
+(2, 'TG1704', 'SES001', 'Present', '2025-08-11'),(2, 'TG1704', 'SES002', 'Present', '2025-08-11'),(2, 'TG1704', 'SES003', 'Present', '2025-08-11'),
+(2, 'TG1705', 'SES001', 'Present', '2025-08-11'),(2, 'TG1705', 'SES002', 'Present', '2025-08-11'),(2, 'TG1705', 'SES003', 'Present', '2025-08-11'),
+(2, 'TG1706', 'SES001', 'Present', '2025-08-11'),(2, 'TG1706', 'SES002', 'Present', '2025-08-11'),(2, 'TG1706', 'SES003', 'Present', '2025-08-11'),
+(2, 'TG1707', 'SES001', 'Present', '2025-08-11'),(2, 'TG1707', 'SES002', 'Present', '2025-08-11'),(2, 'TG1707', 'SES003', 'Present', '2025-08-11'),
+(2, 'TG1708', 'SES001', 'Present', '2025-08-11'),(2, 'TG1708', 'SES002', 'Present', '2025-08-11'),(2, 'TG1708', 'SES003', 'Present', '2025-08-11'),
+(2, 'TG1709', 'SES001', 'Present', '2025-08-11'),(2, 'TG1709', 'SES002', 'Present', '2025-08-11'),(2, 'TG1709', 'SES003', 'Present', '2025-08-11'),
+(2, 'TG1710', 'SES001', 'Present', '2025-08-11'),(2, 'TG1710', 'SES002', 'Absent', '2025-08-11'),(2, 'TG1710', 'SES003', 'Present', '2025-08-11'),
+
+-- Tuesday 2025-08-12 (TG1703 - Approved Medical)
+(2, 'TG1701', 'SES004', 'Present', '2025-08-12'),(2, 'TG1701', 'SES005', 'Present', '2025-08-12'),(2, 'TG1701', 'SES006', 'Present', '2025-08-12'),
+(2, 'TG1702', 'SES004', 'Present', '2025-08-12'),(2, 'TG1702', 'SES005', 'Present', '2025-08-12'),(2, 'TG1702', 'SES006', 'Present', '2025-08-12'),
+(2, 'TG1703', 'SES004', 'Approved Medical', '2025-08-12'),(2, 'TG1703', 'SES005', 'Approved Medical', '2025-08-12'),(2, 'TG1703', 'SES006', 'Approved Medical', '2025-08-12'),
+(2, 'TG1704', 'SES004', 'Present', '2025-08-12'),(2, 'TG1704', 'SES005', 'Present', '2025-08-12'),(2, 'TG1704', 'SES006', 'Present', '2025-08-12'),
+(2, 'TG1705', 'SES004', 'Present', '2025-08-12'),(2, 'TG1705', 'SES005', 'Present', '2025-08-12'),(2, 'TG1705', 'SES006', 'Present', '2025-08-12'),
+(2, 'TG1706', 'SES004', 'Present', '2025-08-12'),(2, 'TG1706', 'SES005', 'Present', '2025-08-12'),(2, 'TG1706', 'SES006', 'Present', '2025-08-12'),
+(2, 'TG1707', 'SES004', 'Present', '2025-08-12'),(2, 'TG1707', 'SES005', 'Present', '2025-08-12'),(2, 'TG1707', 'SES006', 'Present', '2025-08-12'),
+(2, 'TG1708', 'SES004', 'Present', '2025-08-12'),(2, 'TG1708', 'SES005', 'Present', '2025-08-12'),(2, 'TG1708', 'SES006', 'Present', '2025-08-12'),
+(2, 'TG1709', 'SES004', 'Present', '2025-08-12'),(2, 'TG1709', 'SES005', 'Present', '2025-08-12'),(2, 'TG1709', 'SES006', 'Present', '2025-08-12'),
+(2, 'TG1710', 'SES004', 'Present', '2025-08-12'),(2, 'TG1710', 'SES005', 'Present', '2025-08-12'),(2, 'TG1710', 'SES006', 'Present', '2025-08-12'),
+
+-- Wednesday 2025-08-13 (All Present)
+(2, 'TG1701', 'SES007', 'Present', '2025-08-13'),(2, 'TG1701', 'SES008', 'Present', '2025-08-13'),(2, 'TG1701', 'SES009', 'Absent', '2025-08-13'),
+(2, 'TG1702', 'SES007', 'Present', '2025-08-13'),(2, 'TG1702', 'SES008', 'Present', '2025-08-13'),(2, 'TG1702', 'SES009', 'Present', '2025-08-13'),
+(2, 'TG1703', 'SES007', 'Present', '2025-08-13'),(2, 'TG1703', 'SES008', 'Present', '2025-08-13'),(2, 'TG1703', 'SES009', 'Present', '2025-08-13'),
+(2, 'TG1704', 'SES007', 'Present', '2025-08-13'),(2, 'TG1704', 'SES008', 'Present', '2025-08-13'),(2, 'TG1704', 'SES009', 'Present', '2025-08-13'),
+(2, 'TG1705', 'SES007', 'Present', '2025-08-13'),(2, 'TG1705', 'SES008', 'Present', '2025-08-13'),(2, 'TG1705', 'SES009', 'Present', '2025-08-13'),
+(2, 'TG1706', 'SES007', 'Present', '2025-08-13'),(2, 'TG1706', 'SES008', 'Present', '2025-08-13'),(2, 'TG1706', 'SES009', 'Present', '2025-08-13'),
+(2, 'TG1707', 'SES007', 'Present', '2025-08-13'),(2, 'TG1707', 'SES008', 'Present', '2025-08-13'),(2, 'TG1707', 'SES009', 'Present', '2025-08-13'),
+(2, 'TG1708', 'SES007', 'Present', '2025-08-13'),(2, 'TG1708', 'SES008', 'Present', '2025-08-13'),(2, 'TG1708', 'SES009', 'Present', '2025-08-13'),
+(2, 'TG1709', 'SES007', 'Present', '2025-08-13'),(2, 'TG1709', 'SES008', 'Present', '2025-08-13'),(2, 'TG1709', 'SES009', 'Present', '2025-08-13'),
+(2, 'TG1710', 'SES007', 'Present', '2025-08-13'),(2, 'TG1710', 'SES008', 'Present', '2025-08-13'),(2, 'TG1710', 'SES009', 'Present', '2025-08-13'),
+
+-- Thursday 2025-08-14 (All Present)
+(2, 'TG1701', 'SES010', 'Present', '2025-08-14'),(2, 'TG1701', 'SES011', 'Present', '2025-08-14'),(2, 'TG1701', 'SES012', 'Absent', '2025-08-14'),
+(2, 'TG1702', 'SES010', 'Present', '2025-08-14'),(2, 'TG1702', 'SES011', 'Present', '2025-08-14'),(2, 'TG1702', 'SES012', 'Present', '2025-08-14'),
+(2, 'TG1703', 'SES010', 'Present', '2025-08-14'),(2, 'TG1703', 'SES011', 'Present', '2025-08-14'),(2, 'TG1703', 'SES012', 'Present', '2025-08-14'),
+(2, 'TG1704', 'SES010', 'Present', '2025-08-14'),(2, 'TG1704', 'SES011', 'Present', '2025-08-14'),(2, 'TG1704', 'SES012', 'Present', '2025-08-14'),
+(2, 'TG1705', 'SES010', 'Present', '2025-08-14'),(2, 'TG1705', 'SES011', 'Present', '2025-08-14'),(2, 'TG1705', 'SES012', 'Present', '2025-08-14'),
+(2, 'TG1706', 'SES010', 'Present', '2025-08-14'),(2, 'TG1706', 'SES011', 'Present', '2025-08-14'),(2, 'TG1706', 'SES012', 'Present', '2025-08-14'),
+(2, 'TG1707', 'SES010', 'Present', '2025-08-14'),(2, 'TG1707', 'SES011', 'Present', '2025-08-14'),(2, 'TG1707', 'SES012', 'Present', '2025-08-14'),
+(2, 'TG1708', 'SES010', 'Present', '2025-08-14'),(2, 'TG1708', 'SES011', 'Present', '2025-08-14'),(2, 'TG1708', 'SES012', 'Present', '2025-08-14'),
+(2, 'TG1709', 'SES010', 'Present', '2025-08-14'),(2, 'TG1709', 'SES011', 'Present', '2025-08-14'),(2, 'TG1709', 'SES012', 'Present', '2025-08-14'),
+(2, 'TG1710', 'SES010', 'Present', '2025-08-14'),(2, 'TG1710', 'SES011', 'Present', '2025-08-14'),(2, 'TG1710', 'SES012', 'Present', '2025-08-14'),
+
+-- Friday 2025-08-15 (All Present)
+(2, 'TG1701', 'SES013', 'Present', '2025-08-15'),(2, 'TG1701', 'SES014', 'Present', '2025-08-15'),(2, 'TG1701', 'SES015', 'Present', '2025-08-15'),
+(2, 'TG1702', 'SES013', 'Present', '2025-08-15'),(2, 'TG1702', 'SES014', 'Present', '2025-08-15'),(2, 'TG1702', 'SES015', 'Present', '2025-08-15'),
+(2, 'TG1703', 'SES013', 'Present', '2025-08-15'),(2, 'TG1703', 'SES014', 'Present', '2025-08-15'),(2, 'TG1703', 'SES015', 'Present', '2025-08-15'),
+(2, 'TG1704', 'SES013', 'Present', '2025-08-15'),(2, 'TG1704', 'SES014', 'Present', '2025-08-15'),(2, 'TG1704', 'SES015', 'Present', '2025-08-15'),
+(2, 'TG1705', 'SES013', 'Present', '2025-08-15'),(2, 'TG1705', 'SES014', 'Present', '2025-08-15'),(2, 'TG1705', 'SES015', 'Present', '2025-08-15'),
+(2, 'TG1706', 'SES013', 'Present', '2025-08-15'),(2, 'TG1706', 'SES014', 'Present', '2025-08-15'),(2, 'TG1706', 'SES015', 'Present', '2025-08-15'),
+(2, 'TG1707', 'SES013', 'Present', '2025-08-15'),(2, 'TG1707', 'SES014', 'Present', '2025-08-15'),(2, 'TG1707', 'SES015', 'Absent', '2025-08-15'),
+(2, 'TG1708', 'SES013', 'Present', '2025-08-15'),(2, 'TG1708', 'SES014', 'Present', '2025-08-15'),(2, 'TG1708', 'SES015', 'Present', '2025-08-15'),
+(2, 'TG1709', 'SES013', 'Present', '2025-08-15'),(2, 'TG1709', 'SES014', 'Present', '2025-08-15'),(2, 'TG1709', 'SES015', 'Present', '2025-08-15'),
+(2, 'TG1710', 'SES013', 'Present', '2025-08-15'),(2, 'TG1710', 'SES014', 'Present', '2025-08-15'),(2, 'TG1710', 'SES015', 'Present', '2025-08-15'),
+
+-- WEEK 3: 2025-08-18 to 2025-08-22
+-- Monday 2025-08-18 (All Present)
+(3, 'TG1701', 'SES001', 'Present', '2025-08-18'),(3, 'TG1701', 'SES002', 'Present', '2025-08-18'),(3, 'TG1701', 'SES003', 'Present', '2025-08-18'),
+(3, 'TG1702', 'SES001', 'Absent', '2025-08-18'),(3, 'TG1702', 'SES002', 'Present', '2025-08-18'),(3, 'TG1702', 'SES003', 'Present', '2025-08-18'),
+(3, 'TG1703', 'SES001', 'Present', '2025-08-18'),(3, 'TG1703', 'SES002', 'Present', '2025-08-18'),(3, 'TG1703', 'SES003', 'Present', '2025-08-18'),
+(3, 'TG1704', 'SES001', 'Present', '2025-08-18'),(3, 'TG1704', 'SES002', 'Present', '2025-08-18'),(3, 'TG1704', 'SES003', 'Present', '2025-08-18'),
+(3, 'TG1705', 'SES001', 'Present', '2025-08-18'),(3, 'TG1705', 'SES002', 'Present', '2025-08-18'),(3, 'TG1705', 'SES003', 'Present', '2025-08-18'),
+(3, 'TG1706', 'SES001', 'Present', '2025-08-18'),(3, 'TG1706', 'SES002', 'Present', '2025-08-18'),(3, 'TG1706', 'SES003', 'Present', '2025-08-18'),
+(3, 'TG1707', 'SES001', 'Present', '2025-08-18'),(3, 'TG1707', 'SES002', 'Present', '2025-08-18'),(3, 'TG1707', 'SES003', 'Present', '2025-08-18'),
+(3, 'TG1708', 'SES001', 'Present', '2025-08-18'),(3, 'TG1708', 'SES002', 'Present', '2025-08-18'),(3, 'TG1708', 'SES003', 'Present', '2025-08-18'),
+(3, 'TG1709', 'SES001', 'Present', '2025-08-18'),(3, 'TG1709', 'SES002', 'Present', '2025-08-18'),(3, 'TG1709', 'SES003', 'Present', '2025-08-18'),
+(3, 'TG1710', 'SES001', 'Present', '2025-08-18'),(3, 'TG1710', 'SES002', 'Present', '2025-08-18'),(3, 'TG1710', 'SES003', 'Present', '2025-08-18'),
+
+-- Tuesday 2025-08-19 (All Present)
+(3, 'TG1701', 'SES004', 'Present', '2025-08-19'),(3, 'TG1701', 'SES005', 'Absent', '2025-08-19'),(3, 'TG1701', 'SES006', 'Present', '2025-08-19'),
+(3, 'TG1702', 'SES004', 'Present', '2025-08-19'),(3, 'TG1702', 'SES005', 'Present', '2025-08-19'),(3, 'TG1702', 'SES006', 'Present', '2025-08-19'),
+(3, 'TG1703', 'SES004', 'Present', '2025-08-19'),(3, 'TG1703', 'SES005', 'Present', '2025-08-19'),(3, 'TG1703', 'SES006', 'Present', '2025-08-19'),
+(3, 'TG1704', 'SES004', 'Present', '2025-08-19'),(3, 'TG1704', 'SES005', 'Present', '2025-08-19'),(3, 'TG1704', 'SES006', 'Present', '2025-08-19'),
+(3, 'TG1705', 'SES004', 'Absent', '2025-08-19'),(3, 'TG1705', 'SES005', 'Present', '2025-08-19'),(3, 'TG1705', 'SES006', 'Present', '2025-08-19'),
+(3, 'TG1706', 'SES004', 'Present', '2025-08-19'),(3, 'TG1706', 'SES005', 'Present', '2025-08-19'),(3, 'TG1706', 'SES006', 'Present', '2025-08-19'),
+(3, 'TG1707', 'SES004', 'Present', '2025-08-19'),(3, 'TG1707', 'SES005', 'Present', '2025-08-19'),(3, 'TG1707', 'SES006', 'Absent', '2025-08-19'),
+(3, 'TG1708', 'SES004', 'Present', '2025-08-19'),(3, 'TG1708', 'SES005', 'Present', '2025-08-19'),(3, 'TG1708', 'SES006', 'Present', '2025-08-19'),
+(3, 'TG1709', 'SES004', 'Present', '2025-08-19'),(3, 'TG1709', 'SES005', 'Present', '2025-08-19'),(3, 'TG1709', 'SES006', 'Present', '2025-08-19'),
+(3, 'TG1710', 'SES004', 'Present', '2025-08-19'),(3, 'TG1710', 'SES005', 'Present', '2025-08-19'),(3, 'TG1710', 'SES006', 'Present', '2025-08-19'),
+
+-- Wednesday 2025-08-20 (TG1705 - Approved Medical)
+(3, 'TG1701', 'SES007', 'Present', '2025-08-20'),(3, 'TG1701', 'SES008', 'Present', '2025-08-20'),(3, 'TG1701', 'SES009', 'Present', '2025-08-20'),
+(3, 'TG1702', 'SES007', 'Present', '2025-08-20'),(3, 'TG1702', 'SES008', 'Present', '2025-08-20'),(3, 'TG1702', 'SES009', 'Present', '2025-08-20'),
+(3, 'TG1703', 'SES007', 'Present', '2025-08-20'),(3, 'TG1703', 'SES008', 'Present', '2025-08-20'),(3, 'TG1703', 'SES009', 'Present', '2025-08-20'),
+(3, 'TG1704', 'SES007', 'Present', '2025-08-20'),(3, 'TG1704', 'SES008', 'Present', '2025-08-20'),(3, 'TG1704', 'SES009', 'Present', '2025-08-20'),
+(3, 'TG1705', 'SES007', 'Approved Medical', '2025-08-20'),(3, 'TG1705', 'SES008', 'Approved Medical', '2025-08-20'),(3, 'TG1705', 'SES009', 'Approved Medical', '2025-08-20'),
+(3, 'TG1706', 'SES007', 'Present', '2025-08-20'),(3, 'TG1706', 'SES008', 'Present', '2025-08-20'),(3, 'TG1706', 'SES009', 'Present', '2025-08-20'),
+(3, 'TG1707', 'SES007', 'Present', '2025-08-20'),(3, 'TG1707', 'SES008', 'Present', '2025-08-20'),(3, 'TG1707', 'SES009', 'Present', '2025-08-20'),
+(3, 'TG1708', 'SES007', 'Present', '2025-08-20'),(3, 'TG1708', 'SES008', 'Present', '2025-08-20'),(3, 'TG1708', 'SES009', 'Present', '2025-08-20'),
+(3, 'TG1709', 'SES007', 'Present', '2025-08-20'),(3, 'TG1709', 'SES008', 'Present', '2025-08-20'),(3, 'TG1709', 'SES009', 'Present', '2025-08-20'),
+(3, 'TG1710', 'SES007', 'Present', '2025-08-20'),(3, 'TG1710', 'SES008', 'Present', '2025-08-20'),(3, 'TG1710', 'SES009', 'Present', '2025-08-20'),
+
+-- Thursday 2025-08-21 (All Present)
+(3, 'TG1701', 'SES010', 'Present', '2025-08-21'),(3, 'TG1701', 'SES011', 'Present', '2025-08-21'),(3, 'TG1701', 'SES012', 'Present', '2025-08-21'),
+(3, 'TG1702', 'SES010', 'Present', '2025-08-21'),(3, 'TG1702', 'SES011', 'Present', '2025-08-21'),(3, 'TG1702', 'SES012', 'Present', '2025-08-21'),
+(3, 'TG1703', 'SES010', 'Present', '2025-08-21'),(3, 'TG1703', 'SES011', 'Present', '2025-08-21'),(3, 'TG1703', 'SES012', 'Present', '2025-08-21'),
+(3, 'TG1704', 'SES010', 'Present', '2025-08-21'),(3, 'TG1704', 'SES011', 'Present', '2025-08-21'),(3, 'TG1704', 'SES012', 'Present', '2025-08-21'),
+(3, 'TG1705', 'SES010', 'Present', '2025-08-21'),(3, 'TG1705', 'SES011', 'Present', '2025-08-21'),(3, 'TG1705', 'SES012', 'Present', '2025-08-21'),
+(3, 'TG1706', 'SES010', 'Present', '2025-08-21'),(3, 'TG1706', 'SES011', 'Present', '2025-08-21'),(3, 'TG1706', 'SES012', 'Present', '2025-08-21'),
+(3, 'TG1707', 'SES010', 'Present', '2025-08-21'),(3, 'TG1707', 'SES011', 'Present', '2025-08-21'),(3, 'TG1707', 'SES012', 'Present', '2025-08-21'),
+(3, 'TG1708', 'SES010', 'Present', '2025-08-21'),(3, 'TG1708', 'SES011', 'Present', '2025-08-21'),(3, 'TG1708', 'SES012', 'Present', '2025-08-21'),
+(3, 'TG1709', 'SES010', 'Present', '2025-08-21'),(3, 'TG1709', 'SES011', 'Present', '2025-08-21'),(3, 'TG1709', 'SES012', 'Present', '2025-08-21'),
+(3, 'TG1710', 'SES010', 'Present', '2025-08-21'),(3, 'TG1710', 'SES011', 'Present', '2025-08-21'),(3, 'TG1710', 'SES012', 'Present', '2025-08-21'),
+
+-- Friday 2025-08-22 (All Present)
+(3, 'TG1701', 'SES013', 'Present', '2025-08-22'),(3, 'TG1701', 'SES014', 'Present', '2025-08-22'),(3, 'TG1701', 'SES015', 'Present', '2025-08-22'),
+(3, 'TG1702', 'SES013', 'Present', '2025-08-22'),(3, 'TG1702', 'SES014', 'Present', '2025-08-22'),(3, 'TG1702', 'SES015', 'Present', '2025-08-22'),
+(3, 'TG1703', 'SES013', 'Present', '2025-08-22'),(3, 'TG1703', 'SES014', 'Present', '2025-08-22'),(3, 'TG1703', 'SES015', 'Present', '2025-08-22'),
+(3, 'TG1704', 'SES013', 'Present', '2025-08-22'),(3, 'TG1704', 'SES014', 'Present', '2025-08-22'),(3, 'TG1704', 'SES015', 'Present', '2025-08-22'),
+(3, 'TG1705', 'SES013', 'Present', '2025-08-22'),(3, 'TG1705', 'SES014', 'Present', '2025-08-22'),(3, 'TG1705', 'SES015', 'Present', '2025-08-22'),
+(3, 'TG1706', 'SES013', 'Present', '2025-08-22'),(3, 'TG1706', 'SES014', 'Present', '2025-08-22'),(3, 'TG1706', 'SES015', 'Present', '2025-08-22'),
+(3, 'TG1707', 'SES013', 'Present', '2025-08-22'),(3, 'TG1707', 'SES014', 'Present', '2025-08-22'),(3, 'TG1707', 'SES015', 'Present', '2025-08-22'),
+(3, 'TG1708', 'SES013', 'Present', '2025-08-22'),(3, 'TG1708', 'SES014', 'Present', '2025-08-22'),(3, 'TG1708', 'SES015', 'Present', '2025-08-22'),
+(3, 'TG1709', 'SES013', 'Present', '2025-08-22'),(3, 'TG1709', 'SES014', 'Present', '2025-08-22'),(3, 'TG1709', 'SES015', 'Present', '2025-08-22'),
+(3, 'TG1710', 'SES013', 'Present', '2025-08-22'),(3, 'TG1710', 'SES014', 'Present', '2025-08-22'),(3, 'TG1710', 'SES015', 'Present', '2025-08-22'),
+
+-- WEEK 4: 2025-08-25 to 2025-08-29
+-- Monday 2025-08-25 (All Present)
+(4, 'TG1701', 'SES001', 'Present', '2025-08-25'),(4, 'TG1701', 'SES002', 'Present', '2025-08-25'),(4, 'TG1701', 'SES003', 'Present', '2025-08-25'),
+(4, 'TG1702', 'SES001', 'Present', '2025-08-25'),(4, 'TG1702', 'SES002', 'Present', '2025-08-25'),(4, 'TG1702', 'SES003', 'Present', '2025-08-25'),
+(4, 'TG1703', 'SES001', 'Present', '2025-08-25'),(4, 'TG1703', 'SES002', 'Present', '2025-08-25'),(4, 'TG1703', 'SES003', 'Present', '2025-08-25'),
+(4, 'TG1704', 'SES001', 'Present', '2025-08-25'),(4, 'TG1704', 'SES002', 'Present', '2025-08-25'),(4, 'TG1704', 'SES003', 'Present', '2025-08-25'),
+(4, 'TG1705', 'SES001', 'Present', '2025-08-25'),(4, 'TG1705', 'SES002', 'Present', '2025-08-25'),(4, 'TG1705', 'SES003', 'Present', '2025-08-25'),
+(4, 'TG1706', 'SES001', 'Present', '2025-08-25'),(4, 'TG1706', 'SES002', 'Present', '2025-08-25'),(4, 'TG1706', 'SES003', 'Present', '2025-08-25'),
+(4, 'TG1707', 'SES001', 'Present', '2025-08-25'),(4, 'TG1707', 'SES002', 'Present', '2025-08-25'),(4, 'TG1707', 'SES003', 'Present', '2025-08-25'),
+(4, 'TG1708', 'SES001', 'Present', '2025-08-25'),(4, 'TG1708', 'SES002', 'Present', '2025-08-25'),(4, 'TG1708', 'SES003', 'Present', '2025-08-25'),
+(4, 'TG1709', 'SES001', 'Present', '2025-08-25'),(4, 'TG1709', 'SES002', 'Present', '2025-08-25'),(4, 'TG1709', 'SES003', 'Present', '2025-08-25'),
+(4, 'TG1710', 'SES001', 'Present', '2025-08-25'),(4, 'TG1710', 'SES002', 'Present', '2025-08-25'),(4, 'TG1710', 'SES003', 'Present', '2025-08-25'),
+
+-- Tuesday 2025-08-26 (TG1707 - Rejected Medical = Absent)
+(4, 'TG1701', 'SES004', 'Present', '2025-08-26'),(4, 'TG1701', 'SES005', 'Present', '2025-08-26'),(4, 'TG1701', 'SES006', 'Present', '2025-08-26'),
+(4, 'TG1702', 'SES004', 'Present', '2025-08-26'),(4, 'TG1702', 'SES005', 'Present', '2025-08-26'),(4, 'TG1702', 'SES006', 'Present', '2025-08-26'),
+(4, 'TG1703', 'SES004', 'Present', '2025-08-26'),(4, 'TG1703', 'SES005', 'Present', '2025-08-26'),(4, 'TG1703', 'SES006', 'Present', '2025-08-26'),
+(4, 'TG1704', 'SES004', 'Present', '2025-08-26'),(4, 'TG1704', 'SES005', 'Present', '2025-08-26'),(4, 'TG1704', 'SES006', 'Present', '2025-08-26'),
+(4, 'TG1705', 'SES004', 'Present', '2025-08-26'),(4, 'TG1705', 'SES005', 'Present', '2025-08-26'),(4, 'TG1705', 'SES006', 'Present', '2025-08-26'),
+(4, 'TG1706', 'SES004', 'Present', '2025-08-26'),(4, 'TG1706', 'SES005', 'Present', '2025-08-26'),(4, 'TG1706', 'SES006', 'Present', '2025-08-26'),
+(4, 'TG1707', 'SES004', 'Absent', '2025-08-26'),(4, 'TG1707', 'SES005', 'Absent', '2025-08-26'),(4, 'TG1707', 'SES006', 'Absent', '2025-08-26'),
+(4, 'TG1708', 'SES004', 'Present', '2025-08-26'),(4, 'TG1708', 'SES005', 'Present', '2025-08-26'),(4, 'TG1708', 'SES006', 'Present', '2025-08-26'),
+(4, 'TG1709', 'SES004', 'Present', '2025-08-26'),(4, 'TG1709', 'SES005', 'Present', '2025-08-26'),(4, 'TG1709', 'SES006', 'Present', '2025-08-26'),
+(4, 'TG1710', 'SES004', 'Present', '2025-08-26'),(4, 'TG1710', 'SES005', 'Present', '2025-08-26'),(4, 'TG1710', 'SES006', 'Present', '2025-08-26'),
+
+-- Wednesday 2025-08-27 (All Present)
+(4, 'TG1701', 'SES007', 'Present', '2025-08-27'),(4, 'TG1701', 'SES008', 'Present', '2025-08-27'),(4, 'TG1701', 'SES009', 'Present', '2025-08-27'),
+(4, 'TG1702', 'SES007', 'Present', '2025-08-27'),(4, 'TG1702', 'SES008', 'Present', '2025-08-27'),(4, 'TG1702', 'SES009', 'Present', '2025-08-27'),
+(4, 'TG1703', 'SES007', 'Present', '2025-08-27'),(4, 'TG1703', 'SES008', 'Present', '2025-08-27'),(4, 'TG1703', 'SES009', 'Present', '2025-08-27'),
+(4, 'TG1704', 'SES007', 'Present', '2025-08-27'),(4, 'TG1704', 'SES008', 'Present', '2025-08-27'),(4, 'TG1704', 'SES009', 'Present', '2025-08-27'),
+(4, 'TG1705', 'SES007', 'Present', '2025-08-27'),(4, 'TG1705', 'SES008', 'Present', '2025-08-27'),(4, 'TG1705', 'SES009', 'Present', '2025-08-27'),
+(4, 'TG1706', 'SES007', 'Present', '2025-08-27'),(4, 'TG1706', 'SES008', 'Present', '2025-08-27'),(4, 'TG1706', 'SES009', 'Present', '2025-08-27'),
+(4, 'TG1707', 'SES007', 'Present', '2025-08-27'),(4, 'TG1707', 'SES008', 'Present', '2025-08-27'),(4, 'TG1707', 'SES009', 'Present', '2025-08-27'),
+(4, 'TG1708', 'SES007', 'Present', '2025-08-27'),(4, 'TG1708', 'SES008', 'Present', '2025-08-27'),(4, 'TG1708', 'SES009', 'Present', '2025-08-27'),
+(4, 'TG1709', 'SES007', 'Present', '2025-08-27'),(4, 'TG1709', 'SES008', 'Present', '2025-08-27'),(4, 'TG1709', 'SES009', 'Present', '2025-08-27'),
+(4, 'TG1710', 'SES007', 'Present', '2025-08-27'),(4, 'TG1710', 'SES008', 'Present', '2025-08-27'),(4, 'TG1710', 'SES009', 'Present', '2025-08-27'),
+
+-- Thursday 2025-08-28 (All Present)
+(4, 'TG1701', 'SES010', 'Present', '2025-08-28'),(4, 'TG1701', 'SES011', 'Present', '2025-08-28'),(4, 'TG1701', 'SES012', 'Present', '2025-08-28'),
+(4, 'TG1702', 'SES010', 'Present', '2025-08-28'),(4, 'TG1702', 'SES011', 'Present', '2025-08-28'),(4, 'TG1702', 'SES012', 'Present', '2025-08-28'),
+(4, 'TG1703', 'SES010', 'Present', '2025-08-28'),(4, 'TG1703', 'SES011', 'Present', '2025-08-28'),(4, 'TG1703', 'SES012', 'Present', '2025-08-28'),
+(4, 'TG1704', 'SES010', 'Present', '2025-08-28'),(4, 'TG1704', 'SES011', 'Present', '2025-08-28'),(4, 'TG1704', 'SES012', 'Present', '2025-08-28'),
+(4, 'TG1705', 'SES010', 'Present', '2025-08-28'),(4, 'TG1705', 'SES011', 'Present', '2025-08-28'),(4, 'TG1705', 'SES012', 'Present', '2025-08-28'),
+(4, 'TG1706', 'SES010', 'Present', '2025-08-28'),(4, 'TG1706', 'SES011', 'Present', '2025-08-28'),(4, 'TG1706', 'SES012', 'Present', '2025-08-28'),
+(4, 'TG1707', 'SES010', 'Present', '2025-08-28'),(4, 'TG1707', 'SES011', 'Present', '2025-08-28'),(4, 'TG1707', 'SES012', 'Present', '2025-08-28'),
+(4, 'TG1708', 'SES010', 'Present', '2025-08-28'),(4, 'TG1708', 'SES011', 'Present', '2025-08-28'),(4, 'TG1708', 'SES012', 'Present', '2025-08-28'),
+(4, 'TG1709', 'SES010', 'Present', '2025-08-28'),(4, 'TG1709', 'SES011', 'Present', '2025-08-28'),(4, 'TG1709', 'SES012', 'Present', '2025-08-28'),
+(4, 'TG1710', 'SES010', 'Present', '2025-08-28'),(4, 'TG1710', 'SES011', 'Present', '2025-08-28'),(4, 'TG1710', 'SES012', 'Present', '2025-08-28'),
+
+-- Friday 2025-08-29 (All Present)
+(4, 'TG1701', 'SES013', 'Present', '2025-08-29'),(4, 'TG1701', 'SES014', 'Present', '2025-08-29'),(4, 'TG1701', 'SES015', 'Present', '2025-08-29'),
+(4, 'TG1702', 'SES013', 'Present', '2025-08-29'),(4, 'TG1702', 'SES014', 'Present', '2025-08-29'),(4, 'TG1702', 'SES015', 'Present', '2025-08-29'),
+(4, 'TG1703', 'SES013', 'Present', '2025-08-29'),(4, 'TG1703', 'SES014', 'Present', '2025-08-29'),(4, 'TG1703', 'SES015', 'Present', '2025-08-29'),
+(4, 'TG1704', 'SES013', 'Present', '2025-08-29'),(4, 'TG1704', 'SES014', 'Present', '2025-08-29'),(4, 'TG1704', 'SES015', 'Present', '2025-08-29'),
+(4, 'TG1705', 'SES013', 'Present', '2025-08-29'),(4, 'TG1705', 'SES014', 'Present', '2025-08-29'),(4, 'TG1705', 'SES015', 'Present', '2025-08-29'),
+(4, 'TG1706', 'SES013', 'Present', '2025-08-29'),(4, 'TG1706', 'SES014', 'Present', '2025-08-29'),(4, 'TG1706', 'SES015', 'Present', '2025-08-29'),
+(4, 'TG1707', 'SES013', 'Present', '2025-08-29'),(4, 'TG1707', 'SES014', 'Present', '2025-08-29'),(4, 'TG1707', 'SES015', 'Present', '2025-08-29'),
+(4, 'TG1708', 'SES013', 'Present', '2025-08-29'),(4, 'TG1708', 'SES014', 'Present', '2025-08-29'),(4, 'TG1708', 'SES015', 'Present', '2025-08-29'),
+(4, 'TG1709', 'SES013', 'Present', '2025-08-29'),(4, 'TG1709', 'SES014', 'Present', '2025-08-29'),(4, 'TG1709', 'SES015', 'Present', '2025-08-29'),
+(4, 'TG1710', 'SES013', 'Present', '2025-08-29'),(4, 'TG1710', 'SES014', 'Present', '2025-08-29'),(4, 'TG1710', 'SES015', 'Present', '2025-08-29'),
+
+-- WEEK 5: 2025-09-01 to 2025-09-05
+-- Monday 2025-09-01 (All Present)
+(5, 'TG1701', 'SES001', 'Present', '2025-09-01'),(5, 'TG1701', 'SES002', 'Present', '2025-09-01'),(5, 'TG1701', 'SES003', 'Present', '2025-09-01'),
+(5, 'TG1702', 'SES001', 'Present', '2025-09-01'),(5, 'TG1702', 'SES002', 'Present', '2025-09-01'),(5, 'TG1702', 'SES003', 'Present', '2025-09-01'),
+(5, 'TG1703', 'SES001', 'Present', '2025-09-01'),(5, 'TG1703', 'SES002', 'Present', '2025-09-01'),(5, 'TG1703', 'SES003', 'Present', '2025-09-01'),
+(5, 'TG1704', 'SES001', 'Present', '2025-09-01'),(5, 'TG1704', 'SES002', 'Present', '2025-09-01'),(5, 'TG1704', 'SES003', 'Present', '2025-09-01'),
+(5, 'TG1705', 'SES001', 'Present', '2025-09-01'),(5, 'TG1705', 'SES002', 'Present', '2025-09-01'),(5, 'TG1705', 'SES003', 'Present', '2025-09-01'),
+(5, 'TG1706', 'SES001', 'Present', '2025-09-01'),(5, 'TG1706', 'SES002', 'Present', '2025-09-01'),(5, 'TG1706', 'SES003', 'Present', '2025-09-01'),
+(5, 'TG1707', 'SES001', 'Present', '2025-09-01'),(5, 'TG1707', 'SES002', 'Present', '2025-09-01'),(5, 'TG1707', 'SES003', 'Present', '2025-09-01'),
+(5, 'TG1708', 'SES001', 'Present', '2025-09-01'),(5, 'TG1708', 'SES002', 'Present', '2025-09-01'),(5, 'TG1708', 'SES003', 'Present', '2025-09-01'),
+(5, 'TG1709', 'SES001', 'Present', '2025-09-01'),(5, 'TG1709', 'SES002', 'Present', '2025-09-01'),(5, 'TG1709', 'SES003', 'Present', '2025-09-01'),
+(5, 'TG1710', 'SES001', 'Present', '2025-09-01'),(5, 'TG1710', 'SES002', 'Present', '2025-09-01'),(5, 'TG1710', 'SES003', 'Present', '2025-09-01'),
+
+-- Tuesday 2025-09-02 (TG1701 - Approved Medical)
+(5, 'TG1701', 'SES004', 'Approved Medical', '2025-09-02'),(5, 'TG1701', 'SES005', 'Approved Medical', '2025-09-02'),(5, 'TG1701', 'SES006', 'Approved Medical', '2025-09-02'),
+(5, 'TG1702', 'SES004', 'Present', '2025-09-02'),(5, 'TG1702', 'SES005', 'Present', '2025-09-02'),(5, 'TG1702', 'SES006', 'Present', '2025-09-02'),
+(5, 'TG1703', 'SES004', 'Present', '2025-09-02'),(5, 'TG1703', 'SES005', 'Present', '2025-09-02'),(5, 'TG1703', 'SES006', 'Present', '2025-09-02'),
+(5, 'TG1704', 'SES004', 'Present', '2025-09-02'),(5, 'TG1704', 'SES005', 'Present', '2025-09-02'),(5, 'TG1704', 'SES006', 'Present', '2025-09-02'),
+(5, 'TG1705', 'SES004', 'Present', '2025-09-02'),(5, 'TG1705', 'SES005', 'Present', '2025-09-02'),(5, 'TG1705', 'SES006', 'Present', '2025-09-02'),
+(5, 'TG1706', 'SES004', 'Present', '2025-09-02'),(5, 'TG1706', 'SES005', 'Present', '2025-09-02'),(5, 'TG1706', 'SES006', 'Present', '2025-09-02'),
+(5, 'TG1707', 'SES004', 'Present', '2025-09-02'),(5, 'TG1707', 'SES005', 'Present', '2025-09-02'),(5, 'TG1707', 'SES006', 'Present', '2025-09-02'),
+(5, 'TG1708', 'SES004', 'Present', '2025-09-02'),(5, 'TG1708', 'SES005', 'Present', '2025-09-02'),(5, 'TG1708', 'SES006', 'Present', '2025-09-02'),
+(5, 'TG1709', 'SES004', 'Present', '2025-09-02'),(5, 'TG1709', 'SES005', 'Present', '2025-09-02'),(5, 'TG1709', 'SES006', 'Present', '2025-09-02'),
+(5, 'TG1710', 'SES004', 'Present', '2025-09-02'),(5, 'TG1710', 'SES005', 'Present', '2025-09-02'),(5, 'TG1710', 'SES006', 'Present', '2025-09-02'),
+
+-- Wednesday 2025-09-03 (All Present)
+(5, 'TG1701', 'SES007', 'Present', '2025-09-03'),(5, 'TG1701', 'SES008', 'Present', '2025-09-03'),(5, 'TG1701', 'SES009', 'Absent', '2025-09-03'),
+(5, 'TG1702', 'SES007', 'Present', '2025-09-03'),(5, 'TG1702', 'SES008', 'Present', '2025-09-03'),(5, 'TG1702', 'SES009', 'Present', '2025-09-03'),
+(5, 'TG1703', 'SES007', 'Present', '2025-09-03'),(5, 'TG1703', 'SES008', 'Present', '2025-09-03'),(5, 'TG1703', 'SES009', 'Present', '2025-09-03'),
+(5, 'TG1704', 'SES007', 'Present', '2025-09-03'),(5, 'TG1704', 'SES008', 'Present', '2025-09-03'),(5, 'TG1704', 'SES009', 'Present', '2025-09-03'),
+(5, 'TG1705', 'SES007', 'Present', '2025-09-03'),(5, 'TG1705', 'SES008', 'Present', '2025-09-03'),(5, 'TG1705', 'SES009', 'Present', '2025-09-03'),
+(5, 'TG1706', 'SES007', 'Present', '2025-09-03'),(5, 'TG1706', 'SES008', 'Present', '2025-09-03'),(5, 'TG1706', 'SES009', 'Present', '2025-09-03'),
+(5, 'TG1707', 'SES007', 'Present', '2025-09-03'),(5, 'TG1707', 'SES008', 'Present', '2025-09-03'),(5, 'TG1707', 'SES009', 'Present', '2025-09-03'),
+(5, 'TG1708', 'SES007', 'Present', '2025-09-03'),(5, 'TG1708', 'SES008', 'Present', '2025-09-03'),(5, 'TG1708', 'SES009', 'Present', '2025-09-03'),
+(5, 'TG1709', 'SES007', 'Present', '2025-09-03'),(5, 'TG1709', 'SES008', 'Present', '2025-09-03'),(5, 'TG1709', 'SES009', 'Present', '2025-09-03'),
+(5, 'TG1710', 'SES007', 'Present', '2025-09-03'),(5, 'TG1710', 'SES008', 'Present', '2025-09-03'),(5, 'TG1710', 'SES009', 'Present', '2025-09-03'),
+
+-- Thursday 2025-09-04 (All Present)
+(5, 'TG1701', 'SES010', 'Present', '2025-09-04'),(5, 'TG1701', 'SES011', 'Present', '2025-09-04'),(5, 'TG1701', 'SES012', 'Present', '2025-09-04'),
+(5, 'TG1702', 'SES010', 'Present', '2025-09-04'),(5, 'TG1702', 'SES011', 'Present', '2025-09-04'),(5, 'TG1702', 'SES012', 'Present', '2025-09-04'),
+(5, 'TG1703', 'SES010', 'Present', '2025-09-04'),(5, 'TG1703', 'SES011', 'Present', '2025-09-04'),(5, 'TG1703', 'SES012', 'Present', '2025-09-04'),
+(5, 'TG1704', 'SES010', 'Present', '2025-09-04'),(5, 'TG1704', 'SES011', 'Present', '2025-09-04'),(5, 'TG1704', 'SES012', 'Present', '2025-09-04'),
+(5, 'TG1705', 'SES010', 'Present', '2025-09-04'),(5, 'TG1705', 'SES011', 'Present', '2025-09-04'),(5, 'TG1705', 'SES012', 'Present', '2025-09-04'),
+(5, 'TG1706', 'SES010', 'Present', '2025-09-04'),(5, 'TG1706', 'SES011', 'Present', '2025-09-04'),(5, 'TG1706', 'SES012', 'Present', '2025-09-04'),
+(5, 'TG1707', 'SES010', 'Present', '2025-09-04'),(5, 'TG1707', 'SES011', 'Present', '2025-09-04'),(5, 'TG1707', 'SES012', 'Present', '2025-09-04'),
+(5, 'TG1708', 'SES010', 'Present', '2025-09-04'),(5, 'TG1708', 'SES011', 'Present', '2025-09-04'),(5, 'TG1708', 'SES012', 'Present', '2025-09-04'),
+(5, 'TG1709', 'SES010', 'Present', '2025-09-04'),(5, 'TG1709', 'SES011', 'Present', '2025-09-04'),(5, 'TG1709', 'SES012', 'Present', '2025-09-04'),
+(5, 'TG1710', 'SES010', 'Present', '2025-09-04'),(5, 'TG1710', 'SES011', 'Present', '2025-09-04'),(5, 'TG1710', 'SES012', 'Present', '2025-09-04'),
+
+-- Friday 2025-09-05 (All Present)
+(5, 'TG1701', 'SES013', 'Present', '2025-09-05'),(5, 'TG1701', 'SES014', 'Present', '2025-09-05'),(5, 'TG1701', 'SES015', 'Present', '2025-09-05'),
+(5, 'TG1702', 'SES013', 'Present', '2025-09-05'),(5, 'TG1702', 'SES014', 'Present', '2025-09-05'),(5, 'TG1702', 'SES015', 'Present', '2025-09-05'),
+(5, 'TG1703', 'SES013', 'Present', '2025-09-05'),(5, 'TG1703', 'SES014', 'Present', '2025-09-05'),(5, 'TG1703', 'SES015', 'Present', '2025-09-05'),
+(5, 'TG1704', 'SES013', 'Present', '2025-09-05'),(5, 'TG1704', 'SES014', 'Present', '2025-09-05'),(5, 'TG1704', 'SES015', 'Present', '2025-09-05'),
+(5, 'TG1705', 'SES013', 'Present', '2025-09-05'),(5, 'TG1705', 'SES014', 'Present', '2025-09-05'),(5, 'TG1705', 'SES015', 'Present', '2025-09-05'),
+(5, 'TG1706', 'SES013', 'Present', '2025-09-05'),(5, 'TG1706', 'SES014', 'Present', '2025-09-05'),(5, 'TG1706', 'SES015', 'Present', '2025-09-05'),
+(5, 'TG1707', 'SES013', 'Present', '2025-09-05'),(5, 'TG1707', 'SES014', 'Present', '2025-09-05'),(5, 'TG1707', 'SES015', 'Present', '2025-09-05'),
+(5, 'TG1708', 'SES013', 'Present', '2025-09-05'),(5, 'TG1708', 'SES014', 'Present', '2025-09-05'),(5, 'TG1708', 'SES015', 'Present', '2025-09-05'),
+(5, 'TG1709', 'SES013', 'Present', '2025-09-05'),(5, 'TG1709', 'SES014', 'Present', '2025-09-05'),(5, 'TG1709', 'SES015', 'Present', '2025-09-05'),
+(5, 'TG1710', 'SES013', 'Present', '2025-09-05'),(5, 'TG1710', 'SES014', 'Present', '2025-09-05'),(5, 'TG1710', 'SES015', 'Present', '2025-09-05'),
+
+-- WEEK 6: 2025-09-08 to 2025-09-12
+-- Monday 2025-09-08 (All Present)
+(6, 'TG1701', 'SES001', 'Present', '2025-09-08'),(6, 'TG1701', 'SES002', 'Present', '2025-09-08'),(6, 'TG1701', 'SES003', 'Present', '2025-09-08'),
+(6, 'TG1702', 'SES001', 'Present', '2025-09-08'),(6, 'TG1702', 'SES002', 'Present', '2025-09-08'),(6, 'TG1702', 'SES003', 'Present', '2025-09-08'),
+(6, 'TG1703', 'SES001', 'Present', '2025-09-08'),(6, 'TG1703', 'SES002', 'Present', '2025-09-08'),(6, 'TG1703', 'SES003', 'Present', '2025-09-08'),
+(6, 'TG1704', 'SES001', 'Present', '2025-09-08'),(6, 'TG1704', 'SES002', 'Present', '2025-09-08'),(6, 'TG1704', 'SES003', 'Present', '2025-09-08'),
+(6, 'TG1705', 'SES001', 'Present', '2025-09-08'),(6, 'TG1705', 'SES002', 'Present', '2025-09-08'),(6, 'TG1705', 'SES003', 'Present', '2025-09-08'),
+(6, 'TG1706', 'SES001', 'Present', '2025-09-08'),(6, 'TG1706', 'SES002', 'Present', '2025-09-08'),(6, 'TG1706', 'SES003', 'Present', '2025-09-08'),
+(6, 'TG1707', 'SES001', 'Present', '2025-09-08'),(6, 'TG1707', 'SES002', 'Present', '2025-09-08'),(6, 'TG1707', 'SES003', 'Present', '2025-09-08'),
+(6, 'TG1708', 'SES001', 'Present', '2025-09-08'),(6, 'TG1708', 'SES002', 'Present', '2025-09-08'),(6, 'TG1708', 'SES003', 'Present', '2025-09-08'),
+(6, 'TG1709', 'SES001', 'Present', '2025-09-08'),(6, 'TG1709', 'SES002', 'Present', '2025-09-08'),(6, 'TG1709', 'SES003', 'Present', '2025-09-08'),
+(6, 'TG1710', 'SES001', 'Present', '2025-09-08'),(6, 'TG1710', 'SES002', 'Present', '2025-09-08'),(6, 'TG1710', 'SES003', 'Present', '2025-09-08'),
+
+-- Tuesday 2025-09-09 (All Present)
+(6, 'TG1701', 'SES004', 'Present', '2025-09-09'),(6, 'TG1701', 'SES005', 'Present', '2025-09-09'),(6, 'TG1701', 'SES006', 'Present', '2025-09-09'),
+(6, 'TG1702', 'SES004', 'Present', '2025-09-09'),(6, 'TG1702', 'SES005', 'Present', '2025-09-09'),(6, 'TG1702', 'SES006', 'Present', '2025-09-09'),
+(6, 'TG1703', 'SES004', 'Present', '2025-09-09'),(6, 'TG1703', 'SES005', 'Present', '2025-09-09'),(6, 'TG1703', 'SES006', 'Present', '2025-09-09'),
+(6, 'TG1704', 'SES004', 'Present', '2025-09-09'),(6, 'TG1704', 'SES005', 'Present', '2025-09-09'),(6, 'TG1704', 'SES006', 'Present', '2025-09-09'),
+(6, 'TG1705', 'SES004', 'Present', '2025-09-09'),(6, 'TG1705', 'SES005', 'Present', '2025-09-09'),(6, 'TG1705', 'SES006', 'Present', '2025-09-09'),
+(6, 'TG1706', 'SES004', 'Present', '2025-09-09'),(6, 'TG1706', 'SES005', 'Present', '2025-09-09'),(6, 'TG1706', 'SES006', 'Present', '2025-09-09'),
+(6, 'TG1707', 'SES004', 'Present', '2025-09-09'),(6, 'TG1707', 'SES005', 'Present', '2025-09-09'),(6, 'TG1707', 'SES006', 'Present', '2025-09-09'),
+(6, 'TG1708', 'SES004', 'Present', '2025-09-09'),(6, 'TG1708', 'SES005', 'Present', '2025-09-09'),(6, 'TG1708', 'SES006', 'Present', '2025-09-09'),
+(6, 'TG1709', 'SES004', 'Present', '2025-09-09'),(6, 'TG1709', 'SES005', 'Present', '2025-09-09'),(6, 'TG1709', 'SES006', 'Present', '2025-09-09'),
+(6, 'TG1710', 'SES004', 'Present', '2025-09-09'),(6, 'TG1710', 'SES005', 'Present', '2025-09-09'),(6, 'TG1710', 'SES006', 'Present', '2025-09-09'),
+
+-- Wednesday 2025-09-10 (TG1705 - Approved Medical)
+(6, 'TG1701', 'SES007', 'Present', '2025-09-10'),(6, 'TG1701', 'SES008', 'Present', '2025-09-10'),(6, 'TG1701', 'SES009', 'Absent', '2025-09-10'),
+(6, 'TG1702', 'SES007', 'Present', '2025-09-10'),(6, 'TG1702', 'SES008', 'Present', '2025-09-10'),(6, 'TG1702', 'SES009', 'Present', '2025-09-10'),
+(6, 'TG1703', 'SES007', 'Present', '2025-09-10'),(6, 'TG1703', 'SES008', 'Present', '2025-09-10'),(6, 'TG1703', 'SES009', 'Present', '2025-09-10'),
+(6, 'TG1704', 'SES007', 'Present', '2025-09-10'),(6, 'TG1704', 'SES008', 'Present', '2025-09-10'),(6, 'TG1704', 'SES009', 'Present', '2025-09-10'),
+(6, 'TG1705', 'SES007', 'Approved Medical', '2025-09-10'),(6, 'TG1705', 'SES008', 'Approved Medical', '2025-09-10'),(6, 'TG1705', 'SES009', 'Approved Medical', '2025-09-10'),
+(6, 'TG1706', 'SES007', 'Present', '2025-09-10'),(6, 'TG1706', 'SES008', 'Present', '2025-09-10'),(6, 'TG1706', 'SES009', 'Absent', '2025-09-10'),
+(6, 'TG1707', 'SES007', 'Present', '2025-09-10'),(6, 'TG1707', 'SES008', 'Present', '2025-09-10'),(6, 'TG1707', 'SES009', 'Present', '2025-09-10'),
+(6, 'TG1708', 'SES007', 'Present', '2025-09-10'),(6, 'TG1708', 'SES008', 'Present', '2025-09-10'),(6, 'TG1708', 'SES009', 'Present', '2025-09-10'),
+(6, 'TG1709', 'SES007', 'Present', '2025-09-10'),(6, 'TG1709', 'SES008', 'Present', '2025-09-10'),(6, 'TG1709', 'SES009', 'Present', '2025-09-10'),
+(6, 'TG1710', 'SES007', 'Present', '2025-09-10'),(6, 'TG1710', 'SES008', 'Present', '2025-09-10'),(6, 'TG1710', 'SES009', 'Present', '2025-09-10'),
+
+-- Thursday 2025-09-11 (All Present)
+(6, 'TG1701', 'SES010', 'Present', '2025-09-11'),(6, 'TG1701', 'SES011', 'Present', '2025-09-11'),(6, 'TG1701', 'SES012', 'Present', '2025-09-11'),
+(6, 'TG1702', 'SES010', 'Present', '2025-09-11'),(6, 'TG1702', 'SES011', 'Present', '2025-09-11'),(6, 'TG1702', 'SES012', 'Present', '2025-09-11'),
+(6, 'TG1703', 'SES010', 'Present', '2025-09-11'),(6, 'TG1703', 'SES011', 'Present', '2025-09-11'),(6, 'TG1703', 'SES012', 'Present', '2025-09-11'),
+(6, 'TG1704', 'SES010', 'Present', '2025-09-11'),(6, 'TG1704', 'SES011', 'Present', '2025-09-11'),(6, 'TG1704', 'SES012', 'Present', '2025-09-11'),
+(6, 'TG1705', 'SES010', 'Present', '2025-09-11'),(6, 'TG1705', 'SES011', 'Present', '2025-09-11'),(6, 'TG1705', 'SES012', 'Present', '2025-09-11'),
+(6, 'TG1706', 'SES010', 'Present', '2025-09-11'),(6, 'TG1706', 'SES011', 'Present', '2025-09-11'),(6, 'TG1706', 'SES012', 'Present', '2025-09-11'),
+(6, 'TG1707', 'SES010', 'Present', '2025-09-11'),(6, 'TG1707', 'SES011', 'Present', '2025-09-11'),(6, 'TG1707', 'SES012', 'Present', '2025-09-11'),
+(6, 'TG1708', 'SES010', 'Present', '2025-09-11'),(6, 'TG1708', 'SES011', 'Present', '2025-09-11'),(6, 'TG1708', 'SES012', 'Present', '2025-09-11'),
+(6, 'TG1709', 'SES010', 'Present', '2025-09-11'),(6, 'TG1709', 'SES011', 'Present', '2025-09-11'),(6, 'TG1709', 'SES012', 'Present', '2025-09-11'),
+(6, 'TG1710', 'SES010', 'Present', '2025-09-11'),(6, 'TG1710', 'SES011', 'Present', '2025-09-11'),(6, 'TG1710', 'SES012', 'Present', '2025-09-11'),
+
+-- Friday 2025-09-12 (All Present)
+(6, 'TG1701', 'SES013', 'Present', '2025-09-12'),(6, 'TG1701', 'SES014', 'Present', '2025-09-12'),(6, 'TG1701', 'SES015', 'Present', '2025-09-12'),
+(6, 'TG1702', 'SES013', 'Present', '2025-09-12'),(6, 'TG1702', 'SES014', 'Present', '2025-09-12'),(6, 'TG1702', 'SES015', 'Present', '2025-09-12'),
+(6, 'TG1703', 'SES013', 'Absent', '2025-09-12'),(6, 'TG1703', 'SES014', 'Present', '2025-09-12'),(6, 'TG1703', 'SES015', 'Present', '2025-09-12'),
+(6, 'TG1704', 'SES013', 'Present', '2025-09-12'),(6, 'TG1704', 'SES014', 'Present', '2025-09-12'),(6, 'TG1704', 'SES015', 'Present', '2025-09-12'),
+(6, 'TG1705', 'SES013', 'Present', '2025-09-12'),(6, 'TG1705', 'SES014', 'Present', '2025-09-12'),(6, 'TG1705', 'SES015', 'Present', '2025-09-12'),
+(6, 'TG1706', 'SES013', 'Present', '2025-09-12'),(6, 'TG1706', 'SES014', 'Present', '2025-09-12'),(6, 'TG1706', 'SES015', 'Present', '2025-09-12'),
+(6, 'TG1707', 'SES013', 'Present', '2025-09-12'),(6, 'TG1707', 'SES014', 'Present', '2025-09-12'),(6, 'TG1707', 'SES015', 'Present', '2025-09-12'),
+(6, 'TG1708', 'SES013', 'Present', '2025-09-12'),(6, 'TG1708', 'SES014', 'Absent', '2025-09-12'),(6, 'TG1708', 'SES015', 'Present', '2025-09-12'),
+(6, 'TG1709', 'SES013', 'Present', '2025-09-12'),(6, 'TG1709', 'SES014', 'Present', '2025-09-12'),(6, 'TG1709', 'SES015', 'Present', '2025-09-12'),
+(6, 'TG1710', 'SES013', 'Present', '2025-09-12'),(6, 'TG1710', 'SES014', 'Present', '2025-09-12'),(6, 'TG1710', 'SES015', 'Present', '2025-09-12'),
+
+-- WEEK 7: 2025-09-15 to 2025-09-19
+-- Monday 2025-09-15 (All Present)
+(7, 'TG1701', 'SES001', 'Present', '2025-09-15'),(7, 'TG1701', 'SES002', 'Present', '2025-09-15'),(7, 'TG1701', 'SES003', 'Present', '2025-09-15'),
+(7, 'TG1702', 'SES001', 'Present', '2025-09-15'),(7, 'TG1702', 'SES002', 'Present', '2025-09-15'),(7, 'TG1702', 'SES003', 'Present', '2025-09-15'),
+(7, 'TG1703', 'SES001', 'Present', '2025-09-15'),(7, 'TG1703', 'SES002', 'Present', '2025-09-15'),(7, 'TG1703', 'SES003', 'Present', '2025-09-15'),
+(7, 'TG1704', 'SES001', 'Present', '2025-09-15'),(7, 'TG1704', 'SES002', 'Present', '2025-09-15'),(7, 'TG1704', 'SES003', 'Present', '2025-09-15'),
+(7, 'TG1705', 'SES001', 'Present', '2025-09-15'),(7, 'TG1705', 'SES002', 'Present', '2025-09-15'),(7, 'TG1705', 'SES003', 'Present', '2025-09-15'),
+(7, 'TG1706', 'SES001', 'Present', '2025-09-15'),(7, 'TG1706', 'SES002', 'Present', '2025-09-15'),(7, 'TG1706', 'SES003', 'Present', '2025-09-15'),
+(7, 'TG1707', 'SES001', 'Present', '2025-09-15'),(7, 'TG1707', 'SES002', 'Present', '2025-09-15'),(7, 'TG1707', 'SES003', 'Present', '2025-09-15'),
+(7, 'TG1708', 'SES001', 'Present', '2025-09-15'),(7, 'TG1708', 'SES002', 'Absent', '2025-09-15'),(7, 'TG1708', 'SES003', 'Present', '2025-09-15'),
+(7, 'TG1709', 'SES001', 'Present', '2025-09-15'),(7, 'TG1709', 'SES002', 'Present', '2025-09-15'),(7, 'TG1709', 'SES003', 'Present', '2025-09-15'),
+(7, 'TG1710', 'SES001', 'Present', '2025-09-15'),(7, 'TG1710', 'SES002', 'Present', '2025-09-15'),(7, 'TG1710', 'SES003', 'Present', '2025-09-15'),
+
+-- Tuesday 2025-09-16 (All Present)
+(7, 'TG1701', 'SES004', 'Present', '2025-09-16'),(7, 'TG1701', 'SES005', 'Present', '2025-09-16'),(7, 'TG1701', 'SES006', 'Present', '2025-09-16'),
+(7, 'TG1702', 'SES004', 'Present', '2025-09-16'),(7, 'TG1702', 'SES005', 'Present', '2025-09-16'),(7, 'TG1702', 'SES006', 'Present', '2025-09-16'),
+(7, 'TG1703', 'SES004', 'Present', '2025-09-16'),(7, 'TG1703', 'SES005', 'Present', '2025-09-16'),(7, 'TG1703', 'SES006', 'Present', '2025-09-16'),
+(7, 'TG1704', 'SES004', 'Present', '2025-09-16'),(7, 'TG1704', 'SES005', 'Present', '2025-09-16'),(7, 'TG1704', 'SES006', 'Present', '2025-09-16'),
+(7, 'TG1705', 'SES004', 'Present', '2025-09-16'),(7, 'TG1705', 'SES005', 'Present', '2025-09-16'),(7, 'TG1705', 'SES006', 'Present', '2025-09-16'),
+(7, 'TG1706', 'SES004', 'Present', '2025-09-16'),(7, 'TG1706', 'SES005', 'Present', '2025-09-16'),(7, 'TG1706', 'SES006', 'Present', '2025-09-16'),
+(7, 'TG1707', 'SES004', 'Present', '2025-09-16'),(7, 'TG1707', 'SES005', 'Present', '2025-09-16'),(7, 'TG1707', 'SES006', 'Present', '2025-09-16'),
+(7, 'TG1708', 'SES004', 'Present', '2025-09-16'),(7, 'TG1708', 'SES005', 'Present', '2025-09-16'),(7, 'TG1708', 'SES006', 'Present', '2025-09-16'),
+(7, 'TG1709', 'SES004', 'Present', '2025-09-16'),(7, 'TG1709', 'SES005', 'Present', '2025-09-16'),(7, 'TG1709', 'SES006', 'Present', '2025-09-16'),
+(7, 'TG1710', 'SES004', 'Present', '2025-09-16'),(7, 'TG1710', 'SES005', 'Present', '2025-09-16'),(7, 'TG1710', 'SES006', 'Present', '2025-09-16'),
+
+-- Wednesday 2025-09-17 (All Present)
+(7, 'TG1701', 'SES007', 'Present', '2025-09-17'),(7, 'TG1701', 'SES008', 'Present', '2025-09-17'),(7, 'TG1701', 'SES009', 'Absent', '2025-09-17'),
+(7, 'TG1702', 'SES007', 'Present', '2025-09-17'),(7, 'TG1702', 'SES008', 'Present', '2025-09-17'),(7, 'TG1702', 'SES009', 'Present', '2025-09-17'),
+(7, 'TG1703', 'SES007', 'Present', '2025-09-17'),(7, 'TG1703', 'SES008', 'Present', '2025-09-17'),(7, 'TG1703', 'SES009', 'Present', '2025-09-17'),
+(7, 'TG1704', 'SES007', 'Present', '2025-09-17'),(7, 'TG1704', 'SES008', 'Present', '2025-09-17'),(7, 'TG1704', 'SES009', 'Present', '2025-09-17'),
+(7, 'TG1705', 'SES007', 'Present', '2025-09-17'),(7, 'TG1705', 'SES008', 'Present', '2025-09-17'),(7, 'TG1705', 'SES009', 'Present', '2025-09-17'),
+(7, 'TG1706', 'SES007', 'Present', '2025-09-17'),(7, 'TG1706', 'SES008', 'Present', '2025-09-17'),(7, 'TG1706', 'SES009', 'Present', '2025-09-17'),
+(7, 'TG1707', 'SES007', 'Present', '2025-09-17'),(7, 'TG1707', 'SES008', 'Present', '2025-09-17'),(7, 'TG1707', 'SES009', 'Present', '2025-09-17'),
+(7, 'TG1708', 'SES007', 'Present', '2025-09-17'),(7, 'TG1708', 'SES008', 'Present', '2025-09-17'),(7, 'TG1708', 'SES009', 'Present', '2025-09-17'),
+(7, 'TG1709', 'SES007', 'Present', '2025-09-17'),(7, 'TG1709', 'SES008', 'Present', '2025-09-17'),(7, 'TG1709', 'SES009', 'Present', '2025-09-17'),
+(7, 'TG1710', 'SES007', 'Present', '2025-09-17'),(7, 'TG1710', 'SES008', 'Present', '2025-09-17'),(7, 'TG1710', 'SES009', 'Present', '2025-09-17'),
+
+-- Thursday 2025-09-18 (TG1709 - Approved Medical)
+(7, 'TG1701', 'SES010', 'Present', '2025-09-18'),(7, 'TG1701', 'SES011', 'Present', '2025-09-18'),(7, 'TG1701', 'SES012', 'Present', '2025-09-18'),
+(7, 'TG1702', 'SES010', 'Present', '2025-09-18'),(7, 'TG1702', 'SES011', 'Present', '2025-09-18'),(7, 'TG1702', 'SES012', 'Present', '2025-09-18'),
+(7, 'TG1703', 'SES010', 'Present', '2025-09-18'),(7, 'TG1703', 'SES011', 'Present', '2025-09-18'),(7, 'TG1703', 'SES012', 'Present', '2025-09-18'),
+(7, 'TG1704', 'SES010', 'Present', '2025-09-18'),(7, 'TG1704', 'SES011', 'Present', '2025-09-18'),(7, 'TG1704', 'SES012', 'Present', '2025-09-18'),
+(7, 'TG1705', 'SES010', 'Present', '2025-09-18'),(7, 'TG1705', 'SES011', 'Present', '2025-09-18'),(7, 'TG1705', 'SES012', 'Present', '2025-09-18'),
+(7, 'TG1706', 'SES010', 'Present', '2025-09-18'),(7, 'TG1706', 'SES011', 'Present', '2025-09-18'),(7, 'TG1706', 'SES012', 'Present', '2025-09-18'),
+(7, 'TG1707', 'SES010', 'Present', '2025-09-18'),(7, 'TG1707', 'SES011', 'Present', '2025-09-18'),(7, 'TG1707', 'SES012', 'Present', '2025-09-18'),
+(7, 'TG1708', 'SES010', 'Present', '2025-09-18'),(7, 'TG1708', 'SES011', 'Present', '2025-09-18'),(7, 'TG1708', 'SES012', 'Present', '2025-09-18'),
+(7, 'TG1709', 'SES010', 'Approved Medical', '2025-09-18'),(7, 'TG1709', 'SES011', 'Approved Medical', '2025-09-18'),(7, 'TG1709', 'SES012', 'Approved Medical', '2025-09-18'),
+(7, 'TG1710', 'SES010', 'Present', '2025-09-18'),(7, 'TG1710', 'SES011', 'Present', '2025-09-18'),(7, 'TG1710', 'SES012', 'Present', '2025-09-18'),
+
+-- Friday 2025-09-19 (All Present)
+(7, 'TG1701', 'SES013', 'Present', '2025-09-19'),(7, 'TG1701', 'SES014', 'Present', '2025-09-19'),(7, 'TG1701', 'SES015', 'Present', '2025-09-19'),
+(7, 'TG1702', 'SES013', 'Present', '2025-09-19'),(7, 'TG1702', 'SES014', 'Present', '2025-09-19'),(7, 'TG1702', 'SES015', 'Present', '2025-09-19'),
+(7, 'TG1703', 'SES013', 'Present', '2025-09-19'),(7, 'TG1703', 'SES014', 'Present', '2025-09-19'),(7, 'TG1703', 'SES015', 'Present', '2025-09-19'),
+(7, 'TG1704', 'SES013', 'Present', '2025-09-19'),(7, 'TG1704', 'SES014', 'Present', '2025-09-19'),(7, 'TG1704', 'SES015', 'Present', '2025-09-19'),
+(7, 'TG1705', 'SES013', 'Present', '2025-09-19'),(7, 'TG1705', 'SES014', 'Present', '2025-09-19'),(7, 'TG1705', 'SES015', 'Present', '2025-09-19'),
+(7, 'TG1706', 'SES013', 'Present', '2025-09-19'),(7, 'TG1706', 'SES014', 'Present', '2025-09-19'),(7, 'TG1706', 'SES015', 'Present', '2025-09-19'),
+(7, 'TG1707', 'SES013', 'Present', '2025-09-19'),(7, 'TG1707', 'SES014', 'Present', '2025-09-19'),(7, 'TG1707', 'SES015', 'Present', '2025-09-19'),
+(7, 'TG1708', 'SES013', 'Present', '2025-09-19'),(7, 'TG1708', 'SES014', 'Present', '2025-09-19'),(7, 'TG1708', 'SES015', 'Present', '2025-09-19'),
+(7, 'TG1709', 'SES013', 'Present', '2025-09-19'),(7, 'TG1709', 'SES014', 'Present', '2025-09-19'),(7, 'TG1709', 'SES015', 'Present', '2025-09-19'),
+(7, 'TG1710', 'SES013', 'Present', '2025-09-19'),(7, 'TG1710', 'SES014', 'Present', '2025-09-19'),(7, 'TG1710', 'SES015', 'Present', '2025-09-19'),
+
+-- WEEK 8: 2025-09-22 to 2025-09-26
+-- Monday 2025-09-22 (All Present)
+(8, 'TG1701', 'SES001', 'Present', '2025-09-22'),(8, 'TG1701', 'SES002', 'Present', '2025-09-22'),(8, 'TG1701', 'SES003', 'Present', '2025-09-22'),
+(8, 'TG1702', 'SES001', 'Present', '2025-09-22'),(8, 'TG1702', 'SES002', 'Present', '2025-09-22'),(8, 'TG1702', 'SES003', 'Present', '2025-09-22'),
+(8, 'TG1703', 'SES001', 'Present', '2025-09-22'),(8, 'TG1703', 'SES002', 'Present', '2025-09-22'),(8, 'TG1703', 'SES003', 'Present', '2025-09-22'),
+(8, 'TG1704', 'SES001', 'Present', '2025-09-22'),(8, 'TG1704', 'SES002', 'Present', '2025-09-22'),(8, 'TG1704', 'SES003', 'Present', '2025-09-22'),
+(8, 'TG1705', 'SES001', 'Present', '2025-09-22'),(8, 'TG1705', 'SES002', 'Present', '2025-09-22'),(8, 'TG1705', 'SES003', 'Present', '2025-09-22'),
+(8, 'TG1706', 'SES001', 'Present', '2025-09-22'),(8, 'TG1706', 'SES002', 'Present', '2025-09-22'),(8, 'TG1706', 'SES003', 'Present', '2025-09-22'),
+(8, 'TG1707', 'SES001', 'Present', '2025-09-22'),(8, 'TG1707', 'SES002', 'Present', '2025-09-22'),(8, 'TG1707', 'SES003', 'Present', '2025-09-22'),
+(8, 'TG1708', 'SES001', 'Present', '2025-09-22'),(8, 'TG1708', 'SES002', 'Present', '2025-09-22'),(8, 'TG1708', 'SES003', 'Present', '2025-09-22'),
+(8, 'TG1709', 'SES001', 'Present', '2025-09-22'),(8, 'TG1709', 'SES002', 'Present', '2025-09-22'),(8, 'TG1709', 'SES003', 'Present', '2025-09-22'),
+(8, 'TG1710', 'SES001', 'Present', '2025-09-22'),(8, 'TG1710', 'SES002', 'Present', '2025-09-22'),(8, 'TG1710', 'SES003', 'Present', '2025-09-22'),
+
+-- Tuesday 2025-09-23 (All Present)
+(8, 'TG1701', 'SES004', 'Present', '2025-09-23'),(8, 'TG1701', 'SES005', 'Present', '2025-09-23'),(8, 'TG1701', 'SES006', 'Present', '2025-09-23'),
+(8, 'TG1702', 'SES004', 'Present', '2025-09-23'),(8, 'TG1702', 'SES005', 'Present', '2025-09-23'),(8, 'TG1702', 'SES006', 'Present', '2025-09-23'),
+(8, 'TG1703', 'SES004', 'Present', '2025-09-23'),(8, 'TG1703', 'SES005', 'Present', '2025-09-23'),(8, 'TG1703', 'SES006', 'Present', '2025-09-23'),
+(8, 'TG1704', 'SES004', 'Present', '2025-09-23'),(8, 'TG1704', 'SES005', 'Present', '2025-09-23'),(8, 'TG1704', 'SES006', 'Present', '2025-09-23'),
+(8, 'TG1705', 'SES004', 'Present', '2025-09-23'),(8, 'TG1705', 'SES005', 'Present', '2025-09-23'),(8, 'TG1705', 'SES006', 'Present', '2025-09-23'),
+(8, 'TG1706', 'SES004', 'Present', '2025-09-23'),(8, 'TG1706', 'SES005', 'Present', '2025-09-23'),(8, 'TG1706', 'SES006', 'Present', '2025-09-23'),
+(8, 'TG1707', 'SES004', 'Present', '2025-09-23'),(8, 'TG1707', 'SES005', 'Present', '2025-09-23'),(8, 'TG1707', 'SES006', 'Present', '2025-09-23'),
+(8, 'TG1708', 'SES004', 'Present', '2025-09-23'),(8, 'TG1708', 'SES005', 'Present', '2025-09-23'),(8, 'TG1708', 'SES006', 'Present', '2025-09-23'),
+(8, 'TG1709', 'SES004', 'Present', '2025-09-23'),(8, 'TG1709', 'SES005', 'Present', '2025-09-23'),(8, 'TG1709', 'SES006', 'Present', '2025-09-23'),
+(8, 'TG1710', 'SES004', 'Present', '2025-09-23'),(8, 'TG1710', 'SES005', 'Present', '2025-09-23'),(8, 'TG1710', 'SES006', 'Present', '2025-09-23'),
+
+-- Wednesday 2025-09-24 (All Present)
+(8, 'TG1701', 'SES007', 'Present', '2025-09-24'),(8, 'TG1701', 'SES008', 'Present', '2025-09-24'),(8, 'TG1701', 'SES009', 'Absent', '2025-09-24'),
+(8, 'TG1702', 'SES007', 'Present', '2025-09-24'),(8, 'TG1702', 'SES008', 'Present', '2025-09-24'),(8, 'TG1702', 'SES009', 'Present', '2025-09-24'),
+(8, 'TG1703', 'SES007', 'Present', '2025-09-24'),(8, 'TG1703', 'SES008', 'Present', '2025-09-24'),(8, 'TG1703', 'SES009', 'Present', '2025-09-24'),
+(8, 'TG1704', 'SES007', 'Present', '2025-09-24'),(8, 'TG1704', 'SES008', 'Present', '2025-09-24'),(8, 'TG1704', 'SES009', 'Present', '2025-09-24'),
+(8, 'TG1705', 'SES007', 'Present', '2025-09-24'),(8, 'TG1705', 'SES008', 'Present', '2025-09-24'),(8, 'TG1705', 'SES009', 'Present', '2025-09-24'),
+(8, 'TG1706', 'SES007', 'Present', '2025-09-24'),(8, 'TG1706', 'SES008', 'Present', '2025-09-24'),(8, 'TG1706', 'SES009', 'Present', '2025-09-24'),
+(8, 'TG1707', 'SES007', 'Absent', '2025-09-24'),(8, 'TG1707', 'SES008', 'Present', '2025-09-24'),(8, 'TG1707', 'SES009', 'Present', '2025-09-24'),
+(8, 'TG1708', 'SES007', 'Present', '2025-09-24'),(8, 'TG1708', 'SES008', 'Present', '2025-09-24'),(8, 'TG1708', 'SES009', 'Present', '2025-09-24'),
+(8, 'TG1709', 'SES007', 'Present', '2025-09-24'),(8, 'TG1709', 'SES008', 'Present', '2025-09-24'),(8, 'TG1709', 'SES009', 'Absent', '2025-09-24'),
+(8, 'TG1710', 'SES007', 'Present', '2025-09-24'),(8, 'TG1710', 'SES008', 'Present', '2025-09-24'),(8, 'TG1710', 'SES009', 'Present', '2025-09-24'),
+
+-- Thursday 2025-09-25 (All Present)
+(8, 'TG1701', 'SES010', 'Present', '2025-09-25'),(8, 'TG1701', 'SES011', 'Present', '2025-09-25'),(8, 'TG1701', 'SES012', 'Present', '2025-09-25'),
+(8, 'TG1702', 'SES010', 'Present', '2025-09-25'),(8, 'TG1702', 'SES011', 'Present', '2025-09-25'),(8, 'TG1702', 'SES012', 'Present', '2025-09-25'),
+(8, 'TG1703', 'SES010', 'Present', '2025-09-25'),(8, 'TG1703', 'SES011', 'Present', '2025-09-25'),(8, 'TG1703', 'SES012', 'Present', '2025-09-25'),
+(8, 'TG1704', 'SES010', 'Present', '2025-09-25'),(8, 'TG1704', 'SES011', 'Present', '2025-09-25'),(8, 'TG1704', 'SES012', 'Present', '2025-09-25'),
+(8, 'TG1705', 'SES010', 'Present', '2025-09-25'),(8, 'TG1705', 'SES011', 'Present', '2025-09-25'),(8, 'TG1705', 'SES012', 'Present', '2025-09-25'),
+(8, 'TG1706', 'SES010', 'Present', '2025-09-25'),(8, 'TG1706', 'SES011', 'Present', '2025-09-25'),(8, 'TG1706', 'SES012', 'Present', '2025-09-25'),
+(8, 'TG1707', 'SES010', 'Present', '2025-09-25'),(8, 'TG1707', 'SES011', 'Present', '2025-09-25'),(8, 'TG1707', 'SES012', 'Present', '2025-09-25'),
+(8, 'TG1708', 'SES010', 'Present', '2025-09-25'),(8, 'TG1708', 'SES011', 'Present', '2025-09-25'),(8, 'TG1708', 'SES012', 'Present', '2025-09-25'),
+(8, 'TG1709', 'SES010', 'Present', '2025-09-25'),(8, 'TG1709', 'SES011', 'Present', '2025-09-25'),(8, 'TG1709', 'SES012', 'Present', '2025-09-25'),
+(8, 'TG1710', 'SES010', 'Present', '2025-09-25'),(8, 'TG1710', 'SES011', 'Present', '2025-09-25'),(8, 'TG1710', 'SES012', 'Present', '2025-09-25'),
+
+-- Friday 2025-09-26 (All Present)
+(8, 'TG1701', 'SES013', 'Present', '2025-09-26'),(8, 'TG1701', 'SES014', 'Present', '2025-09-26'),(8, 'TG1701', 'SES015', 'Present', '2025-09-26'),
+(8, 'TG1702', 'SES013', 'Present', '2025-09-26'),(8, 'TG1702', 'SES014', 'Present', '2025-09-26'),(8, 'TG1702', 'SES015', 'Present', '2025-09-26'),
+(8, 'TG1703', 'SES013', 'Present', '2025-09-26'),(8, 'TG1703', 'SES014', 'Present', '2025-09-26'),(8, 'TG1703', 'SES015', 'Present', '2025-09-26'),
+(8, 'TG1704', 'SES013', 'Present', '2025-09-26'),(8, 'TG1704', 'SES014', 'Present', '2025-09-26'),(8, 'TG1704', 'SES015', 'Present', '2025-09-26'),
+(8, 'TG1705', 'SES013', 'Present', '2025-09-26'),(8, 'TG1705', 'SES014', 'Present', '2025-09-26'),(8, 'TG1705', 'SES015', 'Present', '2025-09-26'),
+(8, 'TG1706', 'SES013', 'Present', '2025-09-26'),(8, 'TG1706', 'SES014', 'Present', '2025-09-26'),(8, 'TG1706', 'SES015', 'Present', '2025-09-26'),
+(8, 'TG1707', 'SES013', 'Present', '2025-09-26'),(8, 'TG1707', 'SES014', 'Present', '2025-09-26'),(8, 'TG1707', 'SES015', 'Present', '2025-09-26'),
+(8, 'TG1708', 'SES013', 'Present', '2025-09-26'),(8, 'TG1708', 'SES014', 'Present', '2025-09-26'),(8, 'TG1708', 'SES015', 'Present', '2025-09-26'),
+(8, 'TG1709', 'SES013', 'Present', '2025-09-26'),(8, 'TG1709', 'SES014', 'Present', '2025-09-26'),(8, 'TG1709', 'SES015', 'Present', '2025-09-26'),
+(8, 'TG1710', 'SES013', 'Present', '2025-09-26'),(8, 'TG1710', 'SES014', 'Present', '2025-09-26'),(8, 'TG1710', 'SES015', 'Present', '2025-09-26'),
+
+-- WEEK 9: 2025-09-29 to 2025-10-03
+-- Monday 2025-09-29 (All Present)
+(9, 'TG1701', 'SES001', 'Present', '2025-09-29'),(9, 'TG1701', 'SES002', 'Present', '2025-09-29'),(9, 'TG1701', 'SES003', 'Present', '2025-09-29'),
+(9, 'TG1702', 'SES001', 'Present', '2025-09-29'),(9, 'TG1702', 'SES002', 'Present', '2025-09-29'),(9, 'TG1702', 'SES003', 'Present', '2025-09-29'),
+(9, 'TG1703', 'SES001', 'Present', '2025-09-29'),(9, 'TG1703', 'SES002', 'Present', '2025-09-29'),(9, 'TG1703', 'SES003', 'Present', '2025-09-29'),
+(9, 'TG1704', 'SES001', 'Present', '2025-09-29'),(9, 'TG1704', 'SES002', 'Present', '2025-09-29'),(9, 'TG1704', 'SES003', 'Present', '2025-09-29'),
+(9, 'TG1705', 'SES001', 'Present', '2025-09-29'),(9, 'TG1705', 'SES002', 'Present', '2025-09-29'),(9, 'TG1705', 'SES003', 'Present', '2025-09-29'),
+(9, 'TG1706', 'SES001', 'Present', '2025-09-29'),(9, 'TG1706', 'SES002', 'Present', '2025-09-29'),(9, 'TG1706', 'SES003', 'Present', '2025-09-29'),
+(9, 'TG1707', 'SES001', 'Present', '2025-09-29'),(9, 'TG1707', 'SES002', 'Present', '2025-09-29'),(9, 'TG1707', 'SES003', 'Present', '2025-09-29'),
+(9, 'TG1708', 'SES001', 'Present', '2025-09-29'),(9, 'TG1708', 'SES002', 'Present', '2025-09-29'),(9, 'TG1708', 'SES003', 'Present', '2025-09-29'),
+(9, 'TG1709', 'SES001', 'Present', '2025-09-29'),(9, 'TG1709', 'SES002', 'Present', '2025-09-29'),(9, 'TG1709', 'SES003', 'Present', '2025-09-29'),
+(9, 'TG1710', 'SES001', 'Present', '2025-09-29'),(9, 'TG1710', 'SES002', 'Present', '2025-09-29'),(9, 'TG1710', 'SES003', 'Present', '2025-09-29'),
+
+-- Tuesday 2025-09-30 (All Present)
+(9, 'TG1701', 'SES004', 'Present', '2025-09-30'),(9, 'TG1701', 'SES005', 'Present', '2025-09-30'),(9, 'TG1701', 'SES006', 'Present', '2025-09-30'),
+(9, 'TG1702', 'SES004', 'Present', '2025-09-30'),(9, 'TG1702', 'SES005', 'Present', '2025-09-30'),(9, 'TG1702', 'SES006', 'Present', '2025-09-30'),
+(9, 'TG1703', 'SES004', 'Present', '2025-09-30'),(9, 'TG1703', 'SES005', 'Present', '2025-09-30'),(9, 'TG1703', 'SES006', 'Present', '2025-09-30'),
+(9, 'TG1704', 'SES004', 'Present', '2025-09-30'),(9, 'TG1704', 'SES005', 'Present', '2025-09-30'),(9, 'TG1704', 'SES006', 'Present', '2025-09-30'),
+(9, 'TG1705', 'SES004', 'Present', '2025-09-30'),(9, 'TG1705', 'SES005', 'Present', '2025-09-30'),(9, 'TG1705', 'SES006', 'Present', '2025-09-30'),
+(9, 'TG1706', 'SES004', 'Present', '2025-09-30'),(9, 'TG1706', 'SES005', 'Present', '2025-09-30'),(9, 'TG1706', 'SES006', 'Present', '2025-09-30'),
+(9, 'TG1707', 'SES004', 'Present', '2025-09-30'),(9, 'TG1707', 'SES005', 'Present', '2025-09-30'),(9, 'TG1707', 'SES006', 'Present', '2025-09-30'),
+(9, 'TG1708', 'SES004', 'Present', '2025-09-30'),(9, 'TG1708', 'SES005', 'Present', '2025-09-30'),(9, 'TG1708', 'SES006', 'Present', '2025-09-30'),
+(9, 'TG1709', 'SES004', 'Present', '2025-09-30'),(9, 'TG1709', 'SES005', 'Present', '2025-09-30'),(9, 'TG1709', 'SES006', 'Present', '2025-09-30'),
+(9, 'TG1710', 'SES004', 'Present', '2025-09-30'),(9, 'TG1710', 'SES005', 'Present', '2025-09-30'),(9, 'TG1710', 'SES006', 'Present', '2025-09-30'),
+
+-- Wednesday 2025-10-01 (TG1709 - Rejected Medical = Absent)
+(9, 'TG1701', 'SES007', 'Present', '2025-10-01'),(9, 'TG1701', 'SES008', 'Present', '2025-10-01'),(9, 'TG1701', 'SES009', 'Absent', '2025-10-01'),
+(9, 'TG1702', 'SES007', 'Present', '2025-10-01'),(9, 'TG1702', 'SES008', 'Present', '2025-10-01'),(9, 'TG1702', 'SES009', 'Present', '2025-10-01'),
+(9, 'TG1703', 'SES007', 'Present', '2025-10-01'),(9, 'TG1703', 'SES008', 'Present', '2025-10-01'),(9, 'TG1703', 'SES009', 'Present', '2025-10-01'),
+(9, 'TG1704', 'SES007', 'Present', '2025-10-01'),(9, 'TG1704', 'SES008', 'Present', '2025-10-01'),(9, 'TG1704', 'SES009', 'Present', '2025-10-01'),
+(9, 'TG1705', 'SES007', 'Present', '2025-10-01'),(9, 'TG1705', 'SES008', 'Present', '2025-10-01'),(9, 'TG1705', 'SES009', 'Present', '2025-10-01'),
+(9, 'TG1706', 'SES007', 'Present', '2025-10-01'),(9, 'TG1706', 'SES008', 'Present', '2025-10-01'),(9, 'TG1706', 'SES009', 'Present', '2025-10-01'),
+(9, 'TG1707', 'SES007', 'Absent', '2025-10-01'),(9, 'TG1707', 'SES008', 'Present', '2025-10-01'),(9, 'TG1707', 'SES009', 'Present', '2025-10-01'),
+(9, 'TG1708', 'SES007', 'Present', '2025-10-01'),(9, 'TG1708', 'SES008', 'Present', '2025-10-01'),(9, 'TG1708', 'SES009', 'Present', '2025-10-01'),
+(9, 'TG1709', 'SES007', 'Absent', '2025-10-01'),(9, 'TG1709', 'SES008', 'Absent', '2025-10-01'),(9, 'TG1709', 'SES009', 'Absent', '2025-10-01'),
+(9, 'TG1710', 'SES007', 'Present', '2025-10-01'),(9, 'TG1710', 'SES008', 'Present', '2025-10-01'),(9, 'TG1710', 'SES009', 'Present', '2025-10-01'),
+
+-- Thursday 2025-10-02 (All Present)
+(9, 'TG1701', 'SES010', 'Present', '2025-10-02'),(9, 'TG1701', 'SES011', 'Present', '2025-10-02'),(9, 'TG1701', 'SES012', 'Present', '2025-10-02'),
+(9, 'TG1702', 'SES010', 'Present', '2025-10-02'),(9, 'TG1702', 'SES011', 'Present', '2025-10-02'),(9, 'TG1702', 'SES012', 'Absent', '2025-10-02'),
+(9, 'TG1703', 'SES010', 'Absent', '2025-10-02'),(9, 'TG1703', 'SES011', 'Present', '2025-10-02'),(9, 'TG1703', 'SES012', 'Present', '2025-10-02'),
+(9, 'TG1704', 'SES010', 'Present', '2025-10-02'),(9, 'TG1704', 'SES011', 'Present', '2025-10-02'),(9, 'TG1704', 'SES012', 'Present', '2025-10-02'),
+(9, 'TG1705', 'SES010', 'Present', '2025-10-02'),(9, 'TG1705', 'SES011', 'Present', '2025-10-02'),(9, 'TG1705', 'SES012', 'Present', '2025-10-02'),
+(9, 'TG1706', 'SES010', 'Present', '2025-10-02'),(9, 'TG1706', 'SES011', 'Present', '2025-10-02'),(9, 'TG1706', 'SES012', 'Present', '2025-10-02'),
+(9, 'TG1707', 'SES010', 'Present', '2025-10-02'),(9, 'TG1707', 'SES011', 'Absent', '2025-10-02'),(9, 'TG1707', 'SES012', 'Present', '2025-10-02'),
+(9, 'TG1708', 'SES010', 'Present', '2025-10-02'),(9, 'TG1708', 'SES011', 'Present', '2025-10-02'),(9, 'TG1708', 'SES012', 'Present', '2025-10-02'),
+(9, 'TG1709', 'SES010', 'Present', '2025-10-02'),(9, 'TG1709', 'SES011', 'Present', '2025-10-02'),(9, 'TG1709', 'SES012', 'Present', '2025-10-02'),
+(9, 'TG1710', 'SES010', 'Present', '2025-10-02'),(9, 'TG1710', 'SES011', 'Present', '2025-10-02'),(9, 'TG1710', 'SES012', 'Absent', '2025-10-02'),
+
+-- Friday 2025-10-03 (All Present)
+(9, 'TG1701', 'SES013', 'Present', '2025-10-03'),(9, 'TG1701', 'SES014', 'Present', '2025-10-03'),(9, 'TG1701', 'SES015', 'Present', '2025-10-03'),
+(9, 'TG1702', 'SES013', 'Absent', '2025-10-03'),(9, 'TG1702', 'SES014', 'Absent', '2025-10-03'),(9, 'TG1702', 'SES015', 'Present', '2025-10-03'),
+(9, 'TG1703', 'SES013', 'Present', '2025-10-03'),(9, 'TG1703', 'SES014', 'Present', '2025-10-03'),(9, 'TG1703', 'SES015', 'Present', '2025-10-03'),
+(9, 'TG1704', 'SES013', 'Present', '2025-10-03'),(9, 'TG1704', 'SES014', 'Present', '2025-10-03'),(9, 'TG1704', 'SES015', 'Present', '2025-10-03'),
+(9, 'TG1705', 'SES013', 'Present', '2025-10-03'),(9, 'TG1705', 'SES014', 'Present', '2025-10-03'),(9, 'TG1705', 'SES015', 'Present', '2025-10-03'),
+(9, 'TG1706', 'SES013', 'Present', '2025-10-03'),(9, 'TG1706', 'SES014', 'Present', '2025-10-03'),(9, 'TG1706', 'SES015', 'Present', '2025-10-03'),
+(9, 'TG1707', 'SES013', 'Present', '2025-10-03'),(9, 'TG1707', 'SES014', 'Present', '2025-10-03'),(9, 'TG1707', 'SES015', 'Absent', '2025-10-03'),
+(9, 'TG1708', 'SES013', 'Present', '2025-10-03'),(9, 'TG1708', 'SES014', 'Present', '2025-10-03'),(9, 'TG1708', 'SES015', 'Present', '2025-10-03'),
+(9, 'TG1709', 'SES013', 'Present', '2025-10-03'),(9, 'TG1709', 'SES014', 'Present', '2025-10-03'),(9, 'TG1709', 'SES015', 'Present', '2025-10-03'),
+(9, 'TG1710', 'SES013', 'Present', '2025-10-03'),(9, 'TG1710', 'SES014', 'Present', '2025-10-03'),(9, 'TG1710', 'SES015', 'Present', '2025-10-03'),
+
+-- WEEK 10: 2025-10-06 to 2025-10-10
+-- Monday 2025-10-06 (All Present)
+(10, 'TG1701', 'SES001', 'Present', '2025-10-06'),(10, 'TG1701', 'SES002', 'Present', '2025-10-06'),(10, 'TG1701', 'SES003', 'Absent', '2025-10-06'),
+(10, 'TG1702', 'SES001', 'Present', '2025-10-06'),(10, 'TG1702', 'SES002', 'Present', '2025-10-06'),(10, 'TG1702', 'SES003', 'Present', '2025-10-06'),
+(10, 'TG1703', 'SES001', 'Present', '2025-10-06'),(10, 'TG1703', 'SES002', 'Present', '2025-10-06'),(10, 'TG1703', 'SES003', 'Present', '2025-10-06'),
+(10, 'TG1704', 'SES001', 'Present', '2025-10-06'),(10, 'TG1704', 'SES002', 'Present', '2025-10-06'),(10, 'TG1704', 'SES003', 'Present', '2025-10-06'),
+(10, 'TG1705', 'SES001', 'Present', '2025-10-06'),(10, 'TG1705', 'SES002', 'Present', '2025-10-06'),(10, 'TG1705', 'SES003', 'Present', '2025-10-06'),
+(10, 'TG1706', 'SES001', 'Present', '2025-10-06'),(10, 'TG1706', 'SES002', 'Present', '2025-10-06'),(10, 'TG1706', 'SES003', 'Present', '2025-10-06'),
+(10, 'TG1707', 'SES001', 'Present', '2025-10-06'),(10, 'TG1707', 'SES002', 'Present', '2025-10-06'),(10, 'TG1707', 'SES003', 'Present', '2025-10-06'),
+(10, 'TG1708', 'SES001', 'Present', '2025-10-06'),(10, 'TG1708', 'SES002', 'Present', '2025-10-06'),(10, 'TG1708', 'SES003', 'Present', '2025-10-06'),
+(10, 'TG1709', 'SES001', 'Present', '2025-10-06'),(10, 'TG1709', 'SES002', 'Present', '2025-10-06'),(10, 'TG1709', 'SES003', 'Present', '2025-10-06'),
+(10, 'TG1710', 'SES001', 'Present', '2025-10-06'),(10, 'TG1710', 'SES002', 'Present', '2025-10-06'),(10, 'TG1710', 'SES003', 'Present', '2025-10-06'),
+
+-- Tuesday 2025-10-07 (All Present)
+(10, 'TG1701', 'SES004', 'Present', '2025-10-07'),(10, 'TG1701', 'SES005', 'Present', '2025-10-07'),(10, 'TG1701', 'SES006', 'Present', '2025-10-07'),
+(10, 'TG1702', 'SES004', 'Present', '2025-10-07'),(10, 'TG1702', 'SES005', 'Present', '2025-10-07'),(10, 'TG1702', 'SES006', 'Present', '2025-10-07'),
+(10, 'TG1703', 'SES004', 'Present', '2025-10-07'),(10, 'TG1703', 'SES005', 'Present', '2025-10-07'),(10, 'TG1703', 'SES006', 'Present', '2025-10-07'),
+(10, 'TG1704', 'SES004', 'Present', '2025-10-07'),(10, 'TG1704', 'SES005', 'Present', '2025-10-07'),(10, 'TG1704', 'SES006', 'Present', '2025-10-07'),
+(10, 'TG1705', 'SES004', 'Present', '2025-10-07'),(10, 'TG1705', 'SES005', 'Present', '2025-10-07'),(10, 'TG1705', 'SES006', 'Present', '2025-10-07'),
+(10, 'TG1706', 'SES004', 'Present', '2025-10-07'),(10, 'TG1706', 'SES005', 'Present', '2025-10-07'),(10, 'TG1706', 'SES006', 'Present', '2025-10-07'),
+(10, 'TG1707', 'SES004', 'Present', '2025-10-07'),(10, 'TG1707', 'SES005', 'Present', '2025-10-07'),(10, 'TG1707', 'SES006', 'Present', '2025-10-07'),
+(10, 'TG1708', 'SES004', 'Present', '2025-10-07'),(10, 'TG1708', 'SES005', 'Present', '2025-10-07'),(10, 'TG1708', 'SES006', 'Present', '2025-10-07'),
+(10, 'TG1709', 'SES004', 'Present', '2025-10-07'),(10, 'TG1709', 'SES005', 'Present', '2025-10-07'),(10, 'TG1709', 'SES006', 'Present', '2025-10-07'),
+(10, 'TG1710', 'SES004', 'Present', '2025-10-07'),(10, 'TG1710', 'SES005', 'Present', '2025-10-07'),(10, 'TG1710', 'SES006', 'Present', '2025-10-07'),
+
+-- Wednesday 2025-10-08 (TG1703 - Approved Medical)
+(10, 'TG1701', 'SES007', 'Present', '2025-10-08'),(10, 'TG1701', 'SES008', 'Present', '2025-10-08'),(10, 'TG1701', 'SES009', 'Present', '2025-10-08'),
+(10, 'TG1702', 'SES007', 'Present', '2025-10-08'),(10, 'TG1702', 'SES008', 'Present', '2025-10-08'),(10, 'TG1702', 'SES009', 'Present', '2025-10-08'),
+(10, 'TG1703', 'SES007', 'Approved Medical', '2025-10-08'),(10, 'TG1703', 'SES008', 'Approved Medical', '2025-10-08'),(10, 'TG1703', 'SES009', 'Approved Medical', '2025-10-08'),
+(10, 'TG1704', 'SES007', 'Present', '2025-10-08'),(10, 'TG1704', 'SES008', 'Present', '2025-10-08'),(10, 'TG1704', 'SES009', 'Present', '2025-10-08'),
+(10, 'TG1705', 'SES007', 'Present', '2025-10-08'),(10, 'TG1705', 'SES008', 'Present', '2025-10-08'),(10, 'TG1705', 'SES009', 'Present', '2025-10-08'),
+(10, 'TG1706', 'SES007', 'Present', '2025-10-08'),(10, 'TG1706', 'SES008', 'Present', '2025-10-08'),(10, 'TG1706', 'SES009', 'Present', '2025-10-08'),
+(10, 'TG1707', 'SES007', 'Present', '2025-10-08'),(10, 'TG1707', 'SES008', 'Present', '2025-10-08'),(10, 'TG1707', 'SES009', 'Present', '2025-10-08'),
+(10, 'TG1708', 'SES007', 'Present', '2025-10-08'),(10, 'TG1708', 'SES008', 'Present', '2025-10-08'),(10, 'TG1708', 'SES009', 'Present', '2025-10-08'),
+(10, 'TG1709', 'SES007', 'Present', '2025-10-08'),(10, 'TG1709', 'SES008', 'Present', '2025-10-08'),(10, 'TG1709', 'SES009', 'Present', '2025-10-08'),
+(10, 'TG1710', 'SES007', 'Present', '2025-10-08'),(10, 'TG1710', 'SES008', 'Present', '2025-10-08'),(10, 'TG1710', 'SES009', 'Present', '2025-10-08'),
+
+-- Thursday 2025-10-09 (All Present)
+(10, 'TG1701', 'SES010', 'Present', '2025-10-09'),(10, 'TG1701', 'SES011', 'Present', '2025-10-09'),(10, 'TG1701', 'SES012', 'Present', '2025-10-09'),
+(10, 'TG1702', 'SES010', 'Absent', '2025-10-09'),(10, 'TG1702', 'SES011', 'Present', '2025-10-09'),(10, 'TG1702', 'SES012', 'Present', '2025-10-09'),
+(10, 'TG1703', 'SES010', 'Present', '2025-10-09'),(10, 'TG1703', 'SES011', 'Present', '2025-10-09'),(10, 'TG1703', 'SES012', 'Present', '2025-10-09'),
+(10, 'TG1704', 'SES010', 'Present', '2025-10-09'),(10, 'TG1704', 'SES011', 'Present', '2025-10-09'),(10, 'TG1704', 'SES012', 'Present', '2025-10-09'),
+(10, 'TG1705', 'SES010', 'Present', '2025-10-09'),(10, 'TG1705', 'SES011', 'Present', '2025-10-09'),(10, 'TG1705', 'SES012', 'Present', '2025-10-09'),
+(10, 'TG1706', 'SES010', 'Present', '2025-10-09'),(10, 'TG1706', 'SES011', 'Present', '2025-10-09'),(10, 'TG1706', 'SES012', 'Present', '2025-10-09'),
+(10, 'TG1707', 'SES010', 'Present', '2025-10-09'),(10, 'TG1707', 'SES011', 'Present', '2025-10-09'),(10, 'TG1707', 'SES012', 'Present', '2025-10-09'),
+(10, 'TG1708', 'SES010', 'Present', '2025-10-09'),(10, 'TG1708', 'SES011', 'Absent', '2025-10-09'),(10, 'TG1708', 'SES012', 'Present', '2025-10-09'),
+(10, 'TG1709', 'SES010', 'Present', '2025-10-09'),(10, 'TG1709', 'SES011', 'Present', '2025-10-09'),(10, 'TG1709', 'SES012', 'Present', '2025-10-09'),
+(10, 'TG1710', 'SES010', 'Present', '2025-10-09'),(10, 'TG1710', 'SES011', 'Present', '2025-10-09'),(10, 'TG1710', 'SES012', 'Absent', '2025-10-09'),
+
+-- Friday 2025-10-10 (All Present)
+(10, 'TG1701', 'SES013', 'Present', '2025-10-10'),(10, 'TG1701', 'SES014', 'Present', '2025-10-10'),(10, 'TG1701', 'SES015', 'Present', '2025-10-10'),
+(10, 'TG1702', 'SES013', 'Present', '2025-10-10'),(10, 'TG1702', 'SES014', 'Present', '2025-10-10'),(10, 'TG1702', 'SES015', 'Present', '2025-10-10'),
+(10, 'TG1703', 'SES013', 'Present', '2025-10-10'),(10, 'TG1703', 'SES014', 'Present', '2025-10-10'),(10, 'TG1703', 'SES015', 'Present', '2025-10-10'),
+(10, 'TG1704', 'SES013', 'Present', '2025-10-10'),(10, 'TG1704', 'SES014', 'Present', '2025-10-10'),(10, 'TG1704', 'SES015', 'Present', '2025-10-10'),
+(10, 'TG1705', 'SES013', 'Present', '2025-10-10'),(10, 'TG1705', 'SES014', 'Present', '2025-10-10'),(10, 'TG1705', 'SES015', 'Present', '2025-10-10'),
+(10, 'TG1706', 'SES013', 'Present', '2025-10-10'),(10, 'TG1706', 'SES014', 'Present', '2025-10-10'),(10, 'TG1706', 'SES015', 'Present', '2025-10-10'),
+(10, 'TG1707', 'SES013', 'Present', '2025-10-10'),(10, 'TG1707', 'SES014', 'Present', '2025-10-10'),(10, 'TG1707', 'SES015', 'Present', '2025-10-10'),
+(10, 'TG1708', 'SES013', 'Present', '2025-10-10'),(10, 'TG1708', 'SES014', 'Present', '2025-10-10'),(10, 'TG1708', 'SES015', 'Present', '2025-10-10'),
+(10, 'TG1709', 'SES013', 'Present', '2025-10-10'),(10, 'TG1709', 'SES014', 'Present', '2025-10-10'),(10, 'TG1709', 'SES015', 'Present', '2025-10-10'),
+(10, 'TG1710', 'SES013', 'Present', '2025-10-10'),(10, 'TG1710', 'SES014', 'Present', '2025-10-10'),(10, 'TG1710', 'SES015', 'Present', '2025-10-10'),
+
+-- WEEK 11: 2025-10-13 to 2025-10-17 (All Present - No Medical Leaves)
+-- Monday 2025-10-13
+(11, 'TG1701', 'SES001', 'Present', '2025-10-13'),(11, 'TG1701', 'SES002', 'Present', '2025-10-13'),(11, 'TG1701', 'SES003', 'Present', '2025-10-13'),
+(11, 'TG1702', 'SES001', 'Present', '2025-10-13'),(11, 'TG1702', 'SES002', 'Present', '2025-10-13'),(11, 'TG1702', 'SES003', 'Present', '2025-10-13'),
+(11, 'TG1703', 'SES001', 'Present', '2025-10-13'),(11, 'TG1703', 'SES002', 'Present', '2025-10-13'),(11, 'TG1703', 'SES003', 'Present', '2025-10-13'),
+(11, 'TG1704', 'SES001', 'Present', '2025-10-13'),(11, 'TG1704', 'SES002', 'Present', '2025-10-13'),(11, 'TG1704', 'SES003', 'Present', '2025-10-13'),
+(11, 'TG1705', 'SES001', 'Present', '2025-10-13'),(11, 'TG1705', 'SES002', 'Present', '2025-10-13'),(11, 'TG1705', 'SES003', 'Present', '2025-10-13'),
+(11, 'TG1706', 'SES001', 'Present', '2025-10-13'),(11, 'TG1706', 'SES002', 'Present', '2025-10-13'),(11, 'TG1706', 'SES003', 'Present', '2025-10-13'),
+(11, 'TG1707', 'SES001', 'Present', '2025-10-13'),(11, 'TG1707', 'SES002', 'Present', '2025-10-13'),(11, 'TG1707', 'SES003', 'Present', '2025-10-13'),
+(11, 'TG1708', 'SES001', 'Present', '2025-10-13'),(11, 'TG1708', 'SES002', 'Present', '2025-10-13'),(11, 'TG1708', 'SES003', 'Present', '2025-10-13'),
+(11, 'TG1709', 'SES001', 'Present', '2025-10-13'),(11, 'TG1709', 'SES002', 'Present', '2025-10-13'),(11, 'TG1709', 'SES003', 'Present', '2025-10-13'),
+(11, 'TG1710', 'SES001', 'Present', '2025-10-13'),(11, 'TG1710', 'SES002', 'Present', '2025-10-13'),(11, 'TG1710', 'SES003', 'Present', '2025-10-13'),
+
+-- Tuesday 2025-10-14
+(11, 'TG1701', 'SES004', 'Present', '2025-10-14'),(11, 'TG1701', 'SES005', 'Present', '2025-10-14'),(11, 'TG1701', 'SES006', 'Present', '2025-10-14'),
+(11, 'TG1702', 'SES004', 'Present', '2025-10-14'),(11, 'TG1702', 'SES005', 'Present', '2025-10-14'),(11, 'TG1702', 'SES006', 'Present', '2025-10-14'),
+(11, 'TG1703', 'SES004', 'Present', '2025-10-14'),(11, 'TG1703', 'SES005', 'Present', '2025-10-14'),(11, 'TG1703', 'SES006', 'Present', '2025-10-14'),
+(11, 'TG1704', 'SES004', 'Present', '2025-10-14'),(11, 'TG1704', 'SES005', 'Present', '2025-10-14'),(11, 'TG1704', 'SES006', 'Present', '2025-10-14'),
+(11, 'TG1705', 'SES004', 'Present', '2025-10-14'),(11, 'TG1705', 'SES005', 'Present', '2025-10-14'),(11, 'TG1705', 'SES006', 'Present', '2025-10-14'),
+(11, 'TG1706', 'SES004', 'Present', '2025-10-14'),(11, 'TG1706', 'SES005', 'Present', '2025-10-14'),(11, 'TG1706', 'SES006', 'Present', '2025-10-14'),
+(11, 'TG1707', 'SES004', 'Present', '2025-10-14'),(11, 'TG1707', 'SES005', 'Present', '2025-10-14'),(11, 'TG1707', 'SES006', 'Present', '2025-10-14'),
+(11, 'TG1708', 'SES004', 'Present', '2025-10-14'),(11, 'TG1708', 'SES005', 'Present', '2025-10-14'),(11, 'TG1708', 'SES006', 'Present', '2025-10-14'),
+(11, 'TG1709', 'SES004', 'Present', '2025-10-14'),(11, 'TG1709', 'SES005', 'Present', '2025-10-14'),(11, 'TG1709', 'SES006', 'Present', '2025-10-14'),
+(11, 'TG1710', 'SES004', 'Present', '2025-10-14'),(11, 'TG1710', 'SES005', 'Present', '2025-10-14'),(11, 'TG1710', 'SES006', 'Present', '2025-10-14'),
+
+-- Wednesday 2025-10-15 (TG1707 - Approved Medical)
+(11, 'TG1701', 'SES007', 'Present', '2025-10-15'),(11, 'TG1701', 'SES008', 'Present', '2025-10-15'),(11, 'TG1701', 'SES009', 'Present', '2025-10-15'),
+(11, 'TG1702', 'SES007', 'Present', '2025-10-15'),(11, 'TG1702', 'SES008', 'Present', '2025-10-15'),(11, 'TG1702', 'SES009', 'Present', '2025-10-15'),
+(11, 'TG1703', 'SES007', 'Present', '2025-10-15'),(11, 'TG1703', 'SES008', 'Present', '2025-10-15'),(11, 'TG1703', 'SES009', 'Present', '2025-10-15'),
+(11, 'TG1704', 'SES007', 'Present', '2025-10-15'),(11, 'TG1704', 'SES008', 'Present', '2025-10-15'),(11, 'TG1704', 'SES009', 'Present', '2025-10-15'),
+(11, 'TG1705', 'SES007', 'Present', '2025-10-15'),(11, 'TG1705', 'SES008', 'Present', '2025-10-15'),(11, 'TG1705', 'SES009', 'Present', '2025-10-15'),
+(11, 'TG1706', 'SES007', 'Present', '2025-10-15'),(11, 'TG1706', 'SES008', 'Present', '2025-10-15'),(11, 'TG1706', 'SES009', 'Present', '2025-10-15'),
+(11, 'TG1707', 'SES007', 'Approved Medical', '2025-10-15'),(11, 'TG1707', 'SES008', 'Approved Medical', '2025-10-15'),(11, 'TG1707', 'SES009', 'Approved Medical', '2025-10-15'),
+(11, 'TG1708', 'SES007', 'Present', '2025-10-15'),(11, 'TG1708', 'SES008', 'Present', '2025-10-15'),(11, 'TG1708', 'SES009', 'Present', '2025-10-15'),
+(11, 'TG1709', 'SES007', 'Present', '2025-10-15'),(11, 'TG1709', 'SES008', 'Present', '2025-10-15'),(11, 'TG1709', 'SES009', 'Present', '2025-10-15'),
+(11, 'TG1710', 'SES007', 'Present', '2025-10-15'),(11, 'TG1710', 'SES008', 'Present', '2025-10-15'),(11, 'TG1710', 'SES009', 'Present', '2025-10-15'),
+
+-- Thursday 2025-10-16
+(11, 'TG1701', 'SES010', 'Present', '2025-10-16'),(11, 'TG1701', 'SES011', 'Present', '2025-10-16'),(11, 'TG1701', 'SES012', 'Present', '2025-10-16'),
+(11, 'TG1702', 'SES010', 'Present', '2025-10-16'),(11, 'TG1702', 'SES011', 'Present', '2025-10-16'),(11, 'TG1702', 'SES012', 'Present', '2025-10-16'),
+(11, 'TG1703', 'SES010', 'Present', '2025-10-16'),(11, 'TG1703', 'SES011', 'Present', '2025-10-16'),(11, 'TG1703', 'SES012', 'Present', '2025-10-16'),
+(11, 'TG1704', 'SES010', 'Present', '2025-10-16'),(11, 'TG1704', 'SES011', 'Present', '2025-10-16'),(11, 'TG1704', 'SES012', 'Present', '2025-10-16'),
+(11, 'TG1705', 'SES010', 'Present', '2025-10-16'),(11, 'TG1705', 'SES011', 'Present', '2025-10-16'),(11, 'TG1705', 'SES012', 'Present', '2025-10-16'),
+(11, 'TG1706', 'SES010', 'Present', '2025-10-16'),(11, 'TG1706', 'SES011', 'Present', '2025-10-16'),(11, 'TG1706', 'SES012', 'Present', '2025-10-16'),
+(11, 'TG1707', 'SES010', 'Present', '2025-10-16'),(11, 'TG1707', 'SES011', 'Present', '2025-10-16'),(11, 'TG1707', 'SES012', 'Present', '2025-10-16'),
+(11, 'TG1708', 'SES010', 'Present', '2025-10-16'),(11, 'TG1708', 'SES011', 'Present', '2025-10-16'),(11, 'TG1708', 'SES012', 'Present', '2025-10-16'),
+(11, 'TG1709', 'SES010', 'Present', '2025-10-16'),(11, 'TG1709', 'SES011', 'Present', '2025-10-16'),(11, 'TG1709', 'SES012', 'Present', '2025-10-16'),
+(11, 'TG1710', 'SES010', 'Present', '2025-10-16'),(11, 'TG1710', 'SES011', 'Present', '2025-10-16'),(11, 'TG1710', 'SES012', 'Present', '2025-10-16'),
+
+-- Friday 2025-10-17
+(11, 'TG1701', 'SES013', 'Present', '2025-10-17'),(11, 'TG1701', 'SES014', 'Present', '2025-10-17'),(11, 'TG1701', 'SES015', 'Present', '2025-10-17'),
+(11, 'TG1702', 'SES013', 'Present', '2025-10-17'),(11, 'TG1702', 'SES014', 'Present', '2025-10-17'),(11, 'TG1702', 'SES015', 'Absent', '2025-10-17'),
+(11, 'TG1703', 'SES013', 'Present', '2025-10-17'),(11, 'TG1703', 'SES014', 'Present', '2025-10-17'),(11, 'TG1703', 'SES015', 'Present', '2025-10-17'),
+(11, 'TG1704', 'SES013', 'Present', '2025-10-17'),(11, 'TG1704', 'SES014', 'Present', '2025-10-17'),(11, 'TG1704', 'SES015', 'Present', '2025-10-17'),
+(11, 'TG1705', 'SES013', 'Absent', '2025-10-17'),(11, 'TG1705', 'SES014', 'Present', '2025-10-17'),(11, 'TG1705', 'SES015', 'Present', '2025-10-17'),
+(11, 'TG1706', 'SES013', 'Present', '2025-10-17'),(11, 'TG1706', 'SES014', 'Present', '2025-10-17'),(11, 'TG1706', 'SES015', 'Present', '2025-10-17'),
+(11, 'TG1707', 'SES013', 'Present', '2025-10-17'),(11, 'TG1707', 'SES014', 'Present', '2025-10-17'),(11, 'TG1707', 'SES015', 'Absent', '2025-10-17'),
+(11, 'TG1708', 'SES013', 'Present', '2025-10-17'),(11, 'TG1708', 'SES014', 'Present', '2025-10-17'),(11, 'TG1708', 'SES015', 'Present', '2025-10-17'),
+(11, 'TG1709', 'SES013', 'Present', '2025-10-17'),(11, 'TG1709', 'SES014', 'Absent', '2025-10-17'),(11, 'TG1709', 'SES015', 'Present', '2025-10-17'),
+(11, 'TG1710', 'SES013', 'Present', '2025-10-17'),(11, 'TG1710', 'SES014', 'Present', '2025-10-17'),(11, 'TG1710', 'SES015', 'Absent', '2025-10-17'),
+
+-- WEEK 12: 2025-10-20 to 2025-10-24 (All Present - No Medical Leaves)
+-- Monday 2025-10-20
+(12, 'TG1701', 'SES001', 'Present', '2025-10-20'),(12, 'TG1701', 'SES002', 'Present', '2025-10-20'),(12, 'TG1701', 'SES003', 'Present', '2025-10-20'),
+(12, 'TG1702', 'SES001', 'Present', '2025-10-20'),(12, 'TG1702', 'SES002', 'Present', '2025-10-20'),(12, 'TG1702', 'SES003', 'Present', '2025-10-20'),
+(12, 'TG1703', 'SES001', 'Present', '2025-10-20'),(12, 'TG1703', 'SES002', 'Present', '2025-10-20'),(12, 'TG1703', 'SES003', 'Present', '2025-10-20'),
+(12, 'TG1704', 'SES001', 'Present', '2025-10-20'),(12, 'TG1704', 'SES002', 'Present', '2025-10-20'),(12, 'TG1704', 'SES003', 'Present', '2025-10-20'),
+(12, 'TG1705', 'SES001', 'Present', '2025-10-20'),(12, 'TG1705', 'SES002', 'Present', '2025-10-20'),(12, 'TG1705', 'SES003', 'Present', '2025-10-20'),
+(12, 'TG1706', 'SES001', 'Present', '2025-10-20'),(12, 'TG1706', 'SES002', 'Present', '2025-10-20'),(12, 'TG1706', 'SES003', 'Present', '2025-10-20'),
+(12, 'TG1707', 'SES001', 'Absent', '2025-10-20'),(12, 'TG1707', 'SES002', 'Present', '2025-10-20'),(12, 'TG1707', 'SES003', 'Present', '2025-10-20'),
+(12, 'TG1708', 'SES001', 'Present', '2025-10-20'),(12, 'TG1708', 'SES002', 'Absent', '2025-10-20'),(12, 'TG1708', 'SES003', 'Present', '2025-10-20'),
+(12, 'TG1709', 'SES001', 'Present', '2025-10-20'),(12, 'TG1709', 'SES002', 'Present', '2025-10-20'),(12, 'TG1709', 'SES003', 'Absent', '2025-10-20'),
+(12, 'TG1710', 'SES001', 'Present', '2025-10-20'),(12, 'TG1710', 'SES002', 'Present', '2025-10-20'),(12, 'TG1710', 'SES003', 'Present', '2025-10-20'),
+
+-- Tuesday 2025-10-21
+(12, 'TG1701', 'SES004', 'Present', '2025-10-21'),(12, 'TG1701', 'SES005', 'Absent', '2025-10-21'),(12, 'TG1701', 'SES006', 'Present', '2025-10-21'),
+(12, 'TG1702', 'SES004', 'Present', '2025-10-21'),(12, 'TG1702', 'SES005', 'Present', '2025-10-21'),(12, 'TG1702', 'SES006', 'Present', '2025-10-21'),
+(12, 'TG1703', 'SES004', 'Present', '2025-10-21'),(12, 'TG1703', 'SES005', 'Present', '2025-10-21'),(12, 'TG1703', 'SES006', 'Present', '2025-10-21'),
+(12, 'TG1704', 'SES004', 'Present', '2025-10-21'),(12, 'TG1704', 'SES005', 'Present', '2025-10-21'),(12, 'TG1704', 'SES006', 'Absent', '2025-10-21'),
+(12, 'TG1705', 'SES004', 'Present', '2025-10-21'),(12, 'TG1705', 'SES005', 'Present', '2025-10-21'),(12, 'TG1705', 'SES006', 'Present', '2025-10-21'),
+(12, 'TG1706', 'SES004', 'Present', '2025-10-21'),(12, 'TG1706', 'SES005', 'Present', '2025-10-21'),(12, 'TG1706', 'SES006', 'Present', '2025-10-21'),
+(12, 'TG1707', 'SES004', 'Present', '2025-10-21'),(12, 'TG1707', 'SES005', 'Present', '2025-10-21'),(12, 'TG1707', 'SES006', 'Present', '2025-10-21'),
+(12, 'TG1708', 'SES004', 'Absent', '2025-10-21'),(12, 'TG1708', 'SES005', 'Absent', '2025-10-21'),(12, 'TG1708', 'SES006', 'Absent', '2025-10-21'),
+(12, 'TG1709', 'SES004', 'Present', '2025-10-21'),(12, 'TG1709', 'SES005', 'Present', '2025-10-21'),(12, 'TG1709', 'SES006', 'Present', '2025-10-21'),
+(12, 'TG1710', 'SES004', 'Present', '2025-10-21'),(12, 'TG1710', 'SES005', 'Present', '2025-10-21'),(12, 'TG1710', 'SES006', 'Present', '2025-10-21'),
+
+-- Wednesday 2025-10-22
+(12, 'TG1701', 'SES007', 'Present', '2025-10-22'),(12, 'TG1701', 'SES008', 'Present', '2025-10-22'),(12, 'TG1701', 'SES009', 'Present', '2025-10-22'),
+(12, 'TG1702', 'SES007', 'Present', '2025-10-22'),(12, 'TG1702', 'SES008', 'Present', '2025-10-22'),(12, 'TG1702', 'SES009', 'Present', '2025-10-22'),
+(12, 'TG1703', 'SES007', 'Present', '2025-10-22'),(12, 'TG1703', 'SES008', 'Present', '2025-10-22'),(12, 'TG1703', 'SES009', 'Present', '2025-10-22'),
+(12, 'TG1704', 'SES007', 'Present', '2025-10-22'),(12, 'TG1704', 'SES008', 'Present', '2025-10-22'),(12, 'TG1704', 'SES009', 'Present', '2025-10-22'),
+(12, 'TG1705', 'SES007', 'Present', '2025-10-22'),(12, 'TG1705', 'SES008', 'Present', '2025-10-22'),(12, 'TG1705', 'SES009', 'Present', '2025-10-22'),
+(12, 'TG1706', 'SES007', 'Absent', '2025-10-22'),(12, 'TG1706', 'SES008', 'Absent', '2025-10-22'),(12, 'TG1706', 'SES009', 'Present', '2025-10-22'),
+(12, 'TG1707', 'SES007', 'Present', '2025-10-22'),(12, 'TG1707', 'SES008', 'Present', '2025-10-22'),(12, 'TG1707', 'SES009', 'Present', '2025-10-22'),
+(12, 'TG1708', 'SES007', 'Present', '2025-10-22'),(12, 'TG1708', 'SES008', 'Present', '2025-10-22'),(12, 'TG1708', 'SES009', 'Present', '2025-10-22'),
+(12, 'TG1709', 'SES007', 'Present', '2025-10-22'),(12, 'TG1709', 'SES008', 'Present', '2025-10-22'),(12, 'TG1709', 'SES009', 'Absent', '2025-10-22'),
+(12, 'TG1710', 'SES007', 'Present', '2025-10-22'),(12, 'TG1710', 'SES008', 'Present', '2025-10-22'),(12, 'TG1710', 'SES009', 'Present', '2025-10-22'),
+
+-- Thursday 2025-10-23
+(12, 'TG1701', 'SES010', 'Present', '2025-10-23'),(12, 'TG1701', 'SES011', 'Present', '2025-10-23'),(12, 'TG1701', 'SES012', 'Present', '2025-10-23'),
+(12, 'TG1702', 'SES010', 'Present', '2025-10-23'),(12, 'TG1702', 'SES011', 'Present', '2025-10-23'),(12, 'TG1702', 'SES012', 'Present', '2025-10-23'),
+(12, 'TG1703', 'SES010', 'Present', '2025-10-23'),(12, 'TG1703', 'SES011', 'Present', '2025-10-23'),(12, 'TG1703', 'SES012', 'Present', '2025-10-23'),
+(12, 'TG1704', 'SES010', 'Present', '2025-10-23'),(12, 'TG1704', 'SES011', 'Present', '2025-10-23'),(12, 'TG1704', 'SES012', 'Present', '2025-10-23'),
+(12, 'TG1705', 'SES010', 'Present', '2025-10-23'),(12, 'TG1705', 'SES011', 'Present', '2025-10-23'),(12, 'TG1705', 'SES012', 'Present', '2025-10-23'),
+(12, 'TG1706', 'SES010', 'Present', '2025-10-23'),(12, 'TG1706', 'SES011', 'Present', '2025-10-23'),(12, 'TG1706', 'SES012', 'Present', '2025-10-23'),
+(12, 'TG1707', 'SES010', 'Present', '2025-10-23'),(12, 'TG1707', 'SES011', 'Present', '2025-10-23'),(12, 'TG1707', 'SES012', 'Present', '2025-10-23'),
+(12, 'TG1708', 'SES010', 'Present', '2025-10-23'),(12, 'TG1708', 'SES011', 'Absent', '2025-10-23'),(12, 'TG1708', 'SES012', 'Present', '2025-10-23'),
+(12, 'TG1709', 'SES010', 'Present', '2025-10-23'),(12, 'TG1709', 'SES011', 'Present', '2025-10-23'),(12, 'TG1709', 'SES012', 'Present', '2025-10-23'),
+(12, 'TG1710', 'SES010', 'Present', '2025-10-23'),(12, 'TG1710', 'SES011', 'Present', '2025-10-23'),(12, 'TG1710', 'SES012', 'Present', '2025-10-23'),
+
+-- Friday 2025-10-24
+(12, 'TG1701', 'SES013', 'Present', '2025-10-24'),(12, 'TG1701', 'SES014', 'Present', '2025-10-24'),(12, 'TG1701', 'SES015', 'Present', '2025-10-24'),
+(12, 'TG1702', 'SES013', 'Present', '2025-10-24'),(12, 'TG1702', 'SES014', 'Present', '2025-10-24'),(12, 'TG1702', 'SES015', 'Absent', '2025-10-24'),
+(12, 'TG1703', 'SES013', 'Present', '2025-10-24'),(12, 'TG1703', 'SES014', 'Present', '2025-10-24'),(12, 'TG1703', 'SES015', 'Present', '2025-10-24'),
+(12, 'TG1704', 'SES013', 'Present', '2025-10-24'),(12, 'TG1704', 'SES014', 'Present', '2025-10-24'),(12, 'TG1704', 'SES015', 'Present', '2025-10-24'),
+(12, 'TG1705', 'SES013', 'Present', '2025-10-24'),(12, 'TG1705', 'SES014', 'Present', '2025-10-24'),(12, 'TG1705', 'SES015', 'Present', '2025-10-24'),
+(12, 'TG1706', 'SES013', 'Present', '2025-10-24'),(12, 'TG1706', 'SES014', 'Present', '2025-10-24'),(12, 'TG1706', 'SES015', 'Present', '2025-10-24'),
+(12, 'TG1707', 'SES013', 'Absent', '2025-10-24'),(12, 'TG1707', 'SES014', 'Present', '2025-10-24'),(12, 'TG1707', 'SES015', 'Present', '2025-10-24'),
+(12, 'TG1708', 'SES013', 'Present', '2025-10-24'),(12, 'TG1708', 'SES014', 'Present', '2025-10-24'),(12, 'TG1708', 'SES015', 'Present', '2025-10-24'),
+(12, 'TG1709', 'SES013', 'Present', '2025-10-24'),(12, 'TG1709', 'SES014', 'Present', '2025-10-24'),(12, 'TG1709', 'SES015', 'Present', '2025-10-24'),
+(12, 'TG1710', 'SES013', 'Present', '2025-10-24'),(12, 'TG1710', 'SES014', 'Present', '2025-10-24'),(12, 'TG1710', 'SES015', 'Present', '2025-10-24'),
+
+-- WEEK 13: 2025-10-27 to 2025-10-31 (All Present - No Medical Leaves)
+-- Monday 2025-10-27
+(13, 'TG1701', 'SES001', 'Present', '2025-10-27'),(13, 'TG1701', 'SES002', 'Present', '2025-10-27'),(13, 'TG1701', 'SES003', 'Present', '2025-10-27'),
+(13, 'TG1702', 'SES001', 'Present', '2025-10-27'),(13, 'TG1702', 'SES002', 'Present', '2025-10-27'),(13, 'TG1702', 'SES003', 'Present', '2025-10-27'),
+(13, 'TG1703', 'SES001', 'Present', '2025-10-27'),(13, 'TG1703', 'SES002', 'Present', '2025-10-27'),(13, 'TG1703', 'SES003', 'Present', '2025-10-27'),
+(13, 'TG1704', 'SES001', 'Present', '2025-10-27'),(13, 'TG1704', 'SES002', 'Absent', '2025-10-27'),(13, 'TG1704', 'SES003', 'Present', '2025-10-27'),
+(13, 'TG1705', 'SES001', 'Present', '2025-10-27'),(13, 'TG1705', 'SES002', 'Present', '2025-10-27'),(13, 'TG1705', 'SES003', 'Present', '2025-10-27'),
+(13, 'TG1706', 'SES001', 'Present', '2025-10-27'),(13, 'TG1706', 'SES002', 'Present', '2025-10-27'),(13, 'TG1706', 'SES003', 'Present', '2025-10-27'),
+(13, 'TG1707', 'SES001', 'Absent', '2025-10-27'),(13, 'TG1707', 'SES002', 'Present', '2025-10-27'),(13, 'TG1707', 'SES003', 'Present', '2025-10-27'),
+(13, 'TG1708', 'SES001', 'Present', '2025-10-27'),(13, 'TG1708', 'SES002', 'Present', '2025-10-27'),(13, 'TG1708', 'SES003', 'Present', '2025-10-27'),
+(13, 'TG1709', 'SES001', 'Present', '2025-10-27'),(13, 'TG1709', 'SES002', 'Present', '2025-10-27'),(13, 'TG1709', 'SES003', 'Present', '2025-10-27'),
+(13, 'TG1710', 'SES001', 'Present', '2025-10-27'),(13, 'TG1710', 'SES002', 'Present', '2025-10-27'),(13, 'TG1710', 'SES003', 'Present', '2025-10-27'),
+
+-- Tuesday 2025-10-28
+(13, 'TG1701', 'SES004', 'Present', '2025-10-28'),(13, 'TG1701', 'SES005', 'Present', '2025-10-28'),(13, 'TG1701', 'SES006', 'Present', '2025-10-28'),
+(13, 'TG1702', 'SES004', 'Present', '2025-10-28'),(13, 'TG1702', 'SES005', 'Present', '2025-10-28'),(13, 'TG1702', 'SES006', 'Present', '2025-10-28'),
+(13, 'TG1703', 'SES004', 'Present', '2025-10-28'),(13, 'TG1703', 'SES005', 'Present', '2025-10-28'),(13, 'TG1703', 'SES006', 'Present', '2025-10-28'),
+(13, 'TG1704', 'SES004', 'Present', '2025-10-28'),(13, 'TG1704', 'SES005', 'Present', '2025-10-28'),(13, 'TG1704', 'SES006', 'Present', '2025-10-28'),
+(13, 'TG1705', 'SES004', 'Present', '2025-10-28'),(13, 'TG1705', 'SES005', 'Present', '2025-10-28'),(13, 'TG1705', 'SES006', 'Present', '2025-10-28'),
+(13, 'TG1706', 'SES004', 'Present', '2025-10-28'),(13, 'TG1706', 'SES005', 'Present', '2025-10-28'),(13, 'TG1706', 'SES006', 'Present', '2025-10-28'),
+(13, 'TG1707', 'SES004', 'Present', '2025-10-28'),(13, 'TG1707', 'SES005', 'Present', '2025-10-28'),(13, 'TG1707', 'SES006', 'Present', '2025-10-28'),
+(13, 'TG1708', 'SES004', 'Present', '2025-10-28'),(13, 'TG1708', 'SES005', 'Present', '2025-10-28'),(13, 'TG1708', 'SES006', 'Present', '2025-10-28'),
+(13, 'TG1709', 'SES004', 'Present', '2025-10-28'),(13, 'TG1709', 'SES005', 'Present', '2025-10-28'),(13, 'TG1709', 'SES006', 'Present', '2025-10-28'),
+(13, 'TG1710', 'SES004', 'Present', '2025-10-28'),(13, 'TG1710', 'SES005', 'Present', '2025-10-28'),(13, 'TG1710', 'SES006', 'Present', '2025-10-28'),
+
+-- Wednesday 2025-10-29
+(13, 'TG1701', 'SES007', 'Present', '2025-10-29'),(13, 'TG1701', 'SES008', 'Present', '2025-10-29'),(13, 'TG1701', 'SES009', 'Absent', '2025-10-29'),
+(13, 'TG1702', 'SES007', 'Present', '2025-10-29'),(13, 'TG1702', 'SES008', 'Present', '2025-10-29'),(13, 'TG1702', 'SES009', 'Present', '2025-10-29'),
+(13, 'TG1703', 'SES007', 'Present', '2025-10-29'),(13, 'TG1703', 'SES008', 'Present', '2025-10-29'),(13, 'TG1703', 'SES009', 'Present', '2025-10-29'),
+(13, 'TG1704', 'SES007', 'Present', '2025-10-29'),(13, 'TG1704', 'SES008', 'Present', '2025-10-29'),(13, 'TG1704', 'SES009', 'Present', '2025-10-29'),
+(13, 'TG1705', 'SES007', 'Present', '2025-10-29'),(13, 'TG1705', 'SES008', 'Present', '2025-10-29'),(13, 'TG1705', 'SES009', 'Present', '2025-10-29'),
+(13, 'TG1706', 'SES007', 'Present', '2025-10-29'),(13, 'TG1706', 'SES008', 'Present', '2025-10-29'),(13, 'TG1706', 'SES009', 'Present', '2025-10-29'),
+(13, 'TG1707', 'SES007', 'Present', '2025-10-29'),(13, 'TG1707', 'SES008', 'Present', '2025-10-29'),(13, 'TG1707', 'SES009', 'Present', '2025-10-29'),
+(13, 'TG1708', 'SES007', 'Present', '2025-10-29'),(13, 'TG1708', 'SES008', 'Present', '2025-10-29'),(13, 'TG1708', 'SES009', 'Present', '2025-10-29'),
+(13, 'TG1709', 'SES007', 'Present', '2025-10-29'),(13, 'TG1709', 'SES008', 'Present', '2025-10-29'),(13, 'TG1709', 'SES009', 'Present', '2025-10-29'),
+(13, 'TG1710', 'SES007', 'Present', '2025-10-29'),(13, 'TG1710', 'SES008', 'Present', '2025-10-29'),(13, 'TG1710', 'SES009', 'Present', '2025-10-29'),
+
+-- Thursday 2025-10-30
+(13, 'TG1701', 'SES010', 'Present', '2025-10-30'),(13, 'TG1701', 'SES011', 'Present', '2025-10-30'),(13, 'TG1701', 'SES012', 'Present', '2025-10-30'),
+(13, 'TG1702', 'SES010', 'Present', '2025-10-30'),(13, 'TG1702', 'SES011', 'Present', '2025-10-30'),(13, 'TG1702', 'SES012', 'Present', '2025-10-30'),
+(13, 'TG1703', 'SES010', 'Present', '2025-10-30'),(13, 'TG1703', 'SES011', 'Present', '2025-10-30'),(13, 'TG1703', 'SES012', 'Present', '2025-10-30'),
+(13, 'TG1704', 'SES010', 'Present', '2025-10-30'),(13, 'TG1704', 'SES011', 'Present', '2025-10-30'),(13, 'TG1704', 'SES012', 'Present', '2025-10-30'),
+(13, 'TG1705', 'SES010', 'Present', '2025-10-30'),(13, 'TG1705', 'SES011', 'Present', '2025-10-30'),(13, 'TG1705', 'SES012', 'Present', '2025-10-30'),
+(13, 'TG1706', 'SES010', 'Present', '2025-10-30'),(13, 'TG1706', 'SES011', 'Present', '2025-10-30'),(13, 'TG1706', 'SES012', 'Present', '2025-10-30'),
+(13, 'TG1707', 'SES010', 'Present', '2025-10-30'),(13, 'TG1707', 'SES011', 'Present', '2025-10-30'),(13, 'TG1707', 'SES012', 'Present', '2025-10-30'),
+(13, 'TG1708', 'SES010', 'Present', '2025-10-30'),(13, 'TG1708', 'SES011', 'Present', '2025-10-30'),(13, 'TG1708', 'SES012', 'Present', '2025-10-30'),
+(13, 'TG1709', 'SES010', 'Present', '2025-10-30'),(13, 'TG1709', 'SES011', 'Present', '2025-10-30'),(13, 'TG1709', 'SES012', 'Present', '2025-10-30'),
+(13, 'TG1710', 'SES010', 'Present', '2025-10-30'),(13, 'TG1710', 'SES011', 'Present', '2025-10-30'),(13, 'TG1710', 'SES012', 'Present', '2025-10-30'),
+
+-- Friday 2025-10-31
+(13, 'TG1701', 'SES013', 'Present', '2025-10-31'),(13, 'TG1701', 'SES014', 'Present', '2025-10-31'),(13, 'TG1701', 'SES015', 'Present', '2025-10-31'),
+(13, 'TG1702', 'SES013', 'Present', '2025-10-31'),(13, 'TG1702', 'SES014', 'Present', '2025-10-31'),(13, 'TG1702', 'SES015', 'Present', '2025-10-31'),
+(13, 'TG1703', 'SES013', 'Present', '2025-10-31'),(13, 'TG1703', 'SES014', 'Present', '2025-10-31'),(13, 'TG1703', 'SES015', 'Present', '2025-10-31'),
+(13, 'TG1704', 'SES013', 'Present', '2025-10-31'),(13, 'TG1704', 'SES014', 'Present', '2025-10-31'),(13, 'TG1704', 'SES015', 'Present', '2025-10-31'),
+(13, 'TG1705', 'SES013', 'Present', '2025-10-31'),(13, 'TG1705', 'SES014', 'Present', '2025-10-31'),(13, 'TG1705', 'SES015', 'Present', '2025-10-31'),
+(13, 'TG1706', 'SES013', 'Present', '2025-10-31'),(13, 'TG1706', 'SES014', 'Present', '2025-10-31'),(13, 'TG1706', 'SES015', 'Present', '2025-10-31'),
+(13, 'TG1707', 'SES013', 'Present', '2025-10-31'),(13, 'TG1707', 'SES014', 'Present', '2025-10-31'),(13, 'TG1707', 'SES015', 'Present', '2025-10-31'),
+(13, 'TG1708', 'SES013', 'Absent', '2025-10-31'),(13, 'TG1708', 'SES014', 'Present', '2025-10-31'),(13, 'TG1708', 'SES015', 'Present', '2025-10-31'),
+(13, 'TG1709', 'SES013', 'Present', '2025-10-31'),(13, 'TG1709', 'SES014', 'Present', '2025-10-31'),(13, 'TG1709', 'SES015', 'Present', '2025-10-31'),
+(13, 'TG1710', 'SES013', 'Present', '2025-10-31'),(13, 'TG1710', 'SES014', 'Present', '2025-10-31'),(13, 'TG1710', 'SES015', 'Present', '2025-10-31'),
+
+-- WEEK 14: 2025-11-03 to 2025-11-07 (All Present - No Medical Leaves)
+-- Monday 2025-11-03
+(14, 'TG1701', 'SES001', 'Present', '2025-11-03'),(14, 'TG1701', 'SES002', 'Absent', '2025-11-03'),(14, 'TG1701', 'SES003', 'Absent', '2025-11-03'),
+(14, 'TG1702', 'SES001', 'Present', '2025-11-03'),(14, 'TG1702', 'SES002', 'Present', '2025-11-03'),(14, 'TG1702', 'SES003', 'Present', '2025-11-03'),
+(14, 'TG1703', 'SES001', 'Present', '2025-11-03'),(14, 'TG1703', 'SES002', 'Present', '2025-11-03'),(14, 'TG1703', 'SES003', 'Present', '2025-11-03'),
+(14, 'TG1704', 'SES001', 'Present', '2025-11-03'),(14, 'TG1704', 'SES002', 'Present', '2025-11-03'),(14, 'TG1704', 'SES003', 'Present', '2025-11-03'),
+(14, 'TG1705', 'SES001', 'Present', '2025-11-03'),(14, 'TG1705', 'SES002', 'Present', '2025-11-03'),(14, 'TG1705', 'SES003', 'Present', '2025-11-03'),
+(14, 'TG1706', 'SES001', 'Present', '2025-11-03'),(14, 'TG1706', 'SES002', 'Present', '2025-11-03'),(14, 'TG1706', 'SES003', 'Present', '2025-11-03'),
+(14, 'TG1707', 'SES001', 'Present', '2025-11-03'),(14, 'TG1707', 'SES002', 'Present', '2025-11-03'),(14, 'TG1707', 'SES003', 'Present', '2025-11-03'),
+(14, 'TG1708', 'SES001', 'Present', '2025-11-03'),(14, 'TG1708', 'SES002', 'Absent', '2025-11-03'),(14, 'TG1708', 'SES003', 'Present', '2025-11-03'),
+(14, 'TG1709', 'SES001', 'Present', '2025-11-03'),(14, 'TG1709', 'SES002', 'Present', '2025-11-03'),(14, 'TG1709', 'SES003', 'Present', '2025-11-03'),
+(14, 'TG1710', 'SES001', 'Present', '2025-11-03'),(14, 'TG1710', 'SES002', 'Present', '2025-11-03'),(14, 'TG1710', 'SES003', 'Present', '2025-11-03'),
+
+-- Tuesday 2025-11-04
+(14, 'TG1701', 'SES004', 'Present', '2025-11-04'),(14, 'TG1701', 'SES005', 'Present', '2025-11-04'),(14, 'TG1701', 'SES006', 'Present', '2025-11-04'),
+(14, 'TG1702', 'SES004', 'Present', '2025-11-04'),(14, 'TG1702', 'SES005', 'Absent', '2025-11-04'),(14, 'TG1702', 'SES006', 'Present', '2025-11-04'),
+(14, 'TG1703', 'SES004', 'Present', '2025-11-04'),(14, 'TG1703', 'SES005', 'Present', '2025-11-04'),(14, 'TG1703', 'SES006', 'Present', '2025-11-04'),
+(14, 'TG1704', 'SES004', 'Present', '2025-11-04'),(14, 'TG1704', 'SES005', 'Absent', '2025-11-04'),(14, 'TG1704', 'SES006', 'Present', '2025-11-04'),
+(14, 'TG1705', 'SES004', 'Present', '2025-11-04'),(14, 'TG1705', 'SES005', 'Absent', '2025-11-04'),(14, 'TG1705', 'SES006', 'Present', '2025-11-04'),
+(14, 'TG1706', 'SES004', 'Present', '2025-11-04'),(14, 'TG1706', 'SES005', 'Absent', '2025-11-04'),(14, 'TG1706', 'SES006', 'Present', '2025-11-04'),
+(14, 'TG1707', 'SES004', 'Present', '2025-11-04'),(14, 'TG1707', 'SES005', 'Present', '2025-11-04'),(14, 'TG1707', 'SES006', 'Present', '2025-11-04'),
+(14, 'TG1708', 'SES004', 'Present', '2025-11-04'),(14, 'TG1708', 'SES005', 'Present', '2025-11-04'),(14, 'TG1708', 'SES006', 'Present', '2025-11-04'),
+(14, 'TG1709', 'SES004', 'Present', '2025-11-04'),(14, 'TG1709', 'SES005', 'Present', '2025-11-04'),(14, 'TG1709', 'SES006', 'Present', '2025-11-04'),
+(14, 'TG1710', 'SES004', 'Present', '2025-11-04'),(14, 'TG1710', 'SES005', 'Present', '2025-11-04'),(14, 'TG1710', 'SES006', 'Present', '2025-11-04'),
+
+-- Wednesday 2025-11-05
+(14, 'TG1701', 'SES007', 'Present', '2025-11-05'),(14, 'TG1701', 'SES008', 'Present', '2025-11-05'),(14, 'TG1701', 'SES009', 'Present', '2025-11-05'),
+(14, 'TG1702', 'SES007', 'Present', '2025-11-05'),(14, 'TG1702', 'SES008', 'Present', '2025-11-05'),(14, 'TG1702', 'SES009', 'Present', '2025-11-05'),
+(14, 'TG1703', 'SES007', 'Present', '2025-11-05'),(14, 'TG1703', 'SES008', 'Present', '2025-11-05'),(14, 'TG1703', 'SES009', 'Present', '2025-11-05'),
+(14, 'TG1704', 'SES007', 'Present', '2025-11-05'),(14, 'TG1704', 'SES008', 'Present', '2025-11-05'),(14, 'TG1704', 'SES009', 'Present', '2025-11-05'),
+(14, 'TG1705', 'SES007', 'Present', '2025-11-05'),(14, 'TG1705', 'SES008', 'Present', '2025-11-05'),(14, 'TG1705', 'SES009', 'Present', '2025-11-05'),
+(14, 'TG1706', 'SES007', 'Present', '2025-11-05'),(14, 'TG1706', 'SES008', 'Present', '2025-11-05'),(14, 'TG1706', 'SES009', 'Present', '2025-11-05'),
+(14, 'TG1707', 'SES007', 'Present', '2025-11-05'),(14, 'TG1707', 'SES008', 'Present', '2025-11-05'),(14, 'TG1707', 'SES009', 'Present', '2025-11-05'),
+(14, 'TG1708', 'SES007', 'Present', '2025-11-05'),(14, 'TG1708', 'SES008', 'Present', '2025-11-05'),(14, 'TG1708', 'SES009', 'Present', '2025-11-05'),
+(14, 'TG1709', 'SES007', 'Present', '2025-11-05'),(14, 'TG1709', 'SES008', 'Present', '2025-11-05'),(14, 'TG1709', 'SES009', 'Present', '2025-11-05'),
+(14, 'TG1710', 'SES007', 'Present', '2025-11-05'),(14, 'TG1710', 'SES008', 'Present', '2025-11-05'),(14, 'TG1710', 'SES009', 'Present', '2025-11-05'),
+
+-- Thursday 2025-11-06
+(14, 'TG1701', 'SES010', 'Present', '2025-11-06'),(14, 'TG1701', 'SES011', 'Present', '2025-11-06'),(14, 'TG1701', 'SES012', 'Present', '2025-11-06'),
+(14, 'TG1702', 'SES010', 'Present', '2025-11-06'),(14, 'TG1702', 'SES011', 'Present', '2025-11-06'),(14, 'TG1702', 'SES012', 'Present', '2025-11-06'),
+(14, 'TG1703', 'SES010', 'Present', '2025-11-06'),(14, 'TG1703', 'SES011', 'Present', '2025-11-06'),(14, 'TG1703', 'SES012', 'Present', '2025-11-06'),
+(14, 'TG1704', 'SES010', 'Present', '2025-11-06'),(14, 'TG1704', 'SES011', 'Present', '2025-11-06'),(14, 'TG1704', 'SES012', 'Present', '2025-11-06'),
+(14, 'TG1705', 'SES010', 'Present', '2025-11-06'),(14, 'TG1705', 'SES011', 'Present', '2025-11-06'),(14, 'TG1705', 'SES012', 'Present', '2025-11-06'),
+(14, 'TG1706', 'SES010', 'Present', '2025-11-06'),(14, 'TG1706', 'SES011', 'Present', '2025-11-06'),(14, 'TG1706', 'SES012', 'Present', '2025-11-06'),
+(14, 'TG1707', 'SES010', 'Present', '2025-11-06'),(14, 'TG1707', 'SES011', 'Present', '2025-11-06'),(14, 'TG1707', 'SES012', 'Present', '2025-11-06'),
+(14, 'TG1708', 'SES010', 'Present', '2025-11-06'),(14, 'TG1708', 'SES011', 'Present', '2025-11-06'),(14, 'TG1708', 'SES012', 'Present', '2025-11-06'),
+(14, 'TG1709', 'SES010', 'Present', '2025-11-06'),(14, 'TG1709', 'SES011', 'Present', '2025-11-06'),(14, 'TG1709', 'SES012', 'Present', '2025-11-06'),
+(14, 'TG1710', 'SES010', 'Present', '2025-11-06'),(14, 'TG1710', 'SES011', 'Present', '2025-11-06'),(14, 'TG1710', 'SES012', 'Present', '2025-11-06'),
+
+-- Friday 2025-11-07
+(14, 'TG1701', 'SES013', 'Present', '2025-11-07'),(14, 'TG1701', 'SES014', 'Present', '2025-11-07'),(14, 'TG1701', 'SES015', 'Present', '2025-11-07'),
+(14, 'TG1702', 'SES013', 'Present', '2025-11-07'),(14, 'TG1702', 'SES014', 'Present', '2025-11-07'),(14, 'TG1702', 'SES015', 'Present', '2025-11-07'),
+(14, 'TG1703', 'SES013', 'Present', '2025-11-07'),(14, 'TG1703', 'SES014', 'Present', '2025-11-07'),(14, 'TG1703', 'SES015', 'Present', '2025-11-07'),
+(14, 'TG1704', 'SES013', 'Present', '2025-11-07'),(14, 'TG1704', 'SES014', 'Present', '2025-11-07'),(14, 'TG1704', 'SES015', 'Present', '2025-11-07'),
+(14, 'TG1705', 'SES013', 'Present', '2025-11-07'),(14, 'TG1705', 'SES014', 'Present', '2025-11-07'),(14, 'TG1705', 'SES015', 'Present', '2025-11-07'),
+(14, 'TG1706', 'SES013', 'Present', '2025-11-07'),(14, 'TG1706', 'SES014', 'Present', '2025-11-07'),(14, 'TG1706', 'SES015', 'Present', '2025-11-07'),
+(14, 'TG1707', 'SES013', 'Present', '2025-11-07'),(14, 'TG1707', 'SES014', 'Present', '2025-11-07'),(14, 'TG1707', 'SES015', 'Present', '2025-11-07'),
+(14, 'TG1708', 'SES013', 'Present', '2025-11-07'),(14, 'TG1708', 'SES014', 'Present', '2025-11-07'),(14, 'TG1708', 'SES015', 'Present', '2025-11-07'),
+(14, 'TG1709', 'SES013', 'Present', '2025-11-07'),(14, 'TG1709', 'SES014', 'Present', '2025-11-07'),(14, 'TG1709', 'SES015', 'Present', '2025-11-07'),
+(14, 'TG1710', 'SES013', 'Present', '2025-11-07'),(14, 'TG1710', 'SES014', 'Present', '2025-11-07'),(14, 'TG1710', 'SES015', 'Present', '2025-11-07'),
+
+-- WEEK 15: 2025-11-10 to 2025-11-14 (All Present - No Medical Leaves)
+-- Monday 2025-11-10
+(15, 'TG1701', 'SES001', 'Present', '2025-11-10'),(15, 'TG1701', 'SES002', 'Present', '2025-11-10'),(15, 'TG1701', 'SES003', 'Present', '2025-11-10'),
+(15, 'TG1702', 'SES001', 'Present', '2025-11-10'),(15, 'TG1702', 'SES002', 'Present', '2025-11-10'),(15, 'TG1702', 'SES003', 'Present', '2025-11-10'),
+(15, 'TG1703', 'SES001', 'Present', '2025-11-10'),(15, 'TG1703', 'SES002', 'Present', '2025-11-10'),(15, 'TG1703', 'SES003', 'Present', '2025-11-10'),
+(15, 'TG1704', 'SES001', 'Present', '2025-11-10'),(15, 'TG1704', 'SES002', 'Present', '2025-11-10'),(15, 'TG1704', 'SES003', 'Present', '2025-11-10'),
+(15, 'TG1705', 'SES001', 'Present', '2025-11-10'),(15, 'TG1705', 'SES002', 'Present', '2025-11-10'),(15, 'TG1705', 'SES003', 'Present', '2025-11-10'),
+(15, 'TG1706', 'SES001', 'Present', '2025-11-10'),(15, 'TG1706', 'SES002', 'Present', '2025-11-10'),(15, 'TG1706', 'SES003', 'Present', '2025-11-10'),
+(15, 'TG1707', 'SES001', 'Present', '2025-11-10'),(15, 'TG1707', 'SES002', 'Present', '2025-11-10'),(15, 'TG1707', 'SES003', 'Present', '2025-11-10'),
+(15, 'TG1708', 'SES001', 'Present', '2025-11-10'),(15, 'TG1708', 'SES002', 'Present', '2025-11-10'),(15, 'TG1708', 'SES003', 'Present', '2025-11-10'),
+(15, 'TG1709', 'SES001', 'Present', '2025-11-10'),(15, 'TG1709', 'SES002', 'Present', '2025-11-10'),(15, 'TG1709', 'SES003', 'Present', '2025-11-10'),
+(15, 'TG1710', 'SES001', 'Present', '2025-11-10'),(15, 'TG1710', 'SES002', 'Present', '2025-11-10'),(15, 'TG1710', 'SES003', 'Present', '2025-11-10'),
+
+-- Tuesday 2025-11-11
+(15, 'TG1701', 'SES004', 'Present', '2025-11-11'),(15, 'TG1701', 'SES005', 'Absent', '2025-11-11'),(15, 'TG1701', 'SES006', 'Present', '2025-11-11'),
+(15, 'TG1702', 'SES004', 'Present', '2025-11-11'),(15, 'TG1702', 'SES005', 'Present', '2025-11-11'),(15, 'TG1702', 'SES006', 'Present', '2025-11-11'),
+(15, 'TG1703', 'SES004', 'Present', '2025-11-11'),(15, 'TG1703', 'SES005', 'Present', '2025-11-11'),(15, 'TG1703', 'SES006', 'Present', '2025-11-11'),
+(15, 'TG1704', 'SES004', 'Present', '2025-11-11'),(15, 'TG1704', 'SES005', 'Present', '2025-11-11'),(15, 'TG1704', 'SES006', 'Present', '2025-11-11'),
+(15, 'TG1705', 'SES004', 'Present', '2025-11-11'),(15, 'TG1705', 'SES005', 'Present', '2025-11-11'),(15, 'TG1705', 'SES006', 'Present', '2025-11-11'),
+(15, 'TG1706', 'SES004', 'Present', '2025-11-11'),(15, 'TG1706', 'SES005', 'Present', '2025-11-11'),(15, 'TG1706', 'SES006', 'Present', '2025-11-11'),
+(15, 'TG1707', 'SES004', 'Present', '2025-11-11'),(15, 'TG1707', 'SES005', 'Present', '2025-11-11'),(15, 'TG1707', 'SES006', 'Present', '2025-11-11'),
+(15, 'TG1708', 'SES004', 'Present', '2025-11-11'),(15, 'TG1708', 'SES005', 'Present', '2025-11-11'),(15, 'TG1708', 'SES006', 'Present', '2025-11-11'),
+(15, 'TG1709', 'SES004', 'Present', '2025-11-11'),(15, 'TG1709', 'SES005', 'Present', '2025-11-11'),(15, 'TG1709', 'SES006', 'Present', '2025-11-11'),
+(15, 'TG1710', 'SES004', 'Present', '2025-11-11'),(15, 'TG1710', 'SES005', 'Present', '2025-11-11'),(15, 'TG1710', 'SES006', 'Present', '2025-11-11'),
+
+-- Wednesday 2025-11-12
+(15, 'TG1701', 'SES007', 'Present', '2025-11-12'),(15, 'TG1701', 'SES008', 'Present', '2025-11-12'),(15, 'TG1701', 'SES009', 'Absent', '2025-11-12'),
+(15, 'TG1702', 'SES007', 'Present', '2025-11-12'),(15, 'TG1702', 'SES008', 'Present', '2025-11-12'),(15, 'TG1702', 'SES009', 'Present', '2025-11-12'),
+(15, 'TG1703', 'SES007', 'Present', '2025-11-12'),(15, 'TG1703', 'SES008', 'Present', '2025-11-12'),(15, 'TG1703', 'SES009', 'Present', '2025-11-12'),
+(15, 'TG1704', 'SES007', 'Present', '2025-11-12'),(15, 'TG1704', 'SES008', 'Present', '2025-11-12'),(15, 'TG1704', 'SES009', 'Present', '2025-11-12'),
+(15, 'TG1705', 'SES007', 'Present', '2025-11-12'),(15, 'TG1705', 'SES008', 'Present', '2025-11-12'),(15, 'TG1705', 'SES009', 'Present', '2025-11-12'),
+(15, 'TG1706', 'SES007', 'Present', '2025-11-12'),(15, 'TG1706', 'SES008', 'Present', '2025-11-12'),(15, 'TG1706', 'SES009', 'Present', '2025-11-12'),
+(15, 'TG1707', 'SES007', 'Present', '2025-11-12'),(15, 'TG1707', 'SES008', 'Present', '2025-11-12'),(15, 'TG1707', 'SES009', 'Present', '2025-11-12'),
+(15, 'TG1708', 'SES007', 'Present', '2025-11-12'),(15, 'TG1708', 'SES008', 'Present', '2025-11-12'),(15, 'TG1708', 'SES009', 'Present', '2025-11-12'),
+(15, 'TG1709', 'SES007', 'Present', '2025-11-12'),(15, 'TG1709', 'SES008', 'Present', '2025-11-12'),(15, 'TG1709', 'SES009', 'Present', '2025-11-12'),
+(15, 'TG1710', 'SES007', 'Present', '2025-11-12'),(15, 'TG1710', 'SES008', 'Present', '2025-11-12'),(15, 'TG1710', 'SES009', 'Present', '2025-11-12'),
+
+-- Thursday 2025-11-13
+(15, 'TG1701', 'SES010', 'Present', '2025-11-13'),(15, 'TG1701', 'SES011', 'Present', '2025-11-13'),(15, 'TG1701', 'SES012', 'Present', '2025-11-13'),
+(15, 'TG1702', 'SES010', 'Present', '2025-11-13'),(15, 'TG1702', 'SES011', 'Present', '2025-11-13'),(15, 'TG1702', 'SES012', 'Present', '2025-11-13'),
+(15, 'TG1703', 'SES010', 'Present', '2025-11-13'),(15, 'TG1703', 'SES011', 'Present', '2025-11-13'),(15, 'TG1703', 'SES012', 'Present', '2025-11-13'),
+(15, 'TG1704', 'SES010', 'Present', '2025-11-13'),(15, 'TG1704', 'SES011', 'Present', '2025-11-13'),(15, 'TG1704', 'SES012', 'Present', '2025-11-13'),
+(15, 'TG1705', 'SES010', 'Absent', '2025-11-13'),(15, 'TG1705', 'SES011', 'Present', '2025-11-13'),(15, 'TG1705', 'SES012', 'Present', '2025-11-13'),
+(15, 'TG1706', 'SES010', 'Present', '2025-11-13'),(15, 'TG1706', 'SES011', 'Present', '2025-11-13'),(15, 'TG1706', 'SES012', 'Present', '2025-11-13'),
+(15, 'TG1707', 'SES010', 'Present', '2025-11-13'),(15, 'TG1707', 'SES011', 'Present', '2025-11-13'),(15, 'TG1707', 'SES012', 'Present', '2025-11-13'),
+(15, 'TG1708', 'SES010', 'Present', '2025-11-13'),(15, 'TG1708', 'SES011', 'Present', '2025-11-13'),(15, 'TG1708', 'SES012', 'Present', '2025-11-13'),
+(15, 'TG1709', 'SES010', 'Present', '2025-11-13'),(15, 'TG1709', 'SES011', 'Absent', '2025-11-13'),(15, 'TG1709', 'SES012', 'Present', '2025-11-13'),
+(15, 'TG1710', 'SES010', 'Present', '2025-11-13'),(15, 'TG1710', 'SES011', 'Present', '2025-11-13'),(15, 'TG1710', 'SES012', 'Present', '2025-11-13'),
+
+-- Friday 2025-11-14
+(15, 'TG1701', 'SES013', 'Present', '2025-11-14'),(15, 'TG1701', 'SES014', 'Present', '2025-11-14'),(15, 'TG1701', 'SES015', 'Present', '2025-11-14'),
+(15, 'TG1702', 'SES013', 'Present', '2025-11-14'),(15, 'TG1702', 'SES014', 'Present', '2025-11-14'),(15, 'TG1702', 'SES015', 'Present', '2025-11-14'),
+(15, 'TG1703', 'SES013', 'Present', '2025-11-14'),(15, 'TG1703', 'SES014', 'Present', '2025-11-14'),(15, 'TG1703', 'SES015', 'Present', '2025-11-14'),
+(15, 'TG1704', 'SES013', 'Present', '2025-11-14'),(15, 'TG1704', 'SES014', 'Present', '2025-11-14'),(15, 'TG1704', 'SES015', 'Present', '2025-11-14'),
+(15, 'TG1705', 'SES013', 'Present', '2025-11-14'),(15, 'TG1705', 'SES014', 'Present', '2025-11-14'),(15, 'TG1705', 'SES015', 'Present', '2025-11-14'),
+(15, 'TG1706', 'SES013', 'Present', '2025-11-14'),(15, 'TG1706', 'SES014', 'Present', '2025-11-14'),(15, 'TG1706', 'SES015', 'Present', '2025-11-14'),
+(15, 'TG1707', 'SES013', 'Present', '2025-11-14'),(15, 'TG1707', 'SES014', 'Present', '2025-11-14'),(15, 'TG1707', 'SES015', 'Present', '2025-11-14'),
+(15, 'TG1708', 'SES013', 'Present', '2025-11-14'),(15, 'TG1708', 'SES014', 'Present', '2025-11-14'),(15, 'TG1708', 'SES015', 'Absent', '2025-11-14'),
+(15, 'TG1709', 'SES013', 'Present', '2025-11-14'),(15, 'TG1709', 'SES014', 'Present', '2025-11-14'),(15, 'TG1709', 'SES015', 'Present', '2025-11-14'),
+(15, 'TG1710', 'SES013', 'Present', '2025-11-14'),(15, 'TG1710', 'SES014', 'Present', '2025-11-14'),(15, 'TG1710', 'SES015', 'Present', '2025-11-14');
+
+-- ATTENDANCE PROCEDURES
+-- Calculate Attendance Summary by Course
+
+DELIMITER //
+CREATE PROCEDURE AttendanceByCourseSummary(IN course CHAR(6))
+BEGIN
+  SELECT 
+    a.St_id AS Reg_No,
+    s.Name AS Student_Name,
+    c.C_code,
+    COUNT(CASE WHEN a.Status='Present' THEN 1 END) AS Present_Count,
+    COUNT(CASE WHEN a.Status='Approved Medical' THEN 1 END) AS Medical_Count,
+    COUNT(a.Session_id) AS Total_Sessions,
+    ROUND(
+      (COUNT(CASE WHEN a.Status IN ('Present','Approved Medical') THEN 1 END) / COUNT(a.Session_id)) * 100, 2
+    ) AS Attendance_Percentage,
+    CASE 
+      WHEN (COUNT(CASE WHEN a.Status IN ('Present','Approved Medical') THEN 1 END) / COUNT(a.Session_id)) * 100 >= 80
+      THEN 'Eligible'
+      ELSE 'Not Eligible'
+    END AS Eligibility
+  FROM ATTENDANCE a
+  JOIN SESSION se ON a.Session_id = se.Session_id
+  JOIN COURSE c ON se.C_code = c.C_code
+  JOIN STUDENT s ON a.St_id = s.St_id
+  WHERE c.C_code = course
+  GROUP BY a.St_id, s.Name, c.C_code;
+END //
+DELIMITER ;
+
+
+-- Procedure to view summary for a single student (all subjects)
+DELIMITER //
+CREATE DEFINER='root'@'localhost' PROCEDURE SingleStudentSummary(IN regno CHAR(6))
+BEGIN
+  SELECT 
+    c.C_code,
+    c.C_name,
+    ROUND(
+      (COUNT(CASE WHEN a.Status IN ('Present','Approved Medical') THEN 1 END) / COUNT(a.Session_id)) * 100, 2
+    ) AS Attendance_Percentage,
+    CASE 
+      WHEN (COUNT(CASE WHEN a.Status IN ('Present','Approved Medical') THEN 1 END) / COUNT(a.Session_id)) * 100 >= 80
+      THEN 'Eligible'
+      ELSE 'Not Eligible'
+    END AS Eligibility
+  FROM ATTENDANCE a
+  JOIN SESSION se ON a.Session_id = se.Session_id
+  JOIN COURSE c ON se.C_code = c.C_code
+  WHERE a.St_id = regno
+  GROUP BY c.C_code, c.C_name;
+END //
+DELIMITER ;
+
+-- Procedure to view attendance for one student and one subject
+DELIMITER //
+
+CREATE PROCEDURE AttendanceByStudentCourse(
+    IN regno CHAR(6),
+    IN course CHAR(6),
+    IN type CHAR(1)  -- 'T' for theory, 'P' for practical, 'A' for all
+)
+BEGIN
+  SELECT 
+    s.St_id,
+    s.Name,
+    c.C_code,
+    c.C_name,
+    ROUND(
+      (COUNT(CASE WHEN a.Status IN ('Present','Approved Medical') THEN 1 END) / COUNT(a.Session_id)) * 100, 2
+    ) AS Attendance_Percentage,
+    CASE 
+      WHEN (COUNT(CASE WHEN a.Status IN ('Present','Approved Medical') THEN 1 END) / COUNT(a.Session_id)) * 100 >= 80
+      THEN 'Eligible'
+      ELSE 'Not Eligible'
+    END AS Eligibility
+  FROM ATTENDANCE a
+  JOIN SESSION se ON a.Session_id = se.Session_id
+  JOIN COURSE c ON se.C_code = c.C_code
+  JOIN STUDENT s ON a.St_id = s.St_id
+  WHERE a.St_id = regno
+    AND c.C_code = course
+    AND (type = 'A' OR se.Type = type)
+  GROUP BY s.St_id, c.C_code;
+END //
+DELIMITER ;
+
+
+-- Procedure for batch attendance category summary
+DELIMITER //
+
+CREATE PROCEDURE BatchAttendanceCategory()
+BEGIN
+  SELECT
+    CASE
+      WHEN percent >= 80 AND medicals = 0 THEN '>= 80% Students'
+      WHEN percent < 80 AND medicals = 0 THEN '< 80% Students'
+      WHEN percent >= 80 AND medicals > 0 THEN 'With Medical >= 80%'
+      ELSE 'With Medical < 80%'
+    END AS Category,
+    COUNT(*) AS Student_Count
+  FROM (
+    SELECT 
+      a.St_id,
+      ROUND((COUNT(CASE WHEN a.Status IN ('Present','Approved Medical') THEN 1 END) / COUNT(a.Session_id)) * 100, 2) AS percent,
+      COUNT(CASE WHEN a.Status='Approved Medical' THEN 1 END) AS medicals
+    FROM ATTENDANCE a
+    GROUP BY a.St_id
+  ) t
+  GROUP BY Category;
+END //
+DELIMITER ;
+
+
+
+
+
+
+
+
+
+
+
+
+-- MARK PROCEDURES
+-- Create v_mark_weight_temp view
+CREATE VIEW v_mark_weight_temp AS
+SELECT 
+    m.St_id,
+    m.C_code,
+    c.C_name,
+    
+    -- w_best2quizes (10% of Final_Marks)
+    ((m.Quiz_01 + m.Quiz_02 + m.Quiz_03 - LEAST(m.Quiz_01, m.Quiz_02, m.Quiz_03)) / 2) * 0.1 AS w_best2quizes,
+    
+    -- Calculate w_Assignment (10% of Final_Marks)
+    m.Assignment * 0.1 AS w_Assignment,
+    
+    -- Calculate w_mid (20% of Final_Marks)
+    CASE 
+        WHEN m.Mid_T IS NOT NULL AND m.Mid_P IS NOT NULL THEN (m.Mid_T * 0.1 + m.Mid_P * 0.1)  
+        WHEN m.Mid_T IS NOT NULL AND m.Mid_P IS NULL THEN m.Mid_T * 0.2                        
+        WHEN m.Mid_T IS NULL AND m.Mid_P IS NOT NULL THEN m.Mid_P * 0.2                        
+        ELSE 0
+    END AS w_mid,
+    
+    -- Calculate w_final (60% of Final_Marks)
+    CASE 
+        WHEN m.Final_T IS NOT NULL AND m.Final_P IS NOT NULL THEN (m.Final_T * 0.3 + m.Final_P * 0.3)  
+        WHEN m.Final_T IS NOT NULL AND m.Final_P IS NULL THEN m.Final_T * 0.6                          
+        WHEN m.Final_T IS NULL AND m.Final_P IS NOT NULL THEN m.Final_P * 0.6                          
+        ELSE 0
+    END AS w_final,
+    
+    -- Calculate w_CA_marks (40% of Final_Marks: quizzes + assignment + mid)
+    (((m.Quiz_01 + m.Quiz_02 + m.Quiz_03 - LEAST(m.Quiz_01, m.Quiz_02, m.Quiz_03)) / 2) * 0.1) + 
+    (m.Assignment * 0.1) +
+    (CASE 
+        WHEN m.Mid_T IS NOT NULL AND m.Mid_P IS NOT NULL THEN (m.Mid_T * 0.1 + m.Mid_P * 0.1)
+        WHEN m.Mid_T IS NOT NULL AND m.Mid_P IS NULL THEN m.Mid_T * 0.2
+        WHEN m.Mid_T IS NULL AND m.Mid_P IS NOT NULL THEN m.Mid_P * 0.2
+        ELSE 0
+    END) AS w_CA_marks,
+    
+    -- Calculate Final_Marks (w_CA_marks + w_final)
+    (((m.Quiz_01 + m.Quiz_02 + m.Quiz_03 - LEAST(m.Quiz_01, m.Quiz_02, m.Quiz_03)) / 2) * 0.1) + 
+    (m.Assignment * 0.1) +
+    (CASE 
+        WHEN m.Mid_T IS NOT NULL AND m.Mid_P IS NOT NULL THEN (m.Mid_T * 0.1 + m.Mid_P * 0.1)
+        WHEN m.Mid_T IS NOT NULL AND m.Mid_P IS NULL THEN m.Mid_T * 0.2
+        WHEN m.Mid_T IS NULL AND m.Mid_P IS NOT NULL THEN m.Mid_P * 0.2
+        ELSE 0
+    END) +
+    (CASE 
+        WHEN m.Final_T IS NOT NULL AND m.Final_P IS NOT NULL THEN (m.Final_T * 0.3 + m.Final_P * 0.3)
+        WHEN m.Final_T IS NOT NULL AND m.Final_P IS NULL THEN m.Final_T * 0.6
+        WHEN m.Final_T IS NULL AND m.Final_P IS NOT NULL THEN m.Final_P * 0.6
+        ELSE 0
+    END) AS Final_Marks
+    
+FROM MARK m
+JOIN COURSE c ON m.C_code = c.C_code;
+
+
+
+
+
+-- Create grade view
+CREATE VIEW grade AS
+SELECT 
+    St_id,
+    c_code,
+    c_name AS Course_name,
+    ROUND(w_best2quizes, 2) AS w_best2quizes,
+    ROUND(w_Assignment, 2) AS w_Assignment,
+    ROUND(w_mid, 2) AS w_mid,
+    ROUND(w_final, 2) AS w_final,
+    ROUND(w_CA_marks, 2) AS w_CA_marks,
+    ROUND(Final_Marks, 2) AS Final_Marks,
+    
+    -- Calculate Grade    
+	CASE 
+        WHEN w_CA_marks < 20 AND w_final < 21 THEN 'E (CA & ESA)'
+	WHEN Final_Marks IS NULL THEN 'WH'
+	WHEN w_final <= 0 THEN 'WH'   
+        WHEN w_CA_marks < 20 THEN 'E (CA)'
+        WHEN w_final < 21 THEN 'E (ESA)'
+        WHEN Final_Marks >= 85 THEN 'A+'
+        WHEN Final_Marks >= 75 THEN 'A'
+        WHEN Final_Marks >= 70 THEN 'A-'
+        WHEN Final_Marks >= 65 THEN 'B+'
+        WHEN Final_Marks >= 60 THEN 'B'
+        WHEN Final_Marks >= 55 THEN 'B-'
+        WHEN Final_Marks >= 50 THEN 'C+'
+        WHEN Final_Marks >= 45 THEN 'C'
+        WHEN Final_Marks >= 40 THEN 'C-'
+        WHEN Final_Marks >= 35 THEN 'D'
+        ELSE 'E'
+    END AS Grade
+    
+FROM v_mark_weight_temp;
+
+
+
+-- final marks & grade
+DELIMITER //
+CREATE DEFINER='root'@'localhost' PROCEDURE Final_Marks_Only(
+    IN studentID CHAR(6),
+    IN courseCode CHAR(6)
+)
+BEGIN
+    SELECT
+        g.St_id,
+        g.c_code AS C_code,
+        g.Course_name AS C_name,
+        g.Final_Marks,
+        g.Grade
+    FROM grade g
+    WHERE (studentID IS NULL OR g.St_id = studentID)
+      AND (courseCode IS NULL OR g.c_code = courseCode)
+    ORDER BY g.St_id, g.c_code;
+END //
+DELIMITER ;
+
+
+-- admin perspective view
+DELIMITER //
+
+CREATE PROCEDURE Student_Course_Details(
+    IN studentID CHAR(6),
+    IN courseCode CHAR(6)
+)
+BEGIN
+    SELECT 
+        m.St_id,
+        m.C_code,
+        c.C_name AS Course_Name,
+        
+        ROUND(m.Quiz_01, 2) AS Quiz_01,
+        ROUND(m.Quiz_02, 2) AS Quiz_02,
+        ROUND(m.Quiz_03, 2) AS Quiz_03,
+        ROUND(m.Assignment, 2) AS Assignment,
+        ROUND(
+            CASE 
+                WHEN m.Mid_T IS NOT NULL AND m.Mid_P IS NOT NULL THEN (m.Mid_T + m.Mid_P) / 2
+                WHEN m.Mid_T IS NOT NULL THEN m.Mid_T
+                WHEN m.Mid_P IS NOT NULL THEN m.Mid_P
+                ELSE NULL
+            END, 2
+        ) AS Mid_Marks,
+        ROUND(
+            CASE 
+                WHEN m.Final_T IS NOT NULL AND m.Final_P IS NOT NULL THEN (m.Final_T + m.Final_P) / 2
+                WHEN m.Final_T IS NOT NULL THEN m.Final_T
+                WHEN m.Final_P IS NOT NULL THEN m.Final_P
+                ELSE NULL
+            END, 2
+        ) AS ESA_Raw,  -- Raw ESA marks out of 100
+        
+        -- Weighted CA Marks (40%) and ESA Marks (60%)
+        g.w_CA_marks AS CA_Marks_Weighted,
+        g.w_final AS ESA_Marks_Weighted,
+        
+        -- Final Results
+        g.Final_Marks AS Total_Final_Marks,
+        g.Grade
+        
+    FROM MARK m
+    JOIN COURSE c ON m.C_code = c.C_code
+    JOIN grade g ON m.St_id = g.St_id AND m.C_code = g.c_code
+    WHERE (studentID IS NULL OR m.St_id = studentID)
+      AND (courseCode IS NULL OR m.C_code = courseCode)
+    ORDER BY m.St_id, m.C_code;
+END //
+
+DELIMITER ;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--  GPA Calculation PROCEDURES
+CREATE VIEW Student_Grade_Point_View AS
+SELECT
+    g.St_id,
+    g.C_code,
+    e.Status,
+    c.Credit,
+    g.Grade,
+    
+    -- Grade Point Calculation
+    CASE
+	WHEN g.Grade = 'WH' THEN 0.00
+        WHEN e.Status = 'repeat' THEN
+            CASE
+                WHEN g.Grade = 'C-' THEN 1.70
+                WHEN g.Grade = 'D' THEN 1.30
+                WHEN g.Grade LIKE 'E%' THEN 0.00
+                ELSE 2.00
+            END
+        ELSE
+            CASE
+                WHEN g.Grade = 'A+' THEN 4.00
+                WHEN g.Grade = 'A' THEN 4.00
+                WHEN g.Grade = 'A-' THEN 3.70
+                WHEN g.Grade = 'B+' THEN 3.30
+                WHEN g.Grade = 'B' THEN 3.00
+                WHEN g.Grade = 'B-' THEN 2.70
+                WHEN g.Grade = 'C+' THEN 2.30
+                WHEN g.Grade = 'C' THEN 2.00
+                WHEN g.Grade = 'C-' THEN 1.70
+                WHEN g.Grade = 'D' THEN 1.30
+                WHEN g.Grade LIKE 'E%' THEN 0.00
+                ELSE 0.00
+            END
+    END AS Grade_point,
+    
+    -- Individual course calculation
+    (c.Credit * 
+        CASE
+            WHEN e.Status = 'repeat' THEN
+                CASE
+                    WHEN g.Grade = 'C-' THEN 1.70
+                    WHEN g.Grade = 'D' THEN 1.30
+                    WHEN g.Grade LIKE 'E%' THEN 0.00
+                    ELSE 2.00
+                END
+            ELSE
+                CASE
+                    WHEN g.Grade = 'A+' THEN 4.00
+                    WHEN g.Grade = 'A' THEN 4.00
+                    WHEN g.Grade = 'A-' THEN 3.70
+                    WHEN g.Grade = 'B+' THEN 3.30
+                    WHEN g.Grade = 'B' THEN 3.00
+                    WHEN g.Grade = 'B-' THEN 2.70
+                    WHEN g.Grade = 'C+' THEN 2.30
+                    WHEN g.Grade = 'C' THEN 2.00
+                    WHEN g.Grade = 'C-' THEN 1.70
+                    WHEN g.Grade = 'D' THEN 1.30
+                    WHEN g.Grade LIKE 'E%' THEN 0.00
+                    ELSE 0.00
+                END
+        END
+    ) AS Credit_X_GradePoint
+    
+FROM Grade g
+JOIN COURSE c ON c.C_code = g.C_code
+JOIN ENROLLS_IN e ON e.St_id = g.St_id AND e.C_code = g.C_code;
+
+
+
+
+DELIMITER //
+
+CREATE DEFINER='root'@'localhost' PROCEDURE Calculate_SGPA(
+    IN studentID CHAR(6)
+)
+BEGIN
+    SELECT
+        p.St_id,
+        SUM(p.Credit_x_GradePoint) AS Total_Grade_Points,
+        SUM(p.Credit) AS Total_Credits,
+        ROUND(SUM(p.Credit_x_GradePoint) / SUM(p.Credit), 2) AS SGPA
+    FROM Student_Grade_Point_View p
+    WHERE p.St_id = studentID OR studentID IS NULL
+    GROUP BY p.St_id;
+END //
+
+DELIMITER ;
+
+
+
+
+
+DELIMITER //
+
+CREATE DEFINER='root'@'localhost' PROCEDURE Calculate_CGPA(
+    IN studentID CHAR(6)
+)
+BEGIN
+    SELECT
+        p.St_id,
+        SUM(p.Credit_X_GradePoint) AS Total_Grade_Points,
+        SUM(p.Credit) AS Total_Credits,
+        ROUND(SUM(p.Credit_X_GradePoint) / SUM(p.Credit), 2) AS CGPA,
+        
+        -- Class Determination based on CGPA
+        CASE
+            WHEN ROUND(SUM(p.Credit_X_GradePoint) / SUM(p.Credit), 2) >= 3.70 THEN 'First Class'
+            WHEN ROUND(SUM(p.Credit_X_GradePoint) / SUM(p.Credit), 2) >= 3.30 THEN 'Second Class (Upper)'
+            WHEN ROUND(SUM(p.Credit_X_GradePoint) / SUM(p.Credit), 2) >= 3.00 THEN 'Second Class (Lower)'
+            WHEN ROUND(SUM(p.Credit_X_GradePoint) / SUM(p.Credit), 2) >= 2.00 THEN 'Pass'
+            ELSE 'Fail'
+        END AS Class
+        
+    FROM Student_Grade_Point_View p
+    WHERE (p.St_id = studentID OR studentID IS NULL)
+      AND p.C_code != 'ICT002'  -- Non-GPA course remove 
+    GROUP BY p.St_id;
+END //
+
+DELIMITER ;
+-- Calculate CA + Attendance eligibility
+DELIMITER //
+
+CREATE PROCEDURE final_student_eligibility(
+    IN studentID CHAR(6),
+    IN courseCode CHAR(6)
+)
+BEGIN
+    SELECT
+        m.St_id,
+        m.C_code,
+        c.C_name AS Course_Name,
+        g.w_CA_marks,
+        a.Attendance_Percentage,
+        CASE
+            WHEN g.w_CA_marks >= 20 AND a.Attendance_Percentage >= 80 THEN 'Eligible'
+            ELSE 'Not Eligible'
+        END AS Final_Eligibility
+    FROM grade g
+    JOIN mark m ON g.C_code = m.C_code AND g.St_id = m.St_id
+    JOIN course c ON m.C_code = c.C_code
+    JOIN CourseAttendanceSummary a ON m.St_id = a.Reg_No AND m.C_code = a.C_code
+    WHERE 
+        (studentID IS NULL OR m.St_id = studentID)
+        AND (courseCode IS NULL OR m.C_code = courseCode);
+END //
+
+DELIMITER ;
+
+
+DROP USER IF EXISTS 'STUDENT'@'localhost';
+DROP USER IF EXISTS 'LECTURER'@'localhost';
+DROP USER IF EXISTS 'TECH_OFFICER'@'localhost';
+DROP USER IF EXISTS 'DEAN'@'localhost';
+DROP USER IF EXISTS 'ADMIN'@'localhost';
+
+-- Tharinda
+CREATE USER 'STUDENT'@'localhost' IDENTIFIED BY 'student123';
+GRANT EXECUTE ON PROCEDURE grp14.Final_Marks_Only TO 'STUDENT'@'localhost';
+GRANT EXECUTE ON PROCEDURE grp14.SingleStudentSummary TO 'STUDENT'@'localhost';
+GRANT EXECUTE ON PROCEDURE grp14.Calculate_SGPA TO 'STUDENT'@'localhost';
+GRANT EXECUTE ON PROCEDURE grp14.Calculate_CGPA TO 'STUDENT'@'localhost';
+
+-- Imashi
+CREATE USER 'LECTURER'@'localhost' IDENTIFIED BY 'lecturer123';
+GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, ALTER, SHOW VIEW ON grp14.* TO 'LECTURER'@'localhost';
+GRANT EXECUTE ON grp14.* TO 'LECTURER'@'localhost';
+
+CREATE USER 'TECH_OFFICER'@'localhost' IDENTIFIED BY 'tech123';
+GRANT SELECT,INSERT,UPDATE ON Grp14.ATTENDANCE TO 'TECH_OFFICER'@'localhost';
+
+-- Samadhi
+CREATE USER 'ADMIN'@'localhost' IDENTIFIED BY 'admin123';
+CREATE USER 'DEAN'@'localhost' IDENTIFIED BY 'dean123';
+
+GRANT ALL PRIVILEGES ON Grp14.* 
+TO 'ADMIN'@'localhost' 
+WITH GRANT OPTION;
+GRANT EXECUTE ON grp14.* TO 'ADMIN'@'localhost';
+
+GRANT ALL PRIVILEGES ON Grp14.* 
+TO 'DEAN'@'localhost';
+GRANT EXECUTE ON grp14.* TO 'DEAN'@'localhost';
