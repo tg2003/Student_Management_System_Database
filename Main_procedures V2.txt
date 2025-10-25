@@ -2,7 +2,7 @@
 -- Calculate Attendance Summary by Course
 
 DELIMITER //
-CREATE PROCEDURE AttendanceByCourseSummary(IN course CHAR(6))
+CREATE DEFINER='root'@'localhost' PROCEDURE AttendanceByCourseSummary(IN course CHAR(6))
 BEGIN
   SELECT 
     a.St_id AS Reg_No,
@@ -52,10 +52,12 @@ BEGIN
 END //
 DELIMITER ;
 
+
+
 -- Procedure to view attendance for one student and one subject
 DELIMITER //
 
-CREATE PROCEDURE AttendanceByStudentCourse(
+CREATE DEFINER='root'@'localhost' PROCEDURE AttendanceByStudentCourse(
     IN regno CHAR(6),
     IN course CHAR(6),
     IN type CHAR(1)  -- 'T' for theory, 'P' for practical, 'A' for all
@@ -88,7 +90,7 @@ DELIMITER ;
 
 -- View for batch attendance category summary
 
-CREATE VIEW BatchAttendanceCategory AS
+CREATE DEFINER='root'@'localhost' SQL SECURITY DEFINER VIEW BatchAttendanceCategory AS
 SELECT
   CASE
     WHEN percent >= 80 AND medicals = 0 THEN '>= 80% Students'
@@ -214,9 +216,6 @@ SELECT
     END AS Grade
     
 FROM v_mark_weight_temp;
-
-select * from grade;
-
 
 
 
@@ -379,9 +378,7 @@ JOIN ENROLLS_IN e ON e.St_id = g.St_id AND e.C_code = g.C_code;
 
 
 
-
 DELIMITER //
-
 CREATE PROCEDURE Student_Grade_Point(
     IN studentID CHAR(6)
 )
@@ -422,9 +419,6 @@ END //
 DELIMITER ;
 
 
-
-
-
 DELIMITER //
 
 CREATE DEFINER='root'@'localhost' PROCEDURE Calculate_CGPA(
@@ -453,6 +447,33 @@ BEGIN
 END //
 
 DELIMITER ;
+
+
+
+-- CourseAttendanceSummaryView
+CREATE VIEW CourseAttendanceSummary AS
+SELECT 
+    a.St_id AS Reg_No,
+    s.Name AS Student_Name,
+    c.C_code,
+    COUNT(CASE WHEN a.Status='Present' THEN 1 END) AS Present_Count,
+    COUNT(CASE WHEN a.Status='Approved Medical' THEN 1 END) AS Medical_Count,
+    COUNT(a.Session_id) AS Total_Sessions,
+    ROUND(
+      (COUNT(CASE WHEN a.Status IN ('Present','Approved Medical') THEN 1 END) / COUNT(a.Session_id)) * 100, 2
+    ) AS Attendance_Percentage,
+    CASE 
+      WHEN (COUNT(CASE WHEN a.Status IN ('Present','Approved Medical') THEN 1 END) / COUNT(a.Session_id)) * 100 >= 80
+      THEN 'Eligible'
+      ELSE 'Not Eligible'
+    END AS Eligibility
+FROM ATTENDANCE a
+JOIN SESSION se ON a.Session_id = se.Session_id
+JOIN COURSE c ON se.C_code = c.C_code
+JOIN STUDENT s ON a.St_id = s.St_id
+GROUP BY a.St_id, s.Name, c.C_code;
+
+
 -- Calculate CA + Attendance eligibility
 DELIMITER //
 
@@ -479,9 +500,7 @@ BEGIN
         (studentID IS NULL OR m.St_id = studentID)
         AND (courseCode IS NULL OR m.C_code = courseCode);
 END //
-
-DELIMITER ;
-
+DELIMITER ;
 
 DROP USER IF EXISTS 'STUDENT'@'localhost';
 DROP USER IF EXISTS 'LECTURER'@'localhost';
@@ -495,14 +514,24 @@ GRANT EXECUTE ON PROCEDURE grp14.Final_Marks_Only TO 'STUDENT'@'localhost';
 GRANT EXECUTE ON PROCEDURE grp14.SingleStudentSummary TO 'STUDENT'@'localhost';
 GRANT EXECUTE ON PROCEDURE grp14.Calculate_SGPA TO 'STUDENT'@'localhost';
 GRANT EXECUTE ON PROCEDURE grp14.Calculate_CGPA TO 'STUDENT'@'localhost';
+FLUSH PRIVILEGES;
+
+
 
 -- Imashi
 CREATE USER 'LECTURER'@'localhost' IDENTIFIED BY 'lecturer123';
 GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, ALTER, SHOW VIEW ON grp14.* TO 'LECTURER'@'localhost';
 GRANT EXECUTE ON grp14.* TO 'LECTURER'@'localhost';
+FLUSH PRIVILEGES;
 
 CREATE USER 'TECH_OFFICER'@'localhost' IDENTIFIED BY 'tech123';
+GRANT EXECUTE ON PROCEDURE grp14.AttendanceByCourseSummary TO 'TECH_OFFICER'@'localhost';
+GRANT EXECUTE ON PROCEDURE grp14.SingleStudentSummary TO 'TECH_OFFICER'@'localhost';
+GRANT SELECT ON grp14.BatchAttendanceCategory TO 'TECH_OFFICER'@'localhost';
+GRANT EXECUTE ON PROCEDURE grp14.AttendanceByStudentCourse TO 'TECH_OFFICER'@'localhost';
 GRANT SELECT,INSERT,UPDATE ON Grp14.ATTENDANCE TO 'TECH_OFFICER'@'localhost';
+FLUSH PRIVILEGES;
+
 
 -- Samadhi
 CREATE USER 'ADMIN'@'localhost' IDENTIFIED BY 'admin123';
@@ -516,4 +545,4 @@ GRANT EXECUTE ON grp14.* TO 'ADMIN'@'localhost';
 GRANT ALL PRIVILEGES ON Grp14.* 
 TO 'DEAN'@'localhost';
 GRANT EXECUTE ON grp14.* TO 'DEAN'@'localhost';
-
+FLUSH PRIVILEGES;
