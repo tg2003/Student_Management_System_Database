@@ -382,6 +382,29 @@ JOIN ENROLLS_IN e ON e.St_id = g.St_id AND e.C_code = g.C_code;
 
 DELIMITER //
 
+CREATE PROCEDURE Student_Grade_Point(
+    IN studentID CHAR(6)
+)
+BEGIN
+    SELECT
+        p.St_id,
+        p.C_code,
+        p.Status,
+        p.Credit,
+        p.Grade,
+        p.Grade_point,
+        p.Credit_X_GradePoint
+    FROM Student_Grade_Point_View p
+    WHERE p.St_id = studentID OR studentID IS NULL;
+END //
+
+DELIMITER ;
+
+
+
+
+DELIMITER //
+
 CREATE DEFINER='root'@'localhost' PROCEDURE Calculate_SGPA(
     IN studentID CHAR(6)
 )
