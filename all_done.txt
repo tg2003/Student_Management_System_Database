@@ -1,0 +1,221 @@
+-- TECH_OFFICER 
+CREATE TABLE TECH_OFFICER (
+    Techoff_id CHAR(06) PRIMARY KEY,
+    Name VARCHAR(50) NOT NULL,
+    Email VARCHAR(50),
+    Nic VARCHAR(15),
+    dob DATE,
+    no VARCHAR(10),
+    city VARCHAR(50),
+    street VARCHAR(50)
+);
+
+-- Insert data into TECH_OFFICER table
+INSERT INTO TECH_OFFICER (Techoff_id, Name, Email, Nic, dob, no, city, street)
+VALUES
+('TO001', 'Ravindu Perera', 'ravindu.perera@example.com', '982345678V', '1998-03-14', '12A', 'Colombo', 'Temple Road'),
+('TO002', 'Sajani Silva', 'sajani.silva@example.com', '992456789V', '1999-05-23', '45B', 'Kandy', 'Lake View Street'),
+('TO003', 'Isuru Jayasena', 'isuru.jayasena@example.com', '972567890V', '1997-11-10', '88C', 'Galle', 'Beach Road'),
+('TO004', 'Tharushi Fernando', 'tharushi.fernando@example.com', '002345678V', '2000-08-02', '22D', 'Kurunegala', 'Main Street'),
+('TO005', 'Nimesh de Silva', 'nimesh.desilva@example.com', '012456789V', '2001-01-30', '9E', 'Negombo', 'Park Lane');
+
+
+
+-- TECH_OFFICER_PHONE table
+CREATE TABLE TECH_OFFICER_PHONE (
+    Tech_id CHAR(6),
+    Phone VARCHAR(15),
+    FOREIGN KEY (Tech_id) REFERENCES TECH_OFFICER(Techoff_id) ON DELETE CASCADE
+);
+
+INSERT INTO TECH_OFFICER_PHONE (Tech_id, Phone)
+VALUES
+('TO001', '0771234567'),
+('TO001', '0712345678'),
+('TO002', '0759876543'),
+('TO003', '0761122334'),
+('TO004', '0723344556'),
+('TO004', '0745566778'),
+('TO005', '0709988776');
+
+
+
+-- Course
+CREATE TABLE COURSE(
+C_code CHAR(6) NOT NULL,
+C_name VARCHAR(50),
+Credit INT,
+Lec_id CHAR(3),
+PRIMARY KEY(C_code),
+FOREIGN KEY(Lec_id) REFERENCES lecturer(Lec_id) ON DELETE SET NULL
+);
+
+INSERT INTO COURSE (C_code, C_name, Credit, Lec_id) VALUES
+('ICT001', 'Management', 2, 'L01'),
+('ICT002', 'English', 2, 'L02'),
+('ICT003', 'Discrete Mathematics', 3, 'L03'),
+('ICT004', 'Database Theory', 2, 'L04'),
+('ICT005', 'Database Practicum', 2, 'L04'),
+('ICT006', 'Network', 3, 'L05'),
+('ICT007', 'Architecture', 2, 'L06'),
+('ICT008', 'Server side web development', 3, 'L07');
+
+
+-- Session
+CREATE TABLE SESSION(
+    Session_id CHAR(6),
+    Type CHAR(1),
+    C_code CHAR(6),
+    Day CHAR(3),
+    PRIMARY KEY(Session_id),
+    FOREIGN KEY(C_code) REFERENCES COURSE(C_code) ON DELETE CASCADE
+);
+
+INSERT INTO SESSION (Session_id, Type, C_code, Day) VALUES
+('SES001', 'T', 'ICT008', 'Mon'),
+('SES002', 'P', 'ICT008', 'Mon'),
+('SES003', 'P', 'ICT008', 'Mon'),
+
+('SES004', 'T', 'ICT006', 'Tue'),
+('SES005', 'P', 'ICT006', 'Tue'),
+('SES006', 'T', 'ICT007', 'Tue'),
+
+('SES007', 'T', 'ICT003', 'Wed'),
+('SES008', 'T', 'ICT003', 'Wed'),
+('SES009', 'T', 'ICT004', 'Wed'),
+
+('SES010', 'P', 'ICT005', 'Thu'),
+('SES011', 'P', 'ICT005', 'Thu'),
+('SES012', 'T', 'ICT001', 'Thu'),
+
+('SES013', 'T', 'ICT001', 'Fri'),
+('SES014', 'T', 'ICT002', 'Fri'),
+('SES015', 'T', 'ICT002', 'Fri');
+
+
+-- Attendance
+CREATE TABLE ATTENDANCE(
+Week_no INT,
+St_id CHAR(6) NOT NULL,
+Session_id CHAR(6),
+Status VARCHAR(50),
+Date DATE, 
+FOREIGN KEY(St_id) REFERENCES STUDENT(St_id) ON DELETE CASCADE,
+FOREIGN KEY(Session_id) REFERENCES SESSION(Session_id) ON DELETE CASCADE
+);
+
+
+
+-- view
+CREATE VIEW BatchAttendanceCategory AS
+SELECT
+  CASE
+    WHEN percent >= 80 AND medicals = 0 THEN '>= 80% Students'
+    WHEN percent < 80 AND medicals = 0 THEN '< 80% Students'
+    WHEN percent >= 80 AND medicals > 0 THEN 'With Medical >= 80%'
+    ELSE 'With Medical < 80%'
+  END AS Category,
+  COUNT(*) AS Student_Count
+FROM (
+  SELECT 
+    a.St_id,
+    ROUND((COUNT(CASE WHEN a.Status IN ('Present','Approved Medical') THEN 1 END) / COUNT(a.Session_id)) * 100, 2) AS percent,
+    COUNT(CASE WHEN a.Status='Approved Medical' THEN 1 END) AS medicals
+  FROM ATTENDANCE a
+  GROUP BY a.St_id
+) AS summary
+GROUP BY Category;
+
+
+
+-- Calculate Attendance Summary by Course
+
+DELIMITER //
+CREATE PROCEDURE AttendanceByCourseSummary(IN course CHAR(6))
+BEGIN
+  SELECT 
+    a.St_id AS Reg_No,
+    s.Name AS Student_Name,
+    c.C_code,
+    COUNT(CASE WHEN a.Status='Present' THEN 1 END) AS Present_Count,
+    COUNT(CASE WHEN a.Status='Approved Medical' THEN 1 END) AS Medical_Count,
+    COUNT(a.Session_id) AS Total_Sessions,
+    ROUND(
+      (COUNT(CASE WHEN a.Status IN ('Present','Approved Medical') THEN 1 END) / COUNT(a.Session_id)) * 100, 2
+    ) AS Attendance_Percentage,
+    CASE 
+      WHEN (COUNT(CASE WHEN a.Status IN ('Present','Approved Medical') THEN 1 END) / COUNT(a.Session_id)) * 100 >= 80
+      THEN 'Eligible'
+      ELSE 'Not Eligible'
+    END AS Eligibility
+  FROM ATTENDANCE a
+  JOIN SESSION se ON a.Session_id = se.Session_id
+  JOIN COURSE c ON se.C_code = c.C_code
+  JOIN STUDENT s ON a.St_id = s.St_id
+  WHERE c.C_code = course
+  GROUP BY a.St_id, s.Name, c.C_code;
+END //
+DELIMITER ;
+
+
+-- Procedure to view summary for a single student (all subjects)
+
+DELIMITER //
+CREATE PROCEDURE SingleStudentSummary(IN regno CHAR(6))
+BEGIN
+  SELECT 
+    c.C_code,
+    c.C_name,
+    ROUND(
+      (COUNT(CASE WHEN a.Status IN ('Present','Approved Medical') THEN 1 END) / COUNT(a.Session_id)) * 100, 2
+    ) AS Attendance_Percentage,
+    CASE 
+      WHEN (COUNT(CASE WHEN a.Status IN ('Present','Approved Medical') THEN 1 END) / COUNT(a.Session_id)) * 100 >= 80
+      THEN 'Eligible'
+      ELSE 'Not Eligible'
+    END AS Eligibility
+  FROM ATTENDANCE a
+  JOIN SESSION se ON a.Session_id = se.Session_id
+  JOIN COURSE c ON se.C_code = c.C_code
+  WHERE a.St_id = regno
+  GROUP BY c.C_code, c.C_name;
+END //
+DELIMITER ;
+
+-- Procedure to view attendance for one student and one subject
+DELIMITER //
+
+CREATE PROCEDURE AttendanceByStudentCourse(
+    IN regno CHAR(6),
+    IN course CHAR(6),
+    IN type CHAR(1)  -- 'T' for theory, 'P' for practical, 'A' for all
+)
+BEGIN
+  SELECT 
+    s.St_id,
+    s.Name,
+    c.C_code,
+    c.C_name,
+    ROUND(
+      (COUNT(CASE WHEN a.Status IN ('Present','Approved Medical') THEN 1 END) / COUNT(a.Session_id)) * 100, 2
+    ) AS Attendance_Percentage,
+    CASE 
+      WHEN (COUNT(CASE WHEN a.Status IN ('Present','Approved Medical') THEN 1 END) / COUNT(a.Session_id)) * 100 >= 80
+      THEN 'Eligible'
+      ELSE 'Not Eligible'
+    END AS Eligibility
+  FROM ATTENDANCE a
+  JOIN SESSION se ON a.Session_id = se.Session_id
+  JOIN COURSE c ON se.C_code = c.C_code
+  JOIN STUDENT s ON a.St_id = s.St_id
+  WHERE a.St_id = regno
+    AND c.C_code = course
+    AND (type = 'A' OR se.Type = type)
+  GROUP BY s.St_id, c.C_code;
+END //
+DELIMITER ;
+
+
+
+
+
