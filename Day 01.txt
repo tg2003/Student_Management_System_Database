@@ -1,0 +1,20 @@
+CREATE TABLE student(
+St_id char(5) NOT NULL,
+User_id char(10) NOT NULL,
+Program varchar(20),
+PRIMARY KEY(St_id),
+FOREIGN KEY(User_id) REFERENCES user(User_id)
+);
+
+
+
+CREATE TABLE medical(
+Medical_id char(6) NOT NULL,
+Date_submitted DATE,
+Status varchar(20),
+St_id char(5) NOT NULL,
+Attendance_id int NOT NULL AUTO-INCREMENT,
+PRIMARY KEY(Medical_id),
+FOREIGN KEY(St_id) REFERENCES student(St_id),
+FOREIGN KEY(Attendance_id) REFERENCES attendance(Attendance_id)
+);

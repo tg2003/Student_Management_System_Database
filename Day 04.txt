@@ -1,0 +1,18 @@
+CREATE TABLE medical(
+medical_id CHAR(6) NOT NULL,
+status VARCHAR(20),
+date_submitted DATE,
+st_id CHAR(5) NOT NULL,
+PRIMARY KEY(medical_id),
+FOREIGN KEY(st_id) REFERENCES student(st_id)
+);
+
+
+
+INSERT INTO medical(medical_id,status,date_submitted,st_id)
+VALUES
+('med001','Approved','2025-09-19','st001'),
+('med002','Pending','2025-08-27','st002'),
+('med003','Pending','2025-09-01','st003'),
+('med004','Approved','2025-08-31','st004'),
+('med005','Approved','2025-09-07','st005');

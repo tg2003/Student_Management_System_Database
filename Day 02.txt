@@ -1,0 +1,22 @@
+CREATE TABLE student(
+st_id CHAR(5) NOT NULL,
+name VARCHAR(20),
+email VARCHAR(30),
+nic CHAR(12),
+dpt_name VARCHAR(15),
+civil_status VARCHAR(20),
+address_no VARCHAR(10),
+address_street VARCHAR(100),
+address_city VARCHAR(40),
+PRIMARY KEY(st_id)
+);
+
+
+
+INSERT INTO student(st_id,name,email,nic,dpt_name,civil_status,address_no,address_street,address_city)
+VALUES
+('st001','Amali Perera','amaliperera44@gmail.com','200325000066','ICT','Single','21','Galle Road','Colombo'),
+('st002','Kasun Liyanage','kasunliyanage@gmail.com','200512345678','BST','Married','56A','Peradeniya Road','Kandy'),
+('st003','Malki Wasana','malkiwasana22@gmail.com','200074000098','BST','Single','10','Station Road','Mathara'),
+('st004','Ashan Lakmal','ashanlakmal@gmail.com','200308272003','ICT','Married','89','Main Street','Jaffna'),
+('st005','Kavindu Rashmika','kavindurashmika@gmail.com','200110302000','ET','Single','22','Temple Road','Galle');
