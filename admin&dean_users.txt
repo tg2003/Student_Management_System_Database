@@ -1,0 +1,16 @@
+CREATE USER 'Admin'@'localhost' IDENTIFIED BY 'Admin123';
+CREATE USER 'Dean'@'localhost' IDENTIFIED BY 'Dean123';
+
+GRANT ALL PRIVILEGES ON Grp14.* 
+TO 'Admin'@'localhost' 
+WITH GRANT OPTION;
+
+GRANT ALL PRIVILEGES ON Grp14.* 
+TO 'Dean'@'localhost';
+
+
+
+
+
+
+

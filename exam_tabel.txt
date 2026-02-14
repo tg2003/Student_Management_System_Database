@@ -1,0 +1,10 @@
+CREATE TABLE exam(
+exam_id CHAR(6) NOT NULL,
+exam_date DATE,
+exam_type VACHAR(10),
+total_marks INT,
+c_code CHAR(7),
+PRIMARY KEY(exam_id),
+FOREIGN KEY(c_code) REFERENCES course(c_code)
+);
+

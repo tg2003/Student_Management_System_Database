@@ -1,0 +1,6 @@
+INSERT INTO session(session_id,type,date,c_code) VALUES
+("ses001","t","2025-09-06","ict001"),
+("ses002","p","2025-09-30","ict002"),
+("ses003","t","2025-09-11","ict003"),
+("ses004","t","2025-09-12","ict004"),
+("ses005","p","2025-09-20","ict005");
